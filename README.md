@@ -11,12 +11,26 @@ Production: https://amoora.se (placeholder — update when deployed)
 
 ## Tech stack
 
-- HTML5 + semantic markup
-- Tailwind CSS (via CDN)
+- HTML5 + semantic markup, static multi-page (no build step)
+- Tailwind CSS (via CDN) + hand-written `css/style.css` design system
 - Vanilla JavaScript (no frameworks)
-- SE/EN i18n via data-i18n attributes
-- Schema.org Article markup on blog posts
-- Open Graph + Twitter Cards on every page
+- SE/EN i18n via `data-i18n` attributes; language persisted in `localStorage`
+- **Backend:** Supabase (Postgres + RLS + Auth + Storage + Edge Functions)
+- **Email:** Resend (via edge functions)
+- Shared header/footer injected by `js/partials.js`; runtime config in `js/site-config.js`
+- Schema.org Article markup on blog posts; Open Graph + Twitter Cards on every page
+
+## Backend & setup
+
+Lead capture, onboarding intake and the admin dashboard are powered by Supabase +
+Resend. The frontend is wired and committed; provisioning the project is a one-time
+manual step — **see [`SETUP.md`](SETUP.md)** (apply schema, deploy edge functions,
+set `RESEND_API_KEY`, verify the domain, create your admin user).
+
+- Public forms POST to edge functions `notify-lead` / `notify-onboarding` (no direct
+  table access for the anon key — locked down with RLS).
+- Admin dashboard: `/login.html` → `/admin.html` (allowlisted via the `admins` table).
+- DB/Auth/Storage code lives in `supabase/` (migrations + functions).
 
 ## Pages
 
@@ -26,9 +40,13 @@ Production: https://amoora.se (placeholder — update when deployed)
 | How it works | `/sa-fungerar-det.html` | 5-step onboarding, features deep dive, customer flow, FAQ |
 | Calculator | `/raknare.html` | Live sales calculator — variable Foodora/Wolt %, payback period, freedom date |
 | Pricing | `/priser.html` | 3 plans, savings calculator, comparison table, FAQ accordion |
-| Contact | `/kontakt.html` | Demo booking form |
+| Contact | `/kontakt.html` | Demo booking form (wired to Supabase + Resend) |
+| Onboarding | `/onboarding.html` | Client intake form (post-signing); uploads to Storage |
+| Login | `/login.html` | Supabase Auth login for staff |
+| Admin | `/admin.html` | Leads + onboarding dashboard (admin-only) |
 | Blog | `/blogg.html` | Article listing |
 | Blog posts | `/blogg-1-...html` through `/blogg-5-...html` | 5 SEO-optimized articles |
+| Legal | `/integritetspolicy.html`, `/villkor.html` | Privacy policy + terms |
 | 404 | `/404.html` | Custom not-found page |
 
 ## Local development
@@ -92,6 +110,14 @@ amoora/
         ├── amoora-system-03-cart.png
         └── amoora-system-04-checkout.png
 ```
+
+## Plans
+
+- **Basic** — 24 999 kr + 549 kr/mån
+- **Growth** — 39 999 kr + 549 kr/mån (most popular)
+- **Premium** — 64 999 kr + 549 kr/mån
+
+All prices excl. VAT. Payment via Klarna or Swish; 50% deposit on signing.
 
 ## Brand
 
