@@ -125,16 +125,16 @@
                   <legend style="font-weight: 700; color: var(--ink);" data-i18n="contact.form.plan">Vilken plan är du intresserad av?</legend>
                   <div style="display: grid; gap: 0.75rem; margin-top: 0.75rem;">
                     <label class="radio-pill">
-                      <input type="radio" name="plan" value="system" checked>
-                      <span data-i18n="contact.form.plan.system">Amoora System</span>
+                      <input type="radio" name="plan" value="basic" checked>
+                      <span data-i18n="contact.form.plan.system">Amoora Basic</span>
                     </label>
                     <label class="radio-pill">
-                      <input type="radio" name="plan" value="plus">
-                      <span data-i18n="contact.form.plan.plus">Amoora Plus (mest populär)</span>
+                      <input type="radio" name="plan" value="growth">
+                      <span data-i18n="contact.form.plan.plus">Amoora Growth (mest populär)</span>
                     </label>
                     <label class="radio-pill">
-                      <input type="radio" name="plan" value="pro">
-                      <span data-i18n="contact.form.plan.pro">Amoora Pro</span>
+                      <input type="radio" name="plan" value="premium">
+                      <span data-i18n="contact.form.plan.pro">Amoora Premium</span>
                     </label>
                     <label class="radio-pill">
                       <input type="radio" name="plan" value="unsure">
@@ -237,7 +237,7 @@
     <div class="container">
       <div class="footer-grid footer-grid--5">
         <div class="footer-col footer-brand">
-          <img src="assets/images/logo-full.png" alt="Amoora" height="40">
+          <img src="assets/images/logo-full.png" alt="Amoora" height="40" width="120" loading="lazy">
           <p class="footer-tagline">Äg ditt eget beställningssystem. Noll provision.</p>
           <p class="footer-lynkrr">En produkt av Lynkrr AB</p>
         </div>
@@ -266,8 +266,8 @@
           <h4>Resurser</h4>
           <ul>
             <li><a href="priser.html#faq">Vanliga frågor</a></li>
-            <li><a href="#">Integritetspolicy</a></li>
-            <li><a href="#">Villkor</a></li>
+            <li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+            <li><a href="villkor.html">Villkor</a></li>
           </ul>
         </div>
         <div class="footer-col footer-contact">
@@ -288,28 +288,90 @@
       <div class="footer-bottom">
         <span>© 2026 Amoora. Alla rättigheter förbehållna.</span>
         <nav aria-label="Juridiskt">
-          <a href="#">Integritetspolicy</a>
-          <a href="#">Villkor</a>
+          <a href="integritetspolicy.html">Integritetspolicy</a>
+          <a href="villkor.html">Villkor</a>
         </nav>
       </div>
     </div>
   </footer>
+  <script src="js/site-config.js"></script>
   <script src="js/main.js"></script>
   <script>
-    document.getElementById('bookDemoBtn').addEventListener('click', function() {
-      document.querySelector('.contact-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      document.getElementById('contactName').focus();
-    });
-    document.querySelector('.contact-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('contactName').value;
-      const email = document.getElementById('contactEmail').value;
-      const phone = document.getElementById('contactPhone').value;
-      const message = document.getElementById('contactMessage').value;
-      console.log('Form submitted:', { name, email, phone, message });
-      alert('Tack för ditt meddelande! Vi kontaktar dig snart.');
-      this.reset();
-    });
+    /* Contact / demo booking — wired to the notify-lead Edge Function via
+       window.AmooraLead (defined in main.js). Fixes audit Bug #1: the old
+       handler crashed on a missing #bookDemoBtn and never submitted. */
+    (function () {
+      const form = document.querySelector(".contact-form");
+      if (!form) return;
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Optional "book demo" trigger elsewhere on the page (guarded — may not exist).
+      const bookBtn = document.getElementById("bookDemoBtn");
+      if (bookBtn) {
+        bookBtn.addEventListener("click", () => {
+          form.scrollIntoView({ behavior: "smooth", block: "start" });
+          const n = document.getElementById("contactName");
+          if (n) n.focus();
+        });
+      }
+
+      // Prefill e-post from ?email= (passed by the email-capture CTAs).
+      try {
+        const q = new URLSearchParams(window.location.search).get("email");
+        const emailEl = document.getElementById("contactEmail");
+        if (q && emailEl && !emailEl.value) emailEl.value = q;
+      } catch (e) {}
+
+      function showSuccess() {
+        const card = form.closest("div") || form.parentElement;
+        const panel = document.createElement("div");
+        panel.setAttribute("role", "status");
+        panel.style.cssText = "text-align:center;padding:1rem 0;";
+        panel.innerHTML =
+          '<h2 style="font-size:1.6rem;margin-bottom:0.75rem;color:var(--ink);">Tack! Vi hör av oss inom 24 timmar.</h2>' +
+          '<p style="color:var(--graytext);line-height:1.7;">Vi skickar tre föreslagna tider och en kort bekräftelse till den e-postadress du angav.</p>' +
+          '<p style="margin-top:1.25rem;"><a href="index.html" class="btn btn-secondary">Tillbaka till hem</a></p>';
+        form.replaceWith(panel);
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = (document.getElementById("contactName") || {}).value?.trim() || "";
+        const email = (document.getElementById("contactEmail") || {}).value?.trim() || "";
+        const phone = (document.getElementById("contactPhone") || {}).value?.trim() || "";
+        const message = (document.getElementById("contactMessage") || {}).value?.trim() || "";
+        const planEl = form.querySelector("input[name='plan']:checked");
+        const plan = planEl ? planEl.value : "";
+        const consent = !!(document.getElementById("contactPrivacy") || {}).checked;
+
+        if (!name || !emailRe.test(email) || !message) {
+          alert("Fyll i namn, en giltig e-postadress och ett meddelande.");
+          return;
+        }
+        if (!consent) {
+          alert("Du måste godkänna att vi sparar dina uppgifter för att kunna svara.");
+          return;
+        }
+
+        const btn = form.querySelector("button[type='submit']");
+        const orig = btn ? btn.textContent : "";
+        if (btn) { btn.disabled = true; btn.textContent = "Skickar…"; }
+
+        const res = await window.AmooraLead({
+          source: "contact_form",
+          name, email, phone, message,
+          plan_interest: plan,
+          consent: true,
+        });
+
+        if (res && res.ok) {
+          showSuccess();
+        } else {
+          if (btn) { btn.disabled = false; btn.textContent = orig; }
+          alert("Något gick fel när vi skulle skicka. Försök igen, eller mejla info@amoora.se.");
+        }
+      });
+    })();
   </script>
 </body>
 </html>

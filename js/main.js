@@ -154,30 +154,31 @@ const I18N = {
     "urgency.text": "Matmomsen är sänkt till 6 % på avhämtning och leverans till och med 2027.",
     "urgency.sub": "Direktförsäljning är mer lönsam än någonsin. Ju tidigare du äger ditt system, desto mer tjänar du.",
 
-    /* Pricing */
+    /* Pricing teaser (index) */
     "price.eyebrow": "Priser",
-    "price.h2": "Välj din plan",
-    "price.sub": "Engångskostnad för uppsättning + låg fast månadsavgift. Betala gärna via Klarna.",
-    "price.monthly": "+ från 495 kr/mån",
-    "price.vat": "+ moms",
+    "price.h2": "Välj din Amoora",
+    "price.sub": "Tre planer. Ett system. Noll provision.",
+    "price.monthly": "+ 549 kr/mån",
+    "price.vat": "exkl. moms",
     "price.popular": "Mest populär",
-    "price.system.name": "Amoora System",
-    "price.system.1": "Komplett beställningssystem",
-    "price.system.2": "Egen beställningssida",
-    "price.system.3": "Betalningsintegration",
-    "price.system.4": "Support",
-    "price.plus.name": "Amoora Plus",
-    "price.plus.1": "Allt i System",
-    "price.plus.2": "Allt marknadsföringsmaterial",
-    "price.plus.3": "Grafisk profil",
-    "price.plus.4": "Sociala medier-paket",
-    "price.pro.name": "Amoora Pro",
-    "price.pro.1": "Allt i Plus",
-    "price.pro.2": "TikTok-videos",
-    "price.pro.3": "Videomarknadsföring",
-    "price.pro.4": "Premiumsupport",
+    "price.basic.name": "Amoora Basic",
+    "price.basic.tagline": "Allt du behöver för att lämna Foodora",
+    "price.basic.1": "Komplett branded ordersystem",
+    "price.basic.2": "Sunmi V2 S-terminal ingår",
+    "price.basic.3": "Egen domän, hosting & support",
+    "price.growth.name": "Amoora Growth",
+    "price.growth.tagline": "System + marknadsföring för att växa",
+    "price.growth.1": "Allt i Basic",
+    "price.growth.2": "Broschyr, QR-skyltar & lanseringskampanj",
+    "price.growth.3": "Google-annonser & prioriterad support",
+    "price.premium.name": "Amoora Premium",
+    "price.premium.tagline": "Hela paketet med innehåll och film",
+    "price.premium.1": "Allt i Growth",
+    "price.premium.2": "Filmdag + 10 branded reels",
+    "price.premium.3": "Content-support & telefonsupport",
     "price.choose": "Boka demo",
     "price.cta": "Se fullständiga priser",
+    "price.deposit": "Alla priser exkl. moms. Betalning via Klarna eller Swish. 50% deposition vid signering.",
 
     "blogg.hero.label": "BLOGG",
     "blogg.hero.h1": "Insikter för restauranger som vill äga sin tillväxt",
@@ -221,9 +222,9 @@ const I18N = {
     "contact.form.revenuePlaceholder": "Välj intervall",
     "contact.form.revenue.help": "Hjälper oss förbereda en relevant ROI-beräkning till samtalet.",
     "contact.form.plan": "Vilken plan är du intresserad av?",
-    "contact.form.plan.system": "Amoora System",
-    "contact.form.plan.plus": "Amoora Plus (mest populär)",
-    "contact.form.plan.pro": "Amoora Pro",
+    "contact.form.plan.system": "Amoora Basic",
+    "contact.form.plan.plus": "Amoora Growth (mest populär)",
+    "contact.form.plan.pro": "Amoora Premium",
     "contact.form.plan.unsure": "Inte säker än",
     "contact.form.message": "Meddelande",
     "contact.form.messagePlaceholder": "Berätta gärna lite om din restaurang eller vad du är nyfiken på.",
@@ -291,17 +292,17 @@ const I18N = {
     "sa_fungerar.onboarding.h2": "Från första samtal till live — i 5 steg",
     "sa_fungerar.onboarding.sub": "En genomgång av exakt vad som händer mellan att du skriver på och att din första order trillar in.",
     "sa_fungerar.onboarding.step1.badge": "Detta gör vi",
-    "sa_fungerar.onboarding.step1.title": "Vi klonar din mall",
-    "sa_fungerar.onboarding.step1.body": "Vi tar vår beprövade Amoora-mall och klonar den för din restaurang. Vi lägger in ditt namn, din adress, dina färger och din logotyp. En timme — och din unika instans existerar.",
+    "sa_fungerar.onboarding.step1.title": "Vi bygger ditt system",
+    "sa_fungerar.onboarding.step1.body": "Vi bygger ett komplett beställningssystem för din restaurang — med ditt namn, din adress, dina färger och din logotyp. Inom kort står din egen sida redo att fyllas med innehåll.",
     "sa_fungerar.onboarding.step2.badge": "Detta gör vi",
     "sa_fungerar.onboarding.step2.title": "Vi sätter upp din databas",
-    "sa_fungerar.onboarding.step2.body": "Vi skapar ett dedikerat Supabase-projekt för just din restaurang. All din kunddata, dina menyer och dina ordrar bor i ett system du själv äger. Inga delade databaser. Inga mellanhänder.",
+    "sa_fungerar.onboarding.step2.body": "Vi bygger en säker databas där all din kunddata, dina menyer och dina ordrar bor — i ett system du själv äger. Allt körs på beprövad molninfrastruktur (Vercel och Supabase) med hög drifttid. Inga mellanhänder.",
     "sa_fungerar.onboarding.step3.badge": "Detta gör vi",
     "sa_fungerar.onboarding.step3.title": "Vi designar din beställningssida",
-    "sa_fungerar.onboarding.step3.body": "Vi laddar in hela din meny, kategoriserar rätterna, sätter priser, lägger in bilder och beskrivningar. Resultat: en proffsig beställningssida som speglar din restaurang — inte en generisk plattformsmall.",
-    "sa_fungerar.onboarding.step4.badge": "Detta gör du",
-    "sa_fungerar.onboarding.step4.title": "Du köper en Sunmi-terminal",
-    "sa_fungerar.onboarding.step4.body": "Du köper en Sunmi-terminal (V2s eller V3H, cirka 3 200 kr) med inbyggd kvittoskrivare. Vi guidar dig genom uppsättningen på distans. När den är ansluten skrivs varje ny order ut automatiskt i ditt kök — precis som med Foodora.",
+    "sa_fungerar.onboarding.step3.body": "Vi laddar in hela din meny, kategoriserar rätterna, sätter priser, lägger in bilder och beskrivningar. Resultat: en proffsig beställningssida som speglar din restaurang — inte en anonym plattformssida.",
+    "sa_fungerar.onboarding.step4.badge": "Detta gör vi",
+    "sa_fungerar.onboarding.step4.title": "Vi levererar din terminal",
+    "sa_fungerar.onboarding.step4.body": "En färdigkonfigurerad Sunmi V2 S-terminal med inbyggd kvittoskrivare ingår och skickas till dig. Vi guidar uppsättningen på distans. När den är ansluten skrivs varje ny order ut automatiskt i ditt kök — precis som du är van vid.",
     "sa_fungerar.onboarding.step5.badge": "Tillsammans",
     "sa_fungerar.onboarding.step5.title": "Test, lansering och överlämning",
     "sa_fungerar.onboarding.step5.body": "Vi gör en testbeställning från start till kvittoutskrift tillsammans. När allt rullar smidigt — du är live. Vi finns kvar för support, men systemet är ditt att driva.",
@@ -337,14 +338,15 @@ const I18N = {
     "sa_fungerar.viral.body": "Varje orderbekräftelse och varje sidfot bär 'Drivs av Amoora'. Restaurangägare beställer mat hela tiden — och varje gång de ser en proffsig Amoora-upplevelse vill de också ha det. Din kundanskaffning växer av sig själv.",
     "sa_fungerar.viral.link": "Läs mer om tillväxtmotorn →",
 
-    "sa_fungerar.hardware.h3": "Hårdvaran du behöver",
-    "sa_fungerar.hardware.body": "En Sunmi-terminal (V2s eller V3H) med inbyggd kvittoskrivare räcker. Kostar runt 3 200 kr engångskostnad och köps direkt från Logiscenter — vi har förhandlat fram volympriser så att du får ett bra pris. Vi guidar uppsättningen på distans via video.",
+    "sa_fungerar.hardware.h3": "Hårdvaran som ingår",
+    "sa_fungerar.hardware.body": "En färdigkonfigurerad Sunmi V2 S-terminal med inbyggd kvittoskrivare ingår i alla planer. Vi skickar den till dig och guidar uppsättningen på distans via video — du behöver inte köpa eller konfigurera något själv.",
     "sa_fungerar.hardware.bullet1": "Allt-i-ett terminal med skrivare",
     "sa_fungerar.hardware.bullet2": "WiFi och 4G — fungerar var som helst",
     "sa_fungerar.hardware.bullet3": "Vi guidar installationen på distans",
 
     "sa_fungerar.support.h3": "Vi finns kvar efter lanseringen",
-    "sa_fungerar.support.body": "E-postsupport ingår alltid. Telefon- och videosupport ingår i Amoora Plus och Pro. Vi tränar din personal, hjälper dig att uppdatera menyer och finns där när du behöver oss.",
+    "sa_fungerar.support.body": "E-postsupport ingår alltid. Prioriterad support ingår i Growth, och telefonsupport med samma-dag-callback i Premium. Vi tränar din personal, hjälper dig att uppdatera menyer och finns där när du behöver oss.",
+    "sa_fungerar.video.soon": "Video kommer snart",
     "sa_fungerar.support.cta": "Se planer & support →",
 
     "sa_fungerar.faq.eyebrow": "VANLIGA FRÅGOR",
@@ -378,42 +380,63 @@ const I18N = {
     "priser.pricing.body": "Med Klarna-fakturering kan du dela upp engångskostnaden på 12 eller 24 månader och vara live nästa vecka. Du börjar tjäna in din investering innan du har slutat betala.",
     "priser.pricing.link": "Läs mer om Klarna-fakturering →",
 
-    "priser.cards.system.tag": "Allt du behöver för att komma igång",
-    "priser.cards.system.klarna": "Eller fr. 2 084 kr/mån via Klarna 12 mån",
-    "priser.cards.system.include.1": "Branded beställningssida",
-    "priser.cards.system.include.2": "Onlinebetalning via Stripe",
-    "priser.cards.system.include.3": "Kökssystem (Sunmi-terminal anges separat)",
-    "priser.cards.system.include.4": "Leverans, avhämtning & dine-in",
-    "priser.cards.system.include.5": "Adminpanel & rapporter",
-    "priser.cards.system.include.6": "E-postsupport",
-    "priser.cards.system.include.7": "Onboarding & utbildning",
-    "priser.cards.system.exclude.1": "Marknadsföringsmaterial",
-    "priser.cards.system.exclude.2": "Sociala medier-paket",
-    "priser.cards.system.exclude.3": "TikTok-videos",
-    "priser.cards.system.button": "Välj System",
+    "priser.cards.monthly": "+ 549 kr/mån",
+    "priser.cards.vat": "exkl. moms",
+    "priser.cards.basic.tag": "Allt du behöver för att lämna Foodora",
+    "priser.cards.basic.price": "24 999 kr",
+    "priser.cards.basic.klarna": "Eller fr. 2 083 kr/mån via Klarna 12 mån",
+    "priser.cards.basic.include.1": "Komplett branded ordersystem",
+    "priser.cards.basic.include.2": "Sunmi V2 S-terminal (1 st, färdigkonfigurerad)",
+    "priser.cards.basic.include.3": "Egen domän eller subdomän",
+    "priser.cards.basic.include.4": "Menyuppläggning",
+    "priser.cards.basic.include.5": "E-postbekräftelser till dina kunder",
+    "priser.cards.basic.include.6": "Hosting, databas & underhåll",
+    "priser.cards.basic.include.7": "E-postsupport inom 24h",
+    "priser.cards.basic.include.8": "Korrekt momshantering (6%/12%)",
+    "priser.cards.basic.button": "Välj Basic",
 
-    "priser.cards.plus.tag": "Komplett paket med marknadsföring",
-    "priser.cards.plus.klarna": "Eller fr. 2 917 kr/mån via Klarna 12 mån",
-    "priser.cards.plus.include.1": "Allt i System",
-    "priser.cards.plus.include.2": "Komplett marknadsföringsmaterial",
-    "priser.cards.plus.include.3": "Grafisk profil (logotyp, färger, typografi)",
-    "priser.cards.plus.include.4": "Sociala medier-paket (Instagram, Facebook)",
-    "priser.cards.plus.include.5": "Telefon- och videosupport",
-    "priser.cards.plus.include.6": "Premium onboarding",
-    "priser.cards.plus.exclude.1": "TikTok-videos",
-    "priser.cards.plus.exclude.2": "Videomarknadsföring",
-    "priser.cards.plus.button": "Välj Plus",
+    "priser.cards.growth.tag": "System + marknadsföring för att växa",
+    "priser.cards.growth.price": "39 999 kr",
+    "priser.cards.growth.klarna": "Eller fr. 3 333 kr/mån via Klarna 12 mån",
+    "priser.cards.growth.include.1": "Allt i Basic, plus:",
+    "priser.cards.growth.include.2": "Broschyr-design (1 A5, tryckfärdig)",
+    "priser.cards.growth.include.3": "10 QR-bordsskyltar",
+    "priser.cards.growth.include.4": "Lanseringskampanj sociala medier (3 inlägg + 3 stories)",
+    "priser.cards.growth.include.5": "Google My Business-optimering",
+    "priser.cards.growth.include.6": "Google Ads-setup (1 kampanj; annonsbudget betalas separat till Google)",
+    "priser.cards.growth.include.7": "Prioriterad support inom 12h",
+    "priser.cards.growth.button": "Välj Growth",
 
-    "priser.cards.pro.tag": "För dig som vill växa snabbt",
-    "priser.cards.pro.klarna": "Eller fr. 3 750 kr/mån via Klarna 12 mån",
-    "priser.cards.pro.include.1": "Allt i Plus",
-    "priser.cards.pro.include.2": "TikTok-videos (skräddarsydda för din restaurang)",
-    "priser.cards.pro.include.3": "Videomarknadsföring & redigering",
-    "priser.cards.pro.include.4": "Premium support 7 dagar i veckan",
-    "priser.cards.pro.include.5": "Strategirådgivning för digital tillväxt",
-    "priser.cards.pro.button": "Välj Pro",
+    "priser.cards.premium.tag": "Hela paketet med innehåll och film",
+    "priser.cards.premium.price": "64 999 kr",
+    "priser.cards.premium.klarna": "Eller fr. 5 417 kr/mån via Klarna 12 mån",
+    "priser.cards.premium.include.1": "Allt i Growth, plus:",
+    "priser.cards.premium.include.2": "Filmdag på plats (1 dag)",
+    "priser.cards.premium.include.3": "10 redigerade branded reels (levereras över 30 dagar)",
+    "priser.cards.premium.include.4": "Månadsvis content-support i 3 mån (1 reel/mån)",
+    "priser.cards.premium.include.5": "Telefonsupport med samma-dag-callback",
+    "priser.cards.premium.button": "Välj Premium",
 
-    "priser.cards.note": "Alla planer är engångskostnader för uppsättning. Månadsavgiften täcker drift, support och uppdateringar. Inga dolda avgifter. Inga provisioner. Klarna-fakturering tillgängligt.",
+    "priser.cards.note": "Alla priser är exkl. moms (+25% moms). Engångskostnad för uppsättning + 549 kr/mån för drift, support och uppdateringar. Betalning via Klarna eller Swish. 50% deposition vid signering. Inga provisioner. Inga dolda avgifter.",
+
+    "priser.addons.eyebrow": "TILLVAL",
+    "priser.addons.h2": "Lägg till när du behöver",
+    "priser.addons.sub": "Engångskostnader där inget annat anges.",
+    "priser.addons.1": "Extra Sunmi V2 S-terminal",
+    "priser.addons.1.price": "3 999 kr",
+    "priser.addons.2": "12 månader hosting förbetalt",
+    "priser.addons.2.price": "5 490 kr (spara 1 098 kr)",
+    "priser.addons.3": "Anpassad integration",
+    "priser.addons.3.price": "från 9 999 kr",
+    "priser.addons.4": "Menymigrering från befintligt system",
+    "priser.addons.4.price": "4 999 kr",
+    "priser.addons.5": "Utbildningssession på plats (2h)",
+    "priser.addons.5.price": "2 999 kr",
+
+    "priser.help.title": "Inte säker på vilken plan som passar?",
+    "priser.help.text": "Boka ett gratis 15-minuters samtal så hjälper vi dig välja.",
+    "priser.help.call": "Boka samtal",
+    "priser.help.whatsapp": "WhatsApp oss",
     "priser.final.h2": "Vilken plan passar din restaurang?",
     "priser.final.sub": "Boka en gratis demo så går vi igenom dina förutsättningar och rekommenderar rätt plan — utan press.",
     "priser.final.call": "Ring oss direkt",
@@ -430,7 +453,7 @@ const I18N = {
     "priser.calc.foodora.monthly": "Per månad",
     "priser.calc.foodora.yearly": "Per år",
     "priser.calc.amoora.label": "Med Amoora första året",
-    "priser.calc.amoora.setup": "Engångskostnad (Plus)",
+    "priser.calc.amoora.setup": "Engångskostnad (Growth)",
     "priser.calc.amoora.months": "Månadsavgift",
     "priser.calc.amoora.total": "Totalt år 1",
     "priser.calc.savings.prefix": "Du sparar",
@@ -440,19 +463,19 @@ const I18N = {
 
     "priser.compare.eyebrow": "JÄMFÖR PLANER",
     "priser.compare.h2": "Vad ingår i varje plan",
-    "priser.compare.row.1": "Branded beställningssida",
+    "priser.compare.row.1": "Branded ordersystem",
     "priser.compare.row.2": "Onlinebetalning (Stripe)",
-    "priser.compare.row.3": "Kökssystem (Sunmi-stöd)",
+    "priser.compare.row.3": "Sunmi V2 S-terminal ingår",
     "priser.compare.row.4": "Leverans, avhämtning, dine-in",
-    "priser.compare.row.5": "Adminpanel & rapporter",
-    "priser.compare.row.6": "E-postsupport",
-    "priser.compare.row.7": "Telefonsupport",
-    "priser.compare.row.8": "Videosupport",
-    "priser.compare.row.9": "Grafisk profil",
-    "priser.compare.row.10": "Sociala medier-paket",
-    "priser.compare.row.11": "TikTok-videos",
-    "priser.compare.row.12": "Videomarknadsföring",
-    "priser.compare.row.13": "Strategirådgivning",
+    "priser.compare.row.5": "Hosting, databas & underhåll",
+    "priser.compare.row.6": "E-postsupport (24h)",
+    "priser.compare.row.7": "Prioriterad support (12h)",
+    "priser.compare.row.8": "Broschyr & 10 QR-bordsskyltar",
+    "priser.compare.row.9": "Lanseringskampanj sociala medier",
+    "priser.compare.row.10": "Google Ads-setup",
+    "priser.compare.row.11": "Filmdag + 10 branded reels",
+    "priser.compare.row.12": "Månadsvis content-support (3 mån)",
+    "priser.compare.row.13": "Telefonsupport, samma-dag-callback",
     "priser.compare.row.14": "Premium support 7 dagar/v",
     "priser.compare.summary.system": "Allt du behöver för att komma igång med eget beställningssystem och support.",
     "priser.compare.summary.plus": "Komplett paket med marknadsföring, premium onboarding och support.",
@@ -467,9 +490,9 @@ const I18N = {
     "priser.compare.summary.item8": "Videomarknadsföring",
     "priser.compare.summary.item9": "Premium support 7 dagar/v",
 
-    "priser.notIncluded.h3": "Det här tillkommer (en gång)",
-    "priser.notIncluded.1.title": "Sunmi-terminal",
-    "priser.notIncluded.1.body": "Hårdvara för kökssystem. Cirka 3 200 kr engångskostnad. Köps direkt från Logiscenter — vi har förhandlat fram volympriser.",
+    "priser.notIncluded.h3": "Det här tillkommer",
+    "priser.notIncluded.1.title": "Annonsbudget (Growth & Premium)",
+    "priser.notIncluded.1.body": "Om du kör Google Ads betalar du annonsbudgeten direkt till Google. Vi sätter upp och optimerar kampanjen — du bestämmer själv hur mycket du vill lägga.",
     "priser.notIncluded.2.title": "Stripes transaktionsavgifter",
     "priser.notIncluded.2.body": "Stripes vanliga avgifter per kortbetalning (cirka 1,5 % + 1,80 kr). Detta är Stripes avgift, inte Amooras — och det är ändå mycket mindre än Foodoras 30 %.",
 
@@ -483,7 +506,7 @@ const I18N = {
     "priser.faq.q4": "Kan jag använda Klarna för engångskostnaden?",
     "priser.faq.a4": "Ja. Klarna-fakturering är tillgängligt på alla planer — du kan dela upp engångskostnaden på 12 eller 24 månadsbetalningar. Du börjar tjäna in din investering direkt — innan du har slutat betala.",
     "priser.faq.q5": "Vilken plan ska jag välja?",
-    "priser.faq.a5": "System passar dig som redan har marknadsföring på plats och bara behöver tekniken. Plus passar de flesta — du får marknadsföringsmaterial och en proffsig grafisk profil utöver tekniken. Pro passar dig som vill växa aggressivt och utnyttja TikTok och video — vi producerar innehåll specifikt för din restaurang.",
+    "priser.faq.a5": "Basic passar dig som redan har marknadsföring på plats och bara behöver tekniken. Growth passar de flesta — du får marknadsföringsmaterial, QR-skyltar och en lanseringskampanj utöver systemet. Premium passar dig som vill växa snabbt med film och innehåll — vi spelar in och producerar reels specifikt för din restaurang.",
     "priser.faq.q6": "Hur lång tid tar installationen?",
     "priser.faq.a6": "Från påskrift till live: vanligtvis 3–7 dagar. Det beror mest på hur snabbt Sunmi-terminalen levereras och hur omfattande din meny är. Vi gör all teknisk uppsättning — du levererar meny, bilder och logotyp.",
     "priser.faq.q7": "Vad händer om jag vill säga upp?",
@@ -493,9 +516,9 @@ const I18N = {
     "priser.faq.q9": "Funkar det för icke-pizzerior också?",
     "priser.faq.a9": "Absolut. Amoora är byggt för alla typer av restauranger — pizzerior, sushi, kebab, asiatiskt, fine dining. Vi anpassar menyn och flödet efter din verksamhet. Pizzerior är bara där vi har mest erfarenhet.",
     "priser.faq.q10": "Vad är Sunmi-terminalen och varför behöver jag den?",
-    "priser.faq.a10": "Sunmi är en allt-i-ett-terminal med inbyggd kvittoskrivare som tar emot ordrar från ditt Amoora-system och skriver ut dem automatiskt i köket. Modell V2s eller V3H räcker. Cirka 3 200 kr engångskostnad — köps direkt från Logiscenter med våra förhandlade volympriser.",
+    "priser.faq.a10": "Sunmi V2 S är en allt-i-ett-terminal med inbyggd kvittoskrivare som tar emot ordrar från ditt Amoora-system och skriver ut dem automatiskt i köket. En terminal ingår, färdigkonfigurerad, i alla planer — vi levererar och hjälper dig komma igång. Behöver du fler terminaler kostar en extra 3 999 kr.",
     "priser.faq.q11": "Vad händer om något krånglar tekniskt?",
-    "priser.faq.a11": "Vi har distanssupport via e-post (System), telefon och video (Plus och Pro). Systemet bygger på beprövad teknik (Vercel, Supabase, Stripe) som har 99,9 % drifttid. Allvarliga driftstörningar är sällsynta — och när de händer prioriterar vi dem direkt.",
+    "priser.faq.a11": "Vi har distanssupport via e-post (alla planer), prioriterad support i Growth och telefonsupport med samma-dag-callback i Premium. Systemet bygger på beprövad teknik (Vercel, Supabase, Stripe) som har 99,9 % drifttid. Allvarliga driftstörningar är sällsynta — och när de händer prioriterar vi dem direkt.",
     "priser.faq.q12": "Kan jag uppgradera eller nedgradera senare?",
     "priser.faq.a12": "Ja. Du kan när som helst uppgradera till en högre plan — du betalar mellanskillnaden i engångskostnad. Att nedgradera är också möjligt vid månadsskifte. Vi vill att du har rätt plan för ditt skede.",    "ref.label": "Referenscase",
     "ref.title": "Capri Blue Pizzeria är live på Amoora",
@@ -540,6 +563,7 @@ const I18N = {
     "footer.pricing": "Priser",
     "footer.demo": "Boka demo",
     "footer.blog": "Blogg",
+    "footer.onboarding": "Onboarding",
     "footer.faq": "Vanliga frågor",
     "footer.contact": "Kontakt",
     "footer.rights": "© 2026 Amoora. Alla rättigheter förbehållna.",
@@ -694,30 +718,31 @@ const I18N = {
     "urgency.text": "Food VAT is cut to 6% on takeaway and delivery through 2027.",
     "urgency.sub": "Direct sales are more profitable than ever. The sooner you own your system, the more you earn.",
 
-    /* Pricing */
+    /* Pricing teaser (index) */
     "price.eyebrow": "Pricing",
-    "price.h2": "Choose your plan",
-    "price.sub": "One-time setup cost + a low fixed monthly fee. Pay with Klarna if you like.",
-    "price.monthly": "+ from 495 kr/month",
-    "price.vat": "+ VAT",
+    "price.h2": "Choose your Amoora",
+    "price.sub": "Three plans. One system. Zero commission.",
+    "price.monthly": "+ 549 kr/month",
+    "price.vat": "excl. VAT",
     "price.popular": "Most popular",
-    "price.system.name": "Amoora System",
-    "price.system.1": "Complete ordering system",
-    "price.system.2": "Your own ordering page",
-    "price.system.3": "Payment integration",
-    "price.system.4": "Support",
-    "price.plus.name": "Amoora Plus",
-    "price.plus.1": "Everything in System",
-    "price.plus.2": "All marketing material",
-    "price.plus.3": "Graphic profile",
-    "price.plus.4": "Social media package",
-    "price.pro.name": "Amoora Pro",
-    "price.pro.1": "Everything in Plus",
-    "price.pro.2": "TikTok videos",
-    "price.pro.3": "Video marketing",
-    "price.pro.4": "Premium support",
+    "price.basic.name": "Amoora Basic",
+    "price.basic.tagline": "Everything you need to leave Foodora",
+    "price.basic.1": "Complete branded ordering system",
+    "price.basic.2": "Sunmi V2 S terminal included",
+    "price.basic.3": "Own domain, hosting & support",
+    "price.growth.name": "Amoora Growth",
+    "price.growth.tagline": "System + marketing to grow",
+    "price.growth.1": "Everything in Basic",
+    "price.growth.2": "Brochure, QR signs & launch campaign",
+    "price.growth.3": "Google Ads & priority support",
+    "price.premium.name": "Amoora Premium",
+    "price.premium.tagline": "The full package with content and film",
+    "price.premium.1": "Everything in Growth",
+    "price.premium.2": "Film day + 10 branded reels",
+    "price.premium.3": "Content support & phone support",
     "price.choose": "Book demo",
     "price.cta": "See full pricing",
+    "price.deposit": "All prices excl. VAT. Payment via Klarna or Swish. 50% deposit on signing.",
 
     "blogg.hero.label": "BLOG",
     "blogg.hero.h1": "Insights for restaurants that want to own their growth",
@@ -761,9 +786,9 @@ const I18N = {
     "contact.form.revenuePlaceholder": "Select range",
     "contact.form.revenue.help": "Helps us prepare a relevant ROI calculation for the call.",
     "contact.form.plan": "Which plan are you interested in?",
-    "contact.form.plan.system": "Amoora System",
-    "contact.form.plan.plus": "Amoora Plus (most popular)",
-    "contact.form.plan.pro": "Amoora Pro",
+    "contact.form.plan.system": "Amoora Basic",
+    "contact.form.plan.plus": "Amoora Growth (most popular)",
+    "contact.form.plan.pro": "Amoora Premium",
     "contact.form.plan.unsure": "Not sure yet",
     "contact.form.message": "Message",
     "contact.form.messagePlaceholder": "Tell us what you'd like to know...",
@@ -830,17 +855,17 @@ const I18N = {
     "sa_fungerar.onboarding.h2": "From first call to live — in 5 steps",
     "sa_fungerar.onboarding.sub": "A walkthrough of exactly what happens between signing and your first order.",
     "sa_fungerar.onboarding.step1.badge": "What we do",
-    "sa_fungerar.onboarding.step1.title": "We clone your template",
-    "sa_fungerar.onboarding.step1.body": "We take our proven Amoora template and clone it for your restaurant. We add your name, address, colors and logo. One hour later — your unique instance exists.",
+    "sa_fungerar.onboarding.step1.title": "We build your system",
+    "sa_fungerar.onboarding.step1.body": "We build a complete ordering system for your restaurant — with your name, address, colors and logo. Before long your own page stands ready to be filled with content.",
     "sa_fungerar.onboarding.step2.badge": "What we do",
     "sa_fungerar.onboarding.step2.title": "We set up your database",
-    "sa_fungerar.onboarding.step2.body": "We create a dedicated Supabase project for your restaurant. All customer data, menus and orders live in a system you own. No shared databases. No middlemen.",
+    "sa_fungerar.onboarding.step2.body": "We build a secure database where all your customer data, menus and orders live — in a system you own. Everything runs on proven cloud infrastructure (Vercel and Supabase) with high uptime. No middlemen.",
     "sa_fungerar.onboarding.step3.badge": "What we do",
     "sa_fungerar.onboarding.step3.title": "We design your ordering page",
-    "sa_fungerar.onboarding.step3.body": "We load your full menu, categorize dishes, set prices, add images and descriptions. The result: a polished ordering page that reflects your restaurant — not a generic platform template.",
-    "sa_fungerar.onboarding.step4.badge": "What you do",
-    "sa_fungerar.onboarding.step4.title": "You buy a Sunmi terminal",
-    "sa_fungerar.onboarding.step4.body": "You buy a Sunmi terminal (V2s or V3H, roughly 3 200 kr) with built-in receipt printing. We guide setup remotely. When connected, every new order prints automatically in your kitchen — just like Foodora.",
+    "sa_fungerar.onboarding.step3.body": "We load your full menu, categorize dishes, set prices, add images and descriptions. The result: a polished ordering page that reflects your restaurant — not an anonymous platform page.",
+    "sa_fungerar.onboarding.step4.badge": "What we do",
+    "sa_fungerar.onboarding.step4.title": "We deliver your terminal",
+    "sa_fungerar.onboarding.step4.body": "A preconfigured Sunmi V2 S terminal with built-in receipt printing is included and shipped to you. We guide setup remotely. When connected, every new order prints automatically in your kitchen — just like you're used to.",
     "sa_fungerar.onboarding.step5.badge": "Together",
     "sa_fungerar.onboarding.step5.title": "Testing, launch and handover",
     "sa_fungerar.onboarding.step5.body": "We do a test order from start to print together. When everything runs smoothly — you are live. We remain available for support, but the system is yours.",
@@ -876,14 +901,15 @@ const I18N = {
     "sa_fungerar.viral.body": "Every order confirmation and every footer carries 'Powered by Amoora'. Restaurant owners order food all the time — and each time they see a polished Amoora experience, they want the same. Your customer acquisition grows on its own.",
     "sa_fungerar.viral.link": "Learn more about the growth engine →",
 
-    "sa_fungerar.hardware.h3": "The hardware you need",
-    "sa_fungerar.hardware.body": "A Sunmi terminal (V2s or V3H) with built-in receipt printing is enough. Costs about 3 200 kr one-time and is purchased directly from Logiscenter — we negotiated volume pricing so you get a good deal. We guide setup remotely by video.",
+    "sa_fungerar.hardware.h3": "The hardware that's included",
+    "sa_fungerar.hardware.body": "A preconfigured Sunmi V2 S terminal with built-in receipt printing is included in every plan. We ship it to you and guide setup remotely by video — you don't have to buy or configure anything yourself.",
     "sa_fungerar.hardware.bullet1": "All-in-one terminal with printer",
     "sa_fungerar.hardware.bullet2": "WiFi and 4G — works anywhere",
     "sa_fungerar.hardware.bullet3": "We guide installation remotely",
 
     "sa_fungerar.support.h3": "We stay after launch",
-    "sa_fungerar.support.body": "Email support is always included. Phone and video support are included in Amoora Plus and Pro. We train your staff, help you update menus and are there when you need us.",
+    "sa_fungerar.support.body": "Email support is always included. Priority support is included in Growth, and phone support with same-day callback in Premium. We train your staff, help you update menus and are there when you need us.",
+    "sa_fungerar.video.soon": "Video coming soon",
     "sa_fungerar.support.cta": "See plans & support →",
 
     "sa_fungerar.faq.eyebrow": "FREQUENT QUESTIONS",
@@ -917,42 +943,63 @@ const I18N = {
     "priser.pricing.body": "With Klarna invoicing you can spread the one-time cost over 12 or 24 months and be live next week. You start earning back your investment before you’re finished paying.",
     "priser.pricing.link": "Learn more about Klarna billing →",
 
-    "priser.cards.system.tag": "Everything you need to get started",
-    "priser.cards.system.klarna": "Or from 2 084 kr/month with Klarna 12 months",
-    "priser.cards.system.include.1": "Branded ordering page",
-    "priser.cards.system.include.2": "Online payments via Stripe",
-    "priser.cards.system.include.3": "Kitchen system (Sunmi terminal sold separately)",
-    "priser.cards.system.include.4": "Delivery, pickup & dine-in",
-    "priser.cards.system.include.5": "Admin panel & reports",
-    "priser.cards.system.include.6": "Email support",
-    "priser.cards.system.include.7": "Onboarding & training",
-    "priser.cards.system.exclude.1": "Marketing materials",
-    "priser.cards.system.exclude.2": "Social media package",
-    "priser.cards.system.exclude.3": "TikTok videos",
-    "priser.cards.system.button": "Choose System",
+    "priser.cards.monthly": "+ 549 kr/month",
+    "priser.cards.vat": "excl. VAT",
+    "priser.cards.basic.tag": "Everything you need to leave Foodora",
+    "priser.cards.basic.price": "24 999 kr",
+    "priser.cards.basic.klarna": "Or from 2 083 kr/month with Klarna 12 months",
+    "priser.cards.basic.include.1": "Complete branded ordering system",
+    "priser.cards.basic.include.2": "Sunmi V2 S terminal (1 unit, preconfigured)",
+    "priser.cards.basic.include.3": "Your own domain or subdomain",
+    "priser.cards.basic.include.4": "Menu setup",
+    "priser.cards.basic.include.5": "Email confirmations to your customers",
+    "priser.cards.basic.include.6": "Hosting, database & maintenance",
+    "priser.cards.basic.include.7": "Email support within 24h",
+    "priser.cards.basic.include.8": "Correct VAT handling (6%/12%)",
+    "priser.cards.basic.button": "Choose Basic",
 
-    "priser.cards.plus.tag": "Complete package with marketing",
-    "priser.cards.plus.klarna": "Or from 2 917 kr/month with Klarna 12 months",
-    "priser.cards.plus.include.1": "Everything in System",
-    "priser.cards.plus.include.2": "Complete marketing materials",
-    "priser.cards.plus.include.3": "Graphic profile (logo, colors, typography)",
-    "priser.cards.plus.include.4": "Social media package (Instagram, Facebook)",
-    "priser.cards.plus.include.5": "Phone & video support",
-    "priser.cards.plus.include.6": "Premium onboarding",
-    "priser.cards.plus.exclude.1": "TikTok videos",
-    "priser.cards.plus.exclude.2": "Video marketing",
-    "priser.cards.plus.button": "Choose Plus",
+    "priser.cards.growth.tag": "System + marketing to grow",
+    "priser.cards.growth.price": "39 999 kr",
+    "priser.cards.growth.klarna": "Or from 3 333 kr/month with Klarna 12 months",
+    "priser.cards.growth.include.1": "Everything in Basic, plus:",
+    "priser.cards.growth.include.2": "Brochure design (1 A5, print-ready)",
+    "priser.cards.growth.include.3": "10 QR table signs",
+    "priser.cards.growth.include.4": "Social media launch campaign (3 posts + 3 stories)",
+    "priser.cards.growth.include.5": "Google My Business optimization",
+    "priser.cards.growth.include.6": "Google Ads setup (1 campaign; ad budget paid separately to Google)",
+    "priser.cards.growth.include.7": "Priority support within 12h",
+    "priser.cards.growth.button": "Choose Growth",
 
-    "priser.cards.pro.tag": "For restaurants that want to grow fast",
-    "priser.cards.pro.klarna": "Or from 3 750 kr/month with Klarna 12 months",
-    "priser.cards.pro.include.1": "Everything in Plus",
-    "priser.cards.pro.include.2": "TikTok videos tailored to your restaurant",
-    "priser.cards.pro.include.3": "Video marketing & editing",
-    "priser.cards.pro.include.4": "Premium support 7 days a week",
-    "priser.cards.pro.include.5": "Growth strategy advice",
-    "priser.cards.pro.button": "Choose Pro",
+    "priser.cards.premium.tag": "The full package with content and film",
+    "priser.cards.premium.price": "64 999 kr",
+    "priser.cards.premium.klarna": "Or from 5 417 kr/month with Klarna 12 months",
+    "priser.cards.premium.include.1": "Everything in Growth, plus:",
+    "priser.cards.premium.include.2": "On-site film day (1 day)",
+    "priser.cards.premium.include.3": "10 edited branded reels (delivered over 30 days)",
+    "priser.cards.premium.include.4": "Monthly content support for 3 months (1 reel/month)",
+    "priser.cards.premium.include.5": "Phone support with same-day callback",
+    "priser.cards.premium.button": "Choose Premium",
 
-    "priser.cards.note": "All plans are one-time setup costs. Monthly fees cover hosting, support and updates. No hidden fees. No commissions. Klarna invoicing available.",
+    "priser.cards.note": "All prices excl. VAT (+25% VAT). One-time setup cost + 549 kr/month for hosting, support and updates. Payment via Klarna or Swish. 50% deposit on signing. No commissions. No hidden fees.",
+
+    "priser.addons.eyebrow": "ADD-ONS",
+    "priser.addons.h2": "Add what you need",
+    "priser.addons.sub": "One-time costs unless otherwise stated.",
+    "priser.addons.1": "Extra Sunmi V2 S terminal",
+    "priser.addons.1.price": "3 999 kr",
+    "priser.addons.2": "12 months hosting prepaid",
+    "priser.addons.2.price": "5 490 kr (save 1 098 kr)",
+    "priser.addons.3": "Custom integration",
+    "priser.addons.3.price": "from 9 999 kr",
+    "priser.addons.4": "Menu migration from existing system",
+    "priser.addons.4.price": "4 999 kr",
+    "priser.addons.5": "On-site training session (2h)",
+    "priser.addons.5.price": "2 999 kr",
+
+    "priser.help.title": "Not sure which plan fits?",
+    "priser.help.text": "Book a free 15-minute call and we'll help you choose.",
+    "priser.help.call": "Book a call",
+    "priser.help.whatsapp": "WhatsApp us",
     "priser.final.h2": "Which plan suits your restaurant?",
     "priser.final.sub": "Book a free demo and we'll go through your situation and recommend the right plan — no pressure.",
     "priser.final.call": "Call us directly",
@@ -969,7 +1016,7 @@ const I18N = {
     "priser.calc.foodora.monthly": "Per month",
     "priser.calc.foodora.yearly": "Per year",
     "priser.calc.amoora.label": "With Amoora in year one",
-    "priser.calc.amoora.setup": "One-time cost (Plus)",
+    "priser.calc.amoora.setup": "One-time cost (Growth)",
     "priser.calc.amoora.months": "Monthly fee",
     "priser.calc.amoora.total": "Total year 1",
     "priser.calc.savings.prefix": "You save",
@@ -979,19 +1026,19 @@ const I18N = {
 
     "priser.compare.eyebrow": "COMPARE PLANS",
     "priser.compare.h2": "What is included in each plan",
-    "priser.compare.row.1": "Branded ordering page",
+    "priser.compare.row.1": "Branded ordering system",
     "priser.compare.row.2": "Online payments (Stripe)",
-    "priser.compare.row.3": "Kitchen system (Sunmi support)",
+    "priser.compare.row.3": "Sunmi V2 S terminal included",
     "priser.compare.row.4": "Delivery, pickup, dine-in",
-    "priser.compare.row.5": "Admin panel & reports",
-    "priser.compare.row.6": "Email support",
-    "priser.compare.row.7": "Phone support",
-    "priser.compare.row.8": "Video support",
-    "priser.compare.row.9": "Graphic profile",
-    "priser.compare.row.10": "Social media package",
-    "priser.compare.row.11": "TikTok videos",
-    "priser.compare.row.12": "Video marketing",
-    "priser.compare.row.13": "Strategy advice",
+    "priser.compare.row.5": "Hosting, database & maintenance",
+    "priser.compare.row.6": "Email support (24h)",
+    "priser.compare.row.7": "Priority support (12h)",
+    "priser.compare.row.8": "Brochure & 10 QR table signs",
+    "priser.compare.row.9": "Social media launch campaign",
+    "priser.compare.row.10": "Google Ads setup",
+    "priser.compare.row.11": "Film day + 10 branded reels",
+    "priser.compare.row.12": "Monthly content support (3 mo)",
+    "priser.compare.row.13": "Phone support, same-day callback",
     "priser.compare.row.14": "Premium support 7 days/wk",
     "priser.compare.summary.system": "Everything you need to get started with your own ordering system and support.",
     "priser.compare.summary.plus": "Complete package with marketing, premium onboarding and support.",
@@ -1006,9 +1053,9 @@ const I18N = {
     "priser.compare.summary.item8": "Video marketing",
     "priser.compare.summary.item9": "Premium support 7 days/wk",
 
-    "priser.notIncluded.h3": "These costs are added once",
-    "priser.notIncluded.1.title": "Sunmi terminal",
-    "priser.notIncluded.1.body": "Hardware for the kitchen system. About 3 200 kr one-time. Purchased directly from Logiscenter — we negotiate volume pricing.",
+    "priser.notIncluded.h3": "What's added on top",
+    "priser.notIncluded.1.title": "Ad budget (Growth & Premium)",
+    "priser.notIncluded.1.body": "If you run Google Ads, you pay the ad budget directly to Google. We set up and optimize the campaign — you decide how much to spend.",
     "priser.notIncluded.2.title": "Stripe transaction fees",
     "priser.notIncluded.2.body": "Stripe's standard fees per card payment (about 1.5% + 1.80 kr). This is Stripe's fee, not Amoora's — and it is still much lower than Foodora's 30%.",
 
@@ -1022,7 +1069,7 @@ const I18N = {
     "priser.faq.q4": "Can I use Klarna for the one-time cost?",
     "priser.faq.a4": "Yes. Klarna invoicing is available on all plans — you can split the setup cost over 12 or 24 monthly payments. You start earning back your investment right away — before you finish paying.",
     "priser.faq.q5": "Which plan should I choose?",
-    "priser.faq.a5": "System is for restaurants that already have marketing in place and just need the technology. Plus fits most — you get marketing materials and a polished graphic profile in addition to the technology. Pro is for those who want to grow aggressively and use TikTok and video — we produce content specifically for your restaurant.",
+    "priser.faq.a5": "Basic is for restaurants that already have marketing in place and just need the technology. Growth fits most — you get marketing materials, QR signs and a launch campaign on top of the system. Premium is for those who want to grow fast with film and content — we shoot and produce reels specifically for your restaurant.",
     "priser.faq.q6": "How long does installation take?",
     "priser.faq.a6": "From signing to live: usually 3–7 days. It depends mostly on how quickly the Sunmi terminal is delivered and how extensive your menu is. We do all technical setup — you provide the menu, images and logo.",
     "priser.faq.q7": "What happens if I want to cancel?",
@@ -1032,9 +1079,9 @@ const I18N = {
     "priser.faq.q9": "Does it work for non-pizzerias too?",
     "priser.faq.a9": "Absolutely. Amoora is built for all types of restaurants — pizzerias, sushi, kebab, Asian, fine dining. We adapt the menu and flow to your business. Pizzerias are just where we have the most experience.",
     "priser.faq.q10": "What is the Sunmi terminal and why do I need it?",
-    "priser.faq.a10": "Sunmi is an all-in-one terminal with a built-in printer that receives orders from your Amoora system and prints them automatically in the kitchen. Model V2s or V3H is enough. About 3 200 kr one-time — purchased directly from Logiscenter with our negotiated volume pricing.",
+    "priser.faq.a10": "The Sunmi V2 S is an all-in-one terminal with a built-in printer that receives orders from your Amoora system and prints them automatically in the kitchen. One terminal is included, preconfigured, in every plan — we deliver it and help you get started. Need more terminals? An extra one is 3 999 kr.",
     "priser.faq.q11": "What happens if something breaks technically?",
-    "priser.faq.a11": "We have remote support via email (System), phone and video (Plus and Pro). The system is built on proven technology (Vercel, Supabase, Stripe) with 99.9% uptime. Serious outages are rare — and when they happen, we prioritize them immediately.",
+    "priser.faq.a11": "We have remote support via email (all plans), priority support in Growth and phone support with same-day callback in Premium. The system is built on proven technology (Vercel, Supabase, Stripe) with 99.9% uptime. Serious outages are rare — and when they happen, we prioritize them immediately.",
     "priser.faq.q12": "Can I upgrade or downgrade later?",
     "priser.faq.a12": "Yes. You can upgrade to a higher plan at any time — you pay the difference in the setup cost. Downgrading is also possible at month-end. We want you to have the right plan for your stage.",
 
@@ -1082,6 +1129,7 @@ const I18N = {
     "footer.pricing": "Pricing",
     "footer.demo": "Book demo",
     "footer.blog": "Blog",
+    "footer.onboarding": "Onboarding",
     "footer.faq": "FAQ",
     "footer.contact": "Contact",
     "footer.rights": "© 2026 Amoora. All rights reserved.",
@@ -1090,8 +1138,15 @@ const I18N = {
   }
 };
 
-/* In-memory language choice (NOT persisted) */
-let currentLang = "sv";
+/* Language choice — persisted in localStorage so it survives MPA navigation. */
+function getStoredLang() {
+  try {
+    const v = localStorage.getItem("amoora_lang");
+    if (v === "sv" || v === "en") return v;
+  } catch (e) { /* storage blocked — fall back to default */ }
+  return "sv";
+}
+let currentLang = getStoredLang();
 
 /* --------------------------------------------------------------------------
    2. APPLY TRANSLATIONS
@@ -1125,6 +1180,7 @@ function applyTranslations(lang) {
 function setLang(lang) {
   if (!I18N[lang]) return;
   currentLang = lang;
+  try { localStorage.setItem("amoora_lang", lang); } catch (e) { /* storage blocked */ }
   applyTranslations(lang);
 
   document.querySelectorAll("[data-lang]").forEach((btn) => {
@@ -1323,8 +1379,8 @@ function initCalculator() {
   const shareForm = document.getElementById("calcShareForm");
   const emailInput = shareForm ? shareForm.querySelector("input[type='email']") : null;
   const toast = document.getElementById("calcToast");
-  const amooraFirstYear = 40940;
-  const amooraAnnual = 5940;
+  const amooraFirstYear = 46587; // Growth setup 39 999 + 12 × 549 kr/mån
+  const amooraAnnual = 6588;     // 12 × 549 kr/mån
   let tickerStart = performance.now();
   let tickerInterval = null;
 
@@ -1448,6 +1504,11 @@ function initCalculator() {
         toast.textContent = I18N[currentLang]["calculator.share.error"];
         return;
       }
+      // Record the calculator lead (best-effort), then confirm to the user.
+      const summary = `Räknare: ${ordersInput.value} ordrar/v · ${avgInput.value} kr snitt · ${commissionInput.value}% provision · ${yearlyValue.textContent}/år`;
+      if (typeof window.AmooraLead === "function") {
+        window.AmooraLead({ source: "calculator", email, message: summary });
+      }
       toast.textContent = I18N[currentLang]["calculator.share.success"];
       emailInput.value = "";
     });
@@ -1471,8 +1532,8 @@ function initSavingsCalculator() {
   const nextYearEl = document.getElementById("foodoraSavingsNextYear");
   if (!range || !number || !monthlyEl || !annualEl || !savingsEl) return;
 
-  const AMOORA_FIRST_YEAR = 40940;
-  const AMOORA_ANNUAL = 5940;
+  const AMOORA_FIRST_YEAR = 46587; // Growth setup 39 999 + 12 × 549 kr/mån
+  const AMOORA_ANNUAL = 6588;      // 12 × 549 kr/mån
   const COMMISSION = 0.30;
   const min = parseInt(range.min, 10) || 0;
   const max = parseInt(range.max, 10) || 500000;
@@ -1515,19 +1576,54 @@ function initSavingsCalculator() {
 }
 
 /* --------------------------------------------------------------------------
-   6. FINAL CTA FORM (no backend in Part 1)
+   6. LEAD SUBMISSION — shared helper hitting the notify-lead Edge Function.
+   Used by the contact form, the email-capture CTAs and the calculator.
+   Exposed as window.AmooraLead so page-level inline scripts can reuse it.
    -------------------------------------------------------------------------- */
+async function submitLead(payload) {
+  const cfg = window.AMOORA_CONFIG || {};
+  if (!cfg.FUNCTIONS_BASE || !cfg.SUPABASE_ANON_KEY) {
+    console.warn("AMOORA_CONFIG missing — cannot submit lead");
+    return { ok: false, error: "config_missing" };
+  }
+  try {
+    const res = await fetch(cfg.FUNCTIONS_BASE + "/notify-lead", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + cfg.SUPABASE_ANON_KEY,
+        "apikey": cfg.SUPABASE_ANON_KEY,
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json().catch(() => ({}));
+    return res.ok ? { ok: true, ...data } : { ok: false, ...data };
+  } catch (err) {
+    console.error("submitLead failed", err);
+    return { ok: false, error: "network" };
+  }
+}
+window.AmooraLead = submitLead;
+
+/* Final CTA email-capture form (index + sa-fungerar). Records an `email_cta`
+   lead, then continues to the contact page so the visitor can finish booking. */
 function initCtaForm() {
   const form = document.querySelector(".cta-form");
   if (!form) return;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const email = form.querySelector("input[type='email']");
-    if (email && email.value) {
-      window.location.href =
-        "kontakt.html?email=" + encodeURIComponent(email.value);
+    const emailEl = form.querySelector("input[type='email']");
+    const email = emailEl && emailEl.value.trim();
+    const go = () => {
+      window.location.href = email
+        ? "kontakt.html?email=" + encodeURIComponent(email)
+        : "kontakt.html";
+    };
+    if (email) {
+      // Fire-and-forget: record the lead, then navigate regardless.
+      submitLead({ source: "email_cta", email }).finally(go);
     } else {
-      window.location.href = "kontakt.html";
+      go();
     }
   });
 }
@@ -1676,6 +1772,21 @@ function initContactForm() {
   updateSubmitState();
 }
 
+/* Point every [data-capri-blue] link at the live Capri Blue URL from config.
+   Falls back to the contact page until CAPRI_BLUE_URL is set in site-config.js. */
+function initCapriLinks() {
+  const url = (window.AMOORA_CONFIG && window.AMOORA_CONFIG.CAPRI_BLUE_URL) || "";
+  document.querySelectorAll("[data-capri-blue]").forEach((a) => {
+    if (url) {
+      a.setAttribute("href", url);
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener");
+    } else {
+      a.setAttribute("href", "kontakt.html");
+    }
+  });
+}
+
 /* --------------------------------------------------------------------------
    7. LANGUAGE TOGGLE WIRING
    -------------------------------------------------------------------------- */
@@ -1699,4 +1810,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initCopyLinkButtons();
   initCalculator();
   initSavingsCalculator();
+  initCapriLinks();
 });
