@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blogg — Insikter om provisionsfri matbeställning | Amoora</title>
+  <meta name="description" content="Allt du behöver veta om att slippa Foodora-provisioner, äga ditt eget beställningssystem och driva en lönsam restaurang i Sverige 2026.">
+  <meta property="og:title" content="Blogg — Insikter om provisionsfri matbeställning | Amoora">
+  <meta property="og:description" content="Allt du behöver veta om att slippa Foodora-provisioner, äga ditt eget beställningssystem och driva en lönsam restaurang i Sverige 2026.">
+  <meta property="og:url" content="https://amoora.se/blogg.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://amoora.se/assets/images/amoora-system-01-hero.png">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            coral: "#EA7056",
+            "coral-dark": "#D85B40",
+            "coral-soft": "#FBE4DD",
+            ink: "#1C1B1A",
+            "ink-soft": "#2B2A28",
+            cream: "#FFF9F6",
+            graytext: "#6B6764",
+            bordersoft: "#EFE9E5"
+          },
+          fontFamily: {
+            display: ["'Space Grotesk'", "sans-serif"],
+            body: ["'Inter'", "sans-serif"]
+          },
+          borderRadius: {
+            card: "24px",
+            btn: "14px"
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Amoora — startsida">
+        <img src="assets/images/logo-full.png" alt="Amoora" height="44">
+      </a>
+      <nav class="main-nav" aria-label="Huvudmeny">
+        <ul>
+          <li><a href="index.html" class="nav-link" data-i18n="nav.home">Hem</a></li>
+          <li><a href="sa-fungerar-det.html" class="nav-link" data-i18n="nav.how">Så fungerar det</a></li>
+          <li><a href="priser.html" class="nav-link" data-i18n="nav.pricing">Priser</a></li>
+          <li><a href="raknare.html" class="nav-link" data-i18n="nav.raknare">Räknare</a></li>
+          <li><a href="kontakt.html" class="nav-link" data-i18n="nav.contact">Kontakt</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-toggle" role="group" aria-label="Språk / Language">
+          <button type="button" class="lang-opt is-active" data-lang="sv" aria-pressed="true">SV</button>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <button type="button" class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a href="kontakt.html" class="btn btn-primary btn-sm header-cta" data-i18n="cta.bookDemo">Boka demo</a>
+        <button type="button" class="hamburger" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobileDrawer">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="drawer-backdrop" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobilmeny">
+    <button type="button" class="drawer-close" aria-label="Stäng meny">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <nav aria-label="Mobil huvudmeny">
+      <ul>
+        <li><a href="index.html" class="nav-link" data-i18n="nav.home">Hem</a></li>
+        <li><a href="sa-fungerar-det.html" class="nav-link" data-i18n="nav.how">Så fungerar det</a></li>
+        <li><a href="priser.html" class="nav-link" data-i18n="nav.pricing">Priser</a></li>
+        <li><a href="raknare.html" class="nav-link" data-i18n="nav.raknare">Räknare</a></li>
+        <li><a href="kontakt.html" class="nav-link" data-i18n="nav.contact">Kontakt</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main>
+    <section class="section blog-hero">
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-grid footer-grid--5">
+            <div class="footer-col footer-brand">
+              <img src="assets/images/logo-full.png" alt="Amoora" height="40">
+              <p class="footer-tagline">Äg ditt eget beställningssystem. Noll provision.</p>
+              <p class="footer-lynkrr">En produkt av Lynkrr AB</p>
+            </div>
+            <div class="footer-col">
+              <h4>Produkt</h4>
+              <ul>
+                <li><a href="index.html">Hem</a></li>
+                <li><a href="sa-fungerar-det.html">Så fungerar det</a></li>
+                <li><a href="raknare.html">Räknare</a></li>
+                <li><a href="priser.html">Priser</a></li>
+                <li><a href="kontakt.html">Boka demo</a></li>
+              </ul>
+            </div>
+            <div class="footer-col footer-blog">
+              <h4 style="border-bottom:4px solid var(--coral);display:inline-block;padding-bottom:6px;">Blogg</h4>
+              <ul>
+                <li><a href="blogg.html">Alla artiklar</a></li>
+                <li><a href="blogg-1-dolda-kostnaden.html">Den dolda kostnaden</a></li>
+                <li><a href="blogg-2-foodora-vs-wolt-jamforelse.html">Foodora vs Wolt</a></li>
+                <li><a href="blogg-3-digitalisera-pizzeria-vecka.html">Digitalisera på en vecka</a></li>
+                <li><a href="blogg-4-roi-amoora.html">Räkna ut din ROI</a></li>
+                <li><a href="blogg-5-matmoms-capri-blue.html">Matmoms-fönstret</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Resurser</h4>
+              <ul>
+                <li><a href="priser.html#faq">Vanliga frågor</a></li>
+                <li><a href="#">Integritetspolicy</a></li>
+                <li><a href="#">Villkor</a></li>
+              </ul>
+            </div>
+            <div class="footer-col footer-contact">
+              <h4>Kontakt</h4>
+              <a href="tel:+46101850001">+46 10 185 00 01</a>
+              <a href="mailto:info@amoora.se">info@amoora.se</a>
+              <div class="social-row">
+                <a href="https://www.instagram.com/amoora.se/" target="_blank" rel="noopener" aria-label="Följ Amoora på Instagram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+                </a>
+                <a href="https://www.facebook.com/amooraapp" target="_blank" rel="noopener" aria-label="Följ Amoora på Facebook">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span>© 2026 Amoora. Alla rättigheter förbehållna.</span>
+            <nav aria-label="Juridiskt">
+              <a href="#">Integritetspolicy</a>
+              <a href="#">Villkor</a>
+            </nav>
+          </div>
+        </div>
+      </footer>
+            <div class="blog-card-body">
+              <span class="related-tag">Guide</span>
+              <h3 class="blog-card-title">Så digitaliserar du din pizzeria på en vecka</h3>
+              <p class="blog-card-excerpt">Steg för steg — utan att vara teknisk, utan dyra konsulter, utan att stänga restaurangen en enda dag.</p>
+              <p class="blog-card-meta">Amoora · 28 maj 2026 · 7 min</p>
+              <a href="blogg-3-digitalisera-pizzeria-vecka.html" class="btn btn-outline">Läs mer</a>
+            </div>
+          </article>
+          <article class="blog-card">
+            <img src="assets/images/amoora-system-04-checkout.png" alt="ROI-beräkning för beställningssystem">
+            <div class="blog-card-body">
+              <span class="related-tag">Ekonomi</span>
+              <h3 class="blog-card-title">Räkna ut din ROI: Hur snabbt betalar Amoora tillbaka sig själv?</h3>
+              <p class="blog-card-excerpt">Vi visar tre verkliga scenarier — liten, medel och stor pizzeria — och exakt när investeringen är intjänad.</p>
+              <p class="blog-card-meta">Amoora · 28 maj 2026 · 6 min</p>
+              <a href="blogg-4-roi-amoora.html" class="btn btn-outline">Läs mer</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section newsletter-band">
+      <div class="container">
+        <div class="section-title">
+          <h2 data-i18n="blogg.newsletter.h2">Få nya insikter i inkorgen</h2>
+          <p class="section-sub" data-i18n="blogg.newsletter.sub">En artikel i månaden om hur svenska restauranger äger sin tillväxt. Inga säljmejl. Bara värde.</p>
+        </div>
+        <form class="newsletter-form" novalidate>
+          <label for="blogEmail" class="sr-only" data-i18n="blogg.newsletter.placeholder">Din e-postadress</label>
+          <input type="email" id="blogEmail" name="email" placeholder="Din e-postadress" data-i18n-placeholder="blogg.newsletter.placeholder" required>
+          <button type="submit" class="btn btn-primary" data-i18n="blogg.newsletter.button">Prenumerera</button>
+        </form>
+        <p class="section-sub" data-i18n="blogg.newsletter.trust">Inga skräppost. Avsluta när du vill.</p>
+      </div>
+    </section>
+    <section class="section social-follow">
+      <div class="container">
+        <p data-i18n="blogg.follow.label">Följ Amoora:</p>
+        <div class="social-row">
+          <a href="https://www.instagram.com/amoora.se/" target="_blank" rel="noopener" aria-label="Följ Amoora på Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+          </a>
+          <a href="https://www.facebook.com/amooraapp" target="_blank" rel="noopener" aria-label="Följ Amoora på Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/images/logo-full.png" alt="Amoora" height="40">
+          <p class="footer-tagline" data-i18n="footer.tagline">Äg ditt eget beställningssystem. Noll provision.</p>
+          <p class="footer-lynkrr" data-i18n="footer.lynkrr">En produkt av Lynkrr AB</p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.product">Produkt</h4>
+          <ul>
+            <li><a href="sa-fungerar-det.html" data-i18n="footer.how">Så fungerar det</a></li>
+            <li><a href="priser.html" data-i18n="footer.pricing">Priser</a></li>
+            <li><a href="kontakt.html" data-i18n="footer.demo">Boka demo</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.resources">Resurser</h4>
+          <ul>
+            <li><a href="blogg.html" data-i18n="footer.blog">Blogg</a></li>
+            <li><a href="priser.html#faq" data-i18n="footer.faq">Vanliga frågor</a></li>
+            <li><a href="kontakt.html" data-i18n="footer.contact">Kontakt</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-contact">
+          <h4 data-i18n="footer.contactTitle">Kontakt</h4>
+          <a href="mailto:info@amoora.se">info@amoora.se</a>
+          <a href="tel:+46101850001">+46 10 185 00 01</a>
+          <div class="social-row">
+            <a href="https://www.instagram.com/amoora.se/" target="_blank" rel="noopener" aria-label="Följ Amoora på Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+            </a>
+            <a href="https://www.facebook.com/amooraapp" target="_blank" rel="noopener" aria-label="Följ Amoora på Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="footer.rights">© 2026 Amoora. Alla rättigheter förbehållna.</span>
+        <nav aria-label="Juridiskt">
+          <a href="#" data-i18n="footer.privacy">Integritetspolicy</a>
+          <a href="#" data-i18n="footer.terms">Villkor</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

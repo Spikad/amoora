@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Så fungerar Amoora — Eget beställningssystem på dagar | Amoora</title>
+  <meta name="description" content="Se hur din restaurang får ett eget provisionsfritt beställningssystem på dagar. Branded sida, onlinebetalning via Stripe, kökssystem och leveranshantering — vi sköter installationen.">
+  <meta name="keywords" content="hur fungerar beställningssystem, onboarding restaurang, kökssystem Sunmi, Stripe restaurang, eget beställningssystem installation">
+  <meta name="author" content="Amoora">
+  <link rel="canonical" href="https://amoora.se/sa-fungerar-det.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="sv_SE">
+  <meta property="og:site_name" content="Amoora">
+  <meta property="og:title" content="Så fungerar Amoora — Eget beställningssystem på dagar">
+  <meta property="og:description" content="Se hur din restaurang får ett eget provisionsfritt beställningssystem på dagar. Branded sida, onlinebetalning via Stripe, kökssystem och leveranshantering — vi sköter installationen.">
+  <meta property="og:url" content="https://amoora.se/sa-fungerar-det.html">
+  <meta property="og:image" content="https://amoora.se/assets/images/amoora-system-01-hero.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Så fungerar Amoora — Eget beställningssystem på dagar">
+  <meta name="twitter:description" content="Se hur din restaurang får ett eget provisionsfritt beställningssystem på dagar.">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (CDN) + brand config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            coral: "#EA7056",
+            "coral-dark": "#D85B40",
+            "coral-soft": "#FBE4DD",
+            ink: "#1C1B1A",
+            "ink-soft": "#2B2A28",
+            cream: "#FFF9F6",
+            graytext: "#6B6764",
+            bordersoft: "#EFE9E5"
+          },
+          fontFamily: {
+            display: ["'Space Grotesk'", "sans-serif"],
+            body: ["'Inter'", "sans-serif"]
+          },
+          borderRadius: {
+            card: "24px",
+            btn: "14px"
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Amoora — startsida">
+        <img src="assets/images/logo-full.png" alt="Amoora" height="44">
+      </a>
+
+      <nav class="main-nav" aria-label="Huvudmeny">
+        <ul>
+          <li><a href="index.html" class="nav-link" data-i18n="nav.home">Hem</a></li>
+          <li><a href="sa-fungerar-det.html" class="nav-link is-active" data-i18n="nav.how">Så fungerar det</a></li>
+          <li><a href="priser.html" class="nav-link" data-i18n="nav.pricing">Priser</a></li>
+          <li><a href="raknare.html" class="nav-link" data-i18n="nav.raknare">Räknare</a></li>
+          <li><a href="kontakt.html" class="nav-link" data-i18n="nav.contact">Kontakt</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-toggle" role="group" aria-label="Språk / Language">
+          <button type="button" class="lang-opt is-active" data-lang="sv" aria-pressed="true">SV</button>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <button type="button" class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a href="kontakt.html" class="btn btn-primary btn-sm header-cta" data-i18n="cta.bookDemo">Boka demo</a>
+
+        <button type="button" class="hamburger" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobileDrawer">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="drawer-backdrop" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobilmeny">
+    <button type="button" class="drawer-close" aria-label="Stäng meny">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <nav aria-label="Mobil huvudmeny">
+      <ul>
+        <li><a href="index.html" class="nav-link" data-i18n="nav.home">Hem</a></li>
+        <li><a href="sa-fungerar-det.html" class="nav-link is-active" data-i18n="nav.how">Så fungerar det</a></li>
+        <li><a href="priser.html" class="nav-link" data-i18n="nav.pricing">Priser</a></li>
+        <li><a href="raknare.html" class="nav-link" data-i18n="nav.raknare">Räknare</a></li>
+        <li><a href="kontakt.html" class="nav-link" data-i18n="nav.contact">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="lang-toggle" role="group" aria-label="Språk / Language" style="margin-top:1.5rem;width:max-content;">
+      <button type="button" class="lang-opt is-active" data-lang="sv" aria-pressed="true">SV</button>
+      <span class="lang-sep" aria-hidden="true">|</span>
+      <button type="button" class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a href="kontakt.html" class="btn btn-primary btn-block" data-i18n="cta.bookDemo">Boka demo</a>
+  </aside>
+
+  <main>
+    <section class="hero" id="top">
+      <span class="hero-blob hero-blob--1" aria-hidden="true"></span>
+      <span class="hero-blob hero-blob--2" aria-hidden="true"></span>
+
+      <div class="container">
+        <div class="hero-copy fade-up">
+          <span class="eyebrow" data-i18n="sa_fungerar.hero.eyebrow">SÅ FUNGERAR DET</span>
+          <h1 data-i18n-html="sa_fungerar.hero.h1">Från Foodora-beroende<br><span class="hl">till eget system</span> — på dagar.</h1>
+          <p class="hero-sub" data-i18n="sa_fungerar.hero.sub">Vi sköter all teknik. Du fokuserar på maten. Här är exakt hur vi tar din restaurang från första samtalet till live på nätet — utan att du behöver lyfta ett finger.</p>
+          <div class="hero-ctas">
+            <a href="kontakt.html" class="btn btn-primary" data-i18n="hero.ctaPrimary">Boka gratis demo</a>
+            <a href="priser.html" class="btn btn-secondary" data-i18n="sa_fungerar.hero.ctaSecondary">Se priser</a>
+          </div>
+        </div>
+
+        <div class="promise-grid">
+          <article class="promise-card fade-up" data-delay="1">
+            <span class="promise-icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </span>
+            <div class="promise-number" data-i18n="sa_fungerar.promise.1.value">5</div>
+            <p class="promise-title" data-i18n="sa_fungerar.promise.1.title">Dagar</p>
+            <p class="promise-sub" data-i18n="sa_fungerar.promise.1.text">till din restaurang är live</p>
+          </article>
+          <article class="promise-card fade-up" data-delay="2">
+            <span class="promise-icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 4.6 8 3.4a3.5 3.5 0 0 0-5 5l1.2 1.2M14.8 19.4l1.2 1.2a3.5 3.5 0 0 0 5-5l-1.2-1.2M8.5 15.5l7-7"/><path d="M2 2l20 20"/></svg>
+            </span>
+            <div class="promise-number" data-i18n="sa_fungerar.promise.2.value">0</div>
+            <p class="promise-title" data-i18n="sa_fungerar.promise.2.title">Mellanhänder</p>
+            <p class="promise-sub" data-i18n="sa_fungerar.promise.2.text">mellan dig och kunden</p>
+          </article>
+          <article class="promise-card fade-up" data-delay="3">
+            <span class="promise-icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M3 7l2.4-3.4A1.5 1.5 0 0 1 6.6 3H17a1 1 0 0 1 1 1v3"/><circle cx="16.5" cy="13" r="1.5"/></svg>
+            </span>
+            <div class="promise-number" data-i18n="sa_fungerar.promise.3.value">100%</div>
+            <p class="promise-title" data-i18n="sa_fungerar.promise.3.title">Av intäkterna</p>
+            <p class="promise-sub" data-i18n="sa_fungerar.promise.3.text">är dina att behålla</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head fade-up">
+          <span class="eyebrow" data-i18n="sa_fungerar.onboarding.eyebrow">ONBOARDING</span>
+          <h2 class="section-title" data-i18n="sa_fungerar.onboarding.h2">Från första samtal till live — i 5 steg</h2>
+          <p class="section-sub" data-i18n="sa_fungerar.onboarding.sub">En genomgång av exakt vad som händer mellan att du skriver på och att din första order trillar in.</p>
+        </div>
+
+        <div class="timeline">
+          <article class="timeline-step fade-up" data-delay="1">
+            <div class="timeline-number">01</div>
+            <div class="timeline-content">
+              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step1.badge">Detta gör vi</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step1.title">Vi klonar din mall</h3>
+              <p data-i18n="sa_fungerar.onboarding.step1.body">Vi tar vår beprövade Amoora-mall och klonar den för din restaurang. Vi lägger in ditt namn, din adress, dina färger och din logotyp. En timme — och din unika instans existerar.</p>
+            </div>
+          </article>
+
+          <article class="timeline-step timeline-step--reverse fade-up" data-delay="2">
+            <div class="timeline-number">02</div>
+            <div class="timeline-content">
+              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step2.badge">Detta gör vi</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step2.title">Vi sätter upp din databas</h3>
+              <p data-i18n="sa_fungerar.onboarding.step2.body">Vi skapar ett dedikerat Supabase-projekt för just din restaurang. All din kunddata, dina menyer och dina ordrar bor i ett system du själv äger. Inga delade databaser. Inga mellanhänder.</p>
+            </div>
+          </article>
+
+          <article class="timeline-step fade-up" data-delay="3">
+            <div class="timeline-number">03</div>
+            <div class="timeline-content">
+              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step3.badge">Detta gör vi</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step3.title">Vi designar din beställningssida</h3>
+              <p data-i18n="sa_fungerar.onboarding.step3.body">Vi laddar in hela din meny, kategoriserar rätterna, sätter priser, lägger in bilder och beskrivningar. Resultat: en proffsig beställningssida som speglar din restaurang — inte en generisk plattformsmall.</p>
+            </div>
+          </article>
+
+          <article class="timeline-step timeline-step--reverse fade-up" data-delay="4">
+            <div class="timeline-number">04</div>
+            <div class="timeline-content">
+              <span class="timeline-badge timeline-badge--muted" data-i18n="sa_fungerar.onboarding.step4.badge">Detta gör du</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step4.title">Du köper en Sunmi-terminal</h3>
+              <p data-i18n="sa_fungerar.onboarding.step4.body">Du köper en Sunmi-terminal (V2s eller V3H, cirka 3 200 kr) med inbyggd kvittoskrivare. Vi guidar dig genom uppsättningen på distans. När den är ansluten skrivs varje ny order ut automatiskt i ditt kök — precis som med Foodora.</p>
+            </div>
+          </article>
+
+          <article class="timeline-step fade-up" data-delay="5">
+            <div class="timeline-number">05</div>
+            <div class="timeline-content">
+              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step5.badge">Tillsammans</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step5.title">Test, lansering och överlämning</h3>
+              <p data-i18n="sa_fungerar.onboarding.step5.body">Vi gör en testbeställning från start till kvittoutskrift tillsammans. När allt rullar smidigt — du är live. Vi finns kvar för support, men systemet är ditt att driva.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="section-card fade-up" data-delay="6">
+          <p class="section-card-label" data-i18n="sa_fungerar.onboarding.cta.label">Vill du se en restaurang som redan kört igenom processen?</p>
+          <a href="index.html#referens" class="link-arrow">
+            <span data-i18n="sa_fungerar.onboarding.cta.link">Se Capri Blue live</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--cream);">
+      <div class="container">
+        <div class="section-head fade-up">
+          <span class="eyebrow" data-i18n="sa_fungerar.features.eyebrow">VAD DU FÅR</span>
+          <h2 class="section-title" data-i18n="sa_fungerar.features.h2">Allt som ingår i ditt Amoora-system</h2>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card fade-up" data-delay="1">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M4 10h16"/></svg>
+            </div>
+            <h3 data-i18n="sa_fungerar.features.1.title">Branded beställningssida</h3>
+            <p data-i18n="sa_fungerar.features.1.body">Din egen beställningssida med din logotyp, dina färger, din meny och din ton. Inga Foodora-banderoller, inga konkurrenter på samma sida. Bara du och din kund.</p>
+          </article>
+
+          <article class="feature-card fade-up" data-delay="2">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M8 18h8M8 13h8M6 3h12v4H6z"/></svg>
+            </div>
+            <h3 data-i18n="sa_fungerar.features.2.title">Onlinebetalning via Stripe</h3>
+            <p data-i18n="sa_fungerar.features.2.body">Kort, Apple Pay, Google Pay — direkt till ditt bankkonto, samma dag. Inga mellanhänder som håller pengarna i 30 dagar. Ingen procentavgift per order utöver Stripes vanliga transaktionsavgift.</p>
+          </article>
+
+          <article class="feature-card fade-up" data-delay="3">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14v5H5z"/><path d="M8 14h8v5H8z"/><path d="M8 9v5"/></svg>
+            </div>
+            <h3 data-i18n="sa_fungerar.features.3.title">Kökssystem med kvittoutskrift</h3>
+            <p data-i18n="sa_fungerar.features.3.body">Varje ny order skrivs automatiskt ut på din Sunmi-terminal i köket. Personalen ser ordern, läser av, lagar maten. Precis samma flöde som Foodora — men utan provisionen.</p>
+          </article>
+
+          <article class="feature-card fade-up" data-delay="4">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M6 6h4v4H6zM14 6h4v4h-4zM6 14h4v4H6zM14 14h4v4h-4z"/></svg>
+            </div>
+            <h3 data-i18n="sa_fungerar.features.4.title">Leverans, avhämtning & dine-in</h3>
+            <p data-i18n="sa_fungerar.features.4.body">Avståndsbaserad leveransavgift, avhämtning från restaurangen, eller äta-här via QR-kod vid bordet. Alla tre flödena ingår — du bestämmer vilka du erbjuder.</p>
+          </article>
+
+          <article class="feature-card fade-up" data-delay="5">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8"/></svg>
+            </div>
+            <h3 data-i18n="sa_fungerar.features.5.title">Adminpanel</h3>
+            <p data-i18n="sa_fungerar.features.5.body">Hantera din meny, ändra priser, sätt öppettider, pausa rätter — allt från en panel. Se all försäljning i realtid. Exportera rapporter för bokföring och momsdeklaration.</p>
+          </article>
+
+          <article class="feature-card fade-up" data-delay="6">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
+            </div>
+            <h3 data-i18n="sa_fungerar.features.6.title">Compliance & kvitton</h3>
+            <p data-i18n="sa_fungerar.features.6.body">Automatiska orderbekräftelser till kund och kök. Korrekt momshantering med den sänkta matmomsen på 6 % på avhämtning/leverans. Kvitton som ditt bokföringsprogram älskar.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-head section-head--center fade-up">
+          <h2 class="section-title" data-i18n="sa_fungerar.customer.h2">Så enkelt blir det för dina kunder</h2>
+          <p class="section-sub" data-i18n="sa_fungerar.customer.sub">Lika smidigt som Foodora — men det är din restaurang de möter, inte en plattform.</p>
+        </div>
+
+        <div class="customer-flow fade-up" data-delay="1">
+          <div class="flow-step">
+            <span class="flow-step-number">1</span>
+            <p data-i18n="sa_fungerar.customer.step1">Kunden hittar din sida (Google, sociala medier, QR-kod)</p>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">
+            <svg width="32" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step-number">2</span>
+            <p data-i18n="sa_fungerar.customer.step2">Väljer rätter från din meny</p>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">
+            <svg width="32" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step-number">3</span>
+            <p data-i18n="sa_fungerar.customer.step3">Betalar med kort, Apple Pay eller Google Pay</p>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">
+            <svg width="32" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step-number">4</span>
+            <p data-i18n="sa_fungerar.customer.step4">Får orderbekräftelse — du får kvittot i köket</p>
+          </div>
+        </div>
+
+        <div class="phone-mock fade-up" data-delay="2" aria-hidden="true">
+          <div class="phone-mock-screen">
+            <div class="phone-mock-header"></div>
+            <div class="phone-mock-content">
+              <span class="phone-mock-tag" data-i18n="sa_fungerar.customer.mockTitle">Orderbekräftelse</span>
+              <div class="phone-mock-line"></div>
+              <div class="phone-mock-line short"></div>
+              <div class="phone-mock-card">
+                <span data-i18n="sa_fungerar.customer.mockOrder">Ny order</span>
+                <span>298 kr</span>
+              </div>
+              <div class="phone-mock-card soft">
+                <span data-i18n="sa_fungerar.customer.mockItem">2× Pizza Margherita</span>
+                <span>236 kr</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--cream);">
+      <div class="container">
+        <div class="section-head fade-up">
+          <h2 class="section-title" data-i18n="sa_fungerar.viral.h2">Och varje order blir en säljare</h2>
+          <p class="section-sub" data-i18n="sa_fungerar.viral.body">Varje orderbekräftelse och varje sidfot bär 'Drivs av Amoora'. Restaurangägare beställer mat hela tiden — och varje gång de ser en proffsig Amoora-upplevelse vill de också ha det. Din kundanskaffning växer av sig själv.</p>
+        </div>
+
+        <div class="mini-viral-card fade-up" data-delay="1">
+          <span class="viral-badge" aria-hidden="true">Drivs av Amoora ↗</span>
+          <p class="viral-note" data-i18n="sa_fungerar.viral.link">Läs mer om tillväxtmotorn →</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container hardware-grid">
+        <div class="hardware-copy fade-up">
+          <h3 data-i18n="sa_fungerar.hardware.h3">Hårdvaran du behöver</h3>
+          <p data-i18n="sa_fungerar.hardware.body">En Sunmi-terminal (V2s eller V3H) med inbyggd kvittoskrivare räcker. Kostar runt 3 200 kr engångskostnad och köps direkt från Logiscenter — vi har förhandlat fram volympriser så att du får ett bra pris. Vi guidar uppsättningen på distans via video.</p>
+          <ul class="hardware-list">
+            <li data-i18n="sa_fungerar.hardware.bullet1">Allt-i-ett terminal med skrivare</li>
+            <li data-i18n="sa_fungerar.hardware.bullet2">WiFi och 4G — fungerar var som helst</li>
+            <li data-i18n="sa_fungerar.hardware.bullet3">Vi guidar installationen på distans</li>
+          </ul>
+        </div>
+        <div class="hardware-visual fade-up" data-delay="2" aria-hidden="true">
+          <div class="terminal-illustration"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="support-band">
+      <div class="container support-inner fade-up">
+        <div>
+          <h3 data-i18n="sa_fungerar.support.h3">Vi finns kvar efter lanseringen</h3>
+        </div>
+        <div>
+          <p data-i18n="sa_fungerar.support.body">E-postsupport ingår alltid. Telefon- och videosupport ingår i Amoora Plus och Pro. Vi tränar din personal, hjälper dig att uppdatera menyer och finns där när du behöver oss.</p>
+          <a href="priser.html" class="link-arrow" data-i18n="sa_fungerar.support.cta">Se planer & support →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head fade-up">
+          <span class="eyebrow" data-i18n="sa_fungerar.faq.eyebrow">VANLIGA FRÅGOR</span>
+          <h2 class="section-title" data-i18n="sa_fungerar.faq.h2">Snabba svar</h2>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item fade-up" data-delay="1">
+            <summary data-i18n="sa_fungerar.faq.q1">Hur lång tid tar det att komma igång?</summary>
+            <p data-i18n="sa_fungerar.faq.a1">Från påskrift till live är det vanligtvis 3–7 dagar, beroende på menyns omfattning och hur snabbt Sunmi-terminalen levereras. Vi gör hela installationen — du fokuserar på maten.</p>
+          </details>
+          <details class="faq-item fade-up" data-delay="2">
+            <summary data-i18n="sa_fungerar.faq.q2">Måste jag lämna Foodora?</summary>
+            <p data-i18n="sa_fungerar.faq.a2">Nej. Amoora ersätter inte Foodora — det kompletterar. Du behåller Foodora för synlighet om du vill, men du driver din egen kanal parallellt och slipper provision på alla direktbeställningar. De flesta av våra kunder ser sina direktbeställningar växa snabbt.</p>
+          </details>
+          <details class="faq-item fade-up" data-delay="3">
+            <summary data-i18n="sa_fungerar.faq.q3">Vad händer om något krånglar?</summary>
+            <p data-i18n="sa_fungerar.faq.a3">Vi har distanssupport via video och telefon. Eftersom systemet är byggt på beprövad teknik (Vercel, Supabase, Stripe) är driftstörningar sällsynta — och när de händer fixar vi dem snabbt.</p>
+          </details>
+        </div>
+
+        <div class="section-card fade-up" data-delay="4">
+          <p class="section-card-label" data-i18n="sa_fungerar.faq.cta.label">Vill du ha fler svar innan du bokar?</p>
+          <a href="priser.html#faq" class="link-arrow">
+            <span data-i18n="sa_fungerar.faq.cta.link">Se alla vanliga frågor på priser-sidan →</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--coral">
+      <div class="container final-cta">
+        <h2 class="fade-up" data-i18n="sa_fungerar.final.h2">Redo att se hur ditt system skulle se ut?</h2>
+        <p class="fade-up" data-i18n="sa_fungerar.final.sub">Boka en gratis 20-minuters demo så går vi igenom hur Amoora skulle fungera för just din restaurang.</p>
+        <form class="cta-form fade-up" novalidate>
+          <label for="demoEmail" class="sr-only" data-i18n="sa_fungerar.final.placeholder">Din e-postadress</label>
+          <input type="email" id="demoEmail" name="email" placeholder="Din e-postadress" data-i18n-placeholder="sa_fungerar.final.placeholder">
+          <button type="submit" class="btn btn-ghost-light" data-i18n="sa_fungerar.final.btn">Boka demo</button>
+        </form>
+        <p class="cta-phone fade-up">
+          <span data-i18n="sa_fungerar.final.phone">Eller ring oss direkt:</span>
+          <a href="tel:+46101850001">+46 10 185 00 01</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/images/logo-full.png" alt="Amoora" height="40">
+          <p class="footer-tagline" data-i18n="footer.tagline">Äg ditt eget beställningssystem. Noll provision.</p>
+          <p class="footer-lynkrr" data-i18n="footer.lynkrr">En produkt av Lynkrr AB</p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.product">Produkt</h4>
+          <ul>
+            <li><a href="sa-fungerar-det.html" data-i18n="footer.how">Så fungerar det</a></li>
+            <li><a href="priser.html" data-i18n="footer.pricing">Priser</a></li>
+            <li><a href="kontakt.html" data-i18n="footer.demo">Boka demo</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.resources">Resurser</h4>
+          <ul>
+            <li><a href="blogg.html" data-i18n="footer.blog">Blogg</a></li>
+            <li><a href="priser.html#faq" data-i18n="footer.faq">Vanliga frågor</a></li>
+            <li><a href="kontakt.html" data-i18n="footer.contact">Kontakt</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-contact">
+          <h4 data-i18n="footer.contactTitle">Kontakt</h4>
+          <a href="mailto:info@amoora.se">info@amoora.se</a>
+          <a href="tel:+46101850001">+46 10 185 00 01</a>
+          <div class="social-row">
+            <a href="https://www.instagram.com/amoora.se/" target="_blank" rel="noopener" aria-label="Följ Amoora på Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+            </a>
+            <a href="https://www.facebook.com/amooraapp" target="_blank" rel="noopener" aria-label="Följ Amoora på Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span data-i18n="footer.rights">© 2026 Amoora. Alla rättigheter förbehållna.</span>
+        <nav aria-label="Juridiskt">
+          <a href="#" data-i18n="footer.privacy">Integritetspolicy</a>
+          <a href="#" data-i18n="footer.terms">Villkor</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
+

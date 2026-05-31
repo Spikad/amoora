@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Räknare — Hur mycket förlorar du på Foodora? | Amoora</title>
+  <meta name="description" content="Räkna live på 30 sekunder. Två frågor, sju svar. Se exakt hur mycket din restaurang förlorar till Foodora — och när Amoora betalar tillbaka sig.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Amoora">
+  <meta property="og:title" content="Räknare — Hur mycket förlorar du på Foodora? | Amoora">
+  <meta property="og:description" content="Räkna live på 30 sekunder. Två frågor, sju svar. Se exakt hur mycket din restaurang förlorar till Foodora — och när Amoora betalar tillbaka sig.">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Amoora — startsida">
+        <img src="assets/images/logo-full.png" alt="Amoora" height="44">
+      </a>
+
+      <nav class="main-nav" aria-label="Huvudmeny">
+        <ul>
+          <li><a href="index.html" class="nav-link" data-i18n="nav.home">Hem</a></li>
+          <li><a href="sa-fungerar-det.html" class="nav-link" data-i18n="nav.how">Så fungerar det</a></li>
+          <li><a href="raknare.html" class="nav-link is-active" data-i18n="nav.raknare">Räknare</a></li>
+          <li><a href="priser.html" class="nav-link" data-i18n="nav.pricing">Priser</a></li>
+          <li><a href="kontakt.html" class="nav-link" data-i18n="nav.contact">Kontakt</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-toggle" role="group" aria-label="Språk / Language">
+          <button type="button" class="lang-opt is-active" data-lang="sv" aria-pressed="true">SV</button>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <button type="button" class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a href="kontakt.html" class="btn btn-primary btn-sm header-cta" data-i18n="cta.bookDemo">Boka demo</a>
+
+        <button type="button" class="hamburger" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobileDrawer">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" style="background:var(--cream);padding-block:4.5rem;">
+      <div class="container" style="max-width:900px;margin:0 auto;text-align:center;">
+        <span class="eyebrow" style="color:var(--coral);font-weight:700;letter-spacing:0.08em;">RÄKNARE</span>
+        <h1 style="margin-top:0.75rem;font-size:2rem;">Hur mycket förlorar din restaurang just nu?</h1>
+        <p class="section-sub" style="margin-top:0.75rem;">Två frågor. Sju svar. Räkna live på 30 sekunder och se exakt vad du betalar i provision — och när Amoora betalar tillbaka sig.</p>
+      </div>
+    </section>
+
+    <!-- Calculator section copied from index -->
+    <section class="section calculator-section">
+      <div class="container">
+        <div class="section-head section-head--center fade-up">
+          <span class="eyebrow" data-i18n="calculator.label">LIVE-RÄKNARE</span>
+          <h2 class="section-title" data-i18n="calculator.title">Räkna live på 30 sekunder.</h2>
+          <p class="section-sub" data-i18n="calculator.sub">Två frågor. Sju svar. Se exakt hur mycket din restaurang förlorar varje månad — och när du blir fri.</p>
+        </div>
+
+        <div class="calculator-scenarios fade-up" data-delay="1">
+          <button type="button" class="calculator-scenario is-selected" data-preset="small" aria-pressed="true">
+            <span class="scenario-icon" aria-hidden="true">...</span>
+            <strong data-i18n="calculator.scenario.small">Liten pizzeria</strong>
+            <span data-i18n="calculator.scenario.smallMeta">50 ordrar/v · 130 kr</span>
+          </button>
+          <button type="button" class="calculator-scenario" data-preset="medium" aria-pressed="false">
+            <span class="scenario-icon" aria-hidden="true">...</span>
+            <strong data-i18n="calculator.scenario.medium">Medel pizzeria</strong>
+            <span data-i18n="calculator.scenario.mediumMeta">150 ordrar/v · 150 kr</span>
+          </button>
+          <button type="button" class="calculator-scenario" data-preset="large" aria-pressed="false">
+            <span class="scenario-icon" aria-hidden="true">...</span>
+            <strong data-i18n="calculator.scenario.large">Stor pizzeria</strong>
+            <span data-i18n="calculator.scenario.largeMeta">350 ordrar/v · 170 kr</span>
+          </button>
+        </div>
+
+        <div class="calculator-inputs fade-up" data-delay="2">
+          <article class="calculator-card">
+            <h3 data-i18n="calculator.input.orders.title">Beställningar per vecka via plattformar</h3>
+            <div class="calculator-value" id="calcOrdersValue">100</div>
+            <input id="calcOrders" type="range" min="0" max="500" step="10" value="100" aria-valuemin="0" aria-valuemax="500" aria-valuenow="100" aria-label="Beställningar per vecka" data-i18n-aria="calculator.input.orders.title">
+            <p class="calculator-note" data-i18n="calculator.input.orders.note">Foodora, Wolt, eller liknande</p>
+          </article>
+
+          <article class="calculator-card">
+            <h3 data-i18n="calculator.input.avg.title">Snittordervärde (kr)</h3>
+            <div class="calculator-value" id="calcAvgValue">150 kr</div>
+            <input id="calcAvg" type="range" min="80" max="400" step="5" value="150" aria-valuemin="80" aria-valuemax="400" aria-valuenow="150" aria-label="Snittordervärde" data-i18n-aria="calculator.input.avg.title">
+            <p class="calculator-note" data-i18n="calculator.input.avg.note">Typiskt 130-170 kr för pizza i Sverige</p>
+          </article>
+        </div>
+
+        <div class="calculator-advanced fade-up" data-delay="3">
+          <button type="button" class="calculator-advanced-toggle" aria-expanded="false" id="calcAdvancedToggle" data-i18n="calculator.advanced.toggle">Avancerat: justera provision %</button>
+          <div class="calculator-advanced-panel" id="calcAdvancedPanel">
+            <label for="calcCommission" class="calculator-slider-label" data-i18n="calculator.advanced.title">Plattformens provision %</label>
+            <div class="calculator-value calculator-value--small"><span id="calcCommissionValue">30</span>%</div>
+            <input id="calcCommission" type="range" min="20" max="35" step="1" value="30" aria-valuemin="20" aria-valuemax="35" aria-valuenow="30" aria-label="Plattformens provision" data-i18n-aria="calculator.advanced.title">
+          </div>
+        </div>
+
+        <div class="calculator-results fade-up" data-delay="4" aria-live="polite">
+          <article class="calculator-main-result">
+            <span class="calculator-result-label" data-i18n="calculator.results.lostLabel">DU FÖRLORAR JUST NU</span>
+            <div class="calculator-main-value" id="calcYearlyValue">0 kr</div>
+            <p class="calculator-main-sub" id="calcYearlySub" data-i18n="calculator.results.lostSub">kronor per år till Foodora</p>
+            <p class="calculator-result-meta" id="calcPerLine">Per månad: 0 kr · Per dag: 0 kr · Per minut: 0 kr</p>
+            <p class="calculator-ticker" id="calcTicker" data-i18n="calculator.tickerText">Sedan du öppnade den här sidan har du förlorat 0 kr till Foodora...</p>
+          </article>
+
+          <div class="calculator-bento">
+            <article class="calculator-card calculator-card--white">
+              <span class="calculator-card-label" data-i18n="calculator.breakpoint.label">BRYTPUNKT</span>
+              <div class="calculator-card-value" id="calcPaybackDays">—</div>
+              <p class="calculator-card-note" data-i18n="calculator.breakpoint.note">dagar tills Amoora betalat tillbaka sig</p>
+            </article>
+            <article class="calculator-card calculator-card--coral">
+              <span class="calculator-card-label calculator-card-label--light" data-i18n="calculator.freedom.label">DITT FRIHETSDATUM</span>
+              <div class="calculator-card-value calculator-card-value--white" id="calcFreedomDate">—</div>
+              <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.freedom.note">Från detta datum är du 100% provisionsfri</p>
+            </article>
+            <article class="calculator-card calculator-card--ink calculator-card--wide">
+              <span class="calculator-card-label calculator-card-label--light" data-i18n="calculator.equivalent.label">DET ÄR LIKA MED</span>
+              <div class="calculator-equivalents">
+                <div>
+                  <div class="calculator-card-value" id="calcOvens">0</div>
+                  <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.equivalent.oven">pizzaugnar</p>
+                </div>
+                <div>
+                  <div class="calculator-card-value" id="calcEmployees">0</div>
+                  <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.equivalent.employee">heltidsanställda</p>
+                </div>
+                <div>
+                  <div class="calculator-card-value" id="calcVacations">0</div>
+                  <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.equivalent.vacation">familjesemestrar</p>
+                </div>
+              </div>
+              <p class="calculator-card-small calculator-card-small--light" data-i18n="calculator.equivalent.note">Allt detta — borta. Varje år. Till Foodora.</p>
+            </article>
+          </div>
+
+          <section class="calculator-chart">
+            <div class="calculator-chart-head">
+              <span data-i18n="calculator.chart.title">Årlig kostnad: tre alternativ</span>
+            </div>
+            <div class="chart-row">
+              <div class="chart-row-label" data-i18n="calculator.chart.foodora">Foodora (30% provision)</div>
+              <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--foodora" id="barFoodora"></div></div>
+              <div class="chart-row-value" id="chartFoodoraValue">0 kr</div>
+            </div>
+            <div class="chart-row">
+              <div class="chart-row-label" data-i18n="calculator.chart.wolt">Wolt (25% provision)</div>
+              <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--wolt" id="barWolt"></div></div>
+              <div class="chart-row-value" id="chartWoltValue">0 kr</div>
+            </div>
+            <div class="chart-row">
+              <div class="chart-row-label" data-i18n="calculator.chart.amoora">Amoora (engångskostnad)</div>
+              <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--amoora" id="barAmoora"></div></div>
+              <div class="chart-row-value" id="chartAmooraValue">40 940 kr (år 1) · 5 940 kr/år</div>
+            </div>
+          </section>
+        </div>
+
+        <section class="calculator-share fade-up" data-delay="5">
+          <div class="calculator-share-row">
+            <div class="calculator-share-panel">
+              <h3 data-i18n="calculator.share.title">Skicka resultatet till dig själv</h3>
+              <form class="calculator-share-form" id="calcShareForm">
+                <label for="calcEmail" class="sr-only" data-i18n="calculator.share.placeholder">Din e-postadress</label>
+                <input id="calcEmail" type="email" class="calculator-share-input" placeholder="Din e-postadress" data-i18n-placeholder="calculator.share.placeholder" aria-label="Din e-postadress">
+                <button type="submit" class="btn btn-secondary calculator-share-submit" data-i18n="calculator.share.button">Skicka resultat</button>
+              </form>
+              <div class="calculator-toast" id="calcToast" aria-live="polite"></div>
+            </div>
+            <div class="calculator-share-cta">
+              <a href="kontakt.html" class="btn btn-primary btn-block" data-i18n="calculator.share.ctaHeading">Sluta blöda. Boka demo nu →</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Context strip: trust cards -->
+    <section class="section">
+      <div class="container">
+        <div class="trust-cards">
+          <div class="trust-card">✓ Räknaren bygger på riktiga Foodora-siffror (25-35%)</div>
+          <div class="trust-card">✓ Resultaten är genomsnitt — din situation kan variera</div>
+          <div class="trust-card">✓ Boka en demo så gör vi en exakt beräkning för din restaurang</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section" style="background:var(--coral);color:var(--white);padding-block:3.5rem;margin-top:2rem;">
+      <div class="container" style="text-align:center;">
+        <h2 style="margin:0 0 0.5rem 0;">Övertygad? Nästa steg är 20 minuter.</h2>
+        <p style="margin:0 0 1rem 0;">Boka demo så går vi igenom resultatet tillsammans och visar systemet live.</p>
+        <a href="kontakt.html" class="btn btn-ghost-light">Boka demo →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer (reuse new structure) -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid footer-grid--5">
+        <div class="footer-col footer-brand">
+          <img src="assets/images/logo-full.png" alt="Amoora" height="40">
+          <p class="footer-tagline">Äg ditt eget beställningssystem. Noll provision.</p>
+          <p class="footer-lynkrr">En produkt av Lynkrr AB</p>
+        </div>
+        <div class="footer-col">
+          <h4>Produkt</h4>
+          <ul>
+            <li><a href="index.html">Hem</a></li>
+            <li><a href="sa-fungerar-det.html">Så fungerar det</a></li>
+            <li><a href="raknare.html">Räknare</a></li>
+            <li><a href="priser.html">Priser</a></li>
+            <li><a href="kontakt.html">Boka demo</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-blog">
+          <h4 style="border-bottom:4px solid var(--coral);display:inline-block;padding-bottom:6px;">Blogg</h4>
+          <ul>
+            <li><a href="blogg.html">Alla artiklar</a></li>
+            <li><a href="blogg-1-dolda-kostnaden.html">Den dolda kostnaden</a></li>
+            <li><a href="blogg-2-foodora-vs-wolt-jamforelse.html">Foodora vs Wolt</a></li>
+            <li><a href="blogg-3-digitalisera-pizzeria-vecka.html">Digitalisera på en vecka</a></li>
+            <li><a href="blogg-4-roi-amoora.html">Räkna ut din ROI</a></li>
+            <li><a href="blogg-5-matmoms-capri-blue.html">Matmoms-fönstret</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resurser</h4>
+          <ul>
+            <li><a href="priser.html#faq">Vanliga frågor</a></li>
+            <li><a href="#">Integritetspolicy</a></li>
+            <li><a href="#">Villkor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-contact">
+          <h4>Kontakt</h4>
+          <a href="tel:+46101850001">+46 10 185 00 01</a>
+          <a href="mailto:info@amoora.se">info@amoora.se</a>
+          <div class="social-row">
+            <a href="https://www.instagram.com/amoora.se/" target="_blank" rel="noopener" aria-label="Följ Amoora på Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+            </a>
+            <a href="https://www.facebook.com/amooraapp" target="_blank" rel="noopener" aria-label="Följ Amoora på Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Amoora. Alla rättigheter förbehållna.</span>
+        <nav aria-label="Juridiskt">
+          <a href="#">Integritetspolicy</a>
+          <a href="#">Villkor</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
