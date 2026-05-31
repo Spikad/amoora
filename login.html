@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Logga in — Amoora</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (CDN) + brand config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            coral: "#EA7056",
+            "coral-dark": "#D85B40",
+            "coral-soft": "#FBE4DD",
+            ink: "#1C1B1A",
+            "ink-soft": "#2B2A28",
+            cream: "#FFF9F6",
+            graytext: "#6B6764",
+            bordersoft: "#EFE9E5"
+          },
+          fontFamily: {
+            display: ["'Space Grotesk'", "sans-serif"],
+            body: ["'Inter'", "sans-serif"]
+          },
+          borderRadius: {
+            card: "24px",
+            btn: "14px"
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Runtime config (must load before the module that reads window.AMOORA_CONFIG) -->
+  <script src="js/site-config.js"></script>
+
+  <style>
+    /* --- login page (scoped) --- */
+    .auth-topbar {
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+    .auth-topbar-inner {
+      display: flex;
+      align-items: center;
+      height: 72px;
+    }
+    .auth-topbar img { height: 40px; width: auto; }
+
+    .auth-wrap {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      place-items: center;
+      padding: 3rem 1.5rem;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      padding: clamp(1.75rem, 4vw, 2.5rem);
+    }
+    .auth-card h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .auth-card .auth-sub {
+      color: var(--gray);
+      margin-top: 0.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .field { margin-bottom: 1.25rem; }
+    .field label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .form-control {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 0.85rem 1rem;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--ink);
+      background: var(--white);
+      transition: border-color var(--dur) var(--ease);
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--coral);
+    }
+    .auth-error {
+      display: none;
+      background: rgba(224, 106, 106, 0.1);
+      border: 1px solid rgba(224, 106, 106, 0.35);
+      color: #B83A2E;
+      border-radius: var(--radius-btn);
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+    .auth-error.is-visible { display: block; }
+  </style>
+</head>
+
+<body>
+  <header class="auth-topbar">
+    <div class="container auth-topbar-inner">
+      <a href="index.html" aria-label="Amoora — startsida">
+        <img src="assets/images/logo-full.png" alt="Amoora">
+      </a>
+    </div>
+  </header>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1>Logga in</h1>
+      <p class="auth-sub">Logga in för att hantera bokningar och kunder.</p>
+
+      <div class="auth-error" id="authError" role="alert"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">E-post</label>
+          <input class="form-control" type="email" id="email" name="email"
+                 autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">Lösenord</label>
+          <input class="form-control" type="password" id="password" name="password"
+                 autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Logga in</button>
+      </form>
+    </div>
+  </main>
+
+  <script type="module">
+    import { supabase } from "./js/supabase-client.js";
+
+    const form = document.getElementById("loginForm");
+    const emailEl = document.getElementById("email");
+    const passwordEl = document.getElementById("password");
+    const errorEl = document.getElementById("authError");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.classList.add("is-visible");
+    }
+    function clearError() {
+      errorEl.textContent = "";
+      errorEl.classList.remove("is-visible");
+    }
+
+    // If already signed in, go straight to the dashboard.
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        window.location.href = "admin.html";
+      }
+    } catch (_) {
+      /* ignore — show the login form */
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const email = emailEl.value.trim();
+      const password = passwordEl.value;
+
+      if (!email || !password) {
+        showError("Fyll i både e-post och lösenord.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Loggar in…";
+
+      try {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          showError("Felaktig e-post eller lösenord. Försök igen.");
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          return;
+        }
+        window.location.href = "admin.html";
+      } catch (err) {
+        showError("Något gick fel vid inloggningen. Försök igen om en stund.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  </script>
+</body>
+</html>

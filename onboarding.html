@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SEO -->
+  <title>Onboarding — Bygg ditt Amoora-system | Amoora</title>
+  <meta name="description" content="Du har skrivit på — nu bygger vi ditt system. Fyll i restaurangens uppgifter, varumärke, meny och drift så sätter vårt team igång direkt.">
+  <meta name="robots" content="noindex, follow">
+  <meta property="og:title" content="Onboarding — Bygg ditt Amoora-system">
+  <meta property="og:description" content="Fyll i uppgifterna så börjar vårt team bygga ditt fristående beställningssystem.">
+  <meta property="og:url" content="https://amoora.se/onboarding.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://amoora.se/assets/images/amoora-system-01-hero.png">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (CDN) + brand config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            coral: "#EA7056",
+            "coral-dark": "#D85B40",
+            "coral-soft": "#FBE4DD",
+            ink: "#1C1B1A",
+            "ink-soft": "#2B2A28",
+            cream: "#FFF9F6",
+            graytext: "#6B6764",
+            bordersoft: "#EFE9E5"
+          },
+          fontFamily: {
+            display: ["'Space Grotesk'", "sans-serif"],
+            body: ["'Inter'", "sans-serif"]
+          },
+          borderRadius: {
+            card: "24px",
+            btn: "14px"
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Runtime config (Supabase URL/anon key, FUNCTIONS_BASE, STORAGE_BUCKET) -->
+  <script src="js/site-config.js"></script>
+
+  <!-- Sidspecifika stilar för onboardingformuläret. Bygger på samma
+       designtokens (--coral, --ink, --border, radier) som resten av sajten.
+       Klassnamnen .form-control / .radio-pill matchar kontakt.html. -->
+  <style>
+    .ob-shell { max-width: 880px; margin-inline: auto; }
+
+    /* Ett formuläravsnitt (A–G) som ett mjukt kort */
+    .ob-section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      padding: clamp(1.5rem, 3vw, 2.25rem);
+      margin-bottom: 1.5rem;
+    }
+    .ob-section-head { margin-bottom: 1.5rem; }
+    .ob-section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--coral);
+      background: var(--coral-soft);
+      padding: 0.35rem 0.8rem;
+      border-radius: var(--radius-pill);
+    }
+    .ob-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-top: 0.85rem;
+    }
+    .ob-section p.ob-section-sub {
+      color: var(--gray);
+      margin-top: 0.5rem;
+      line-height: 1.6;
+    }
+
+    /* Fältrutnät */
+    .ob-grid { display: grid; gap: 1.25rem; }
+    .ob-grid--2 { grid-template-columns: 1fr 1fr; }
+    .ob-grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .ob-field--full { grid-column: 1 / -1; }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+    .form-label .req { color: var(--coral); }
+    .form-hint { font-size: 0.85rem; color: var(--gray); margin-top: 0.4rem; line-height: 1.5; }
+
+    /* Textinmatning / textarea / select */
+    .form-control {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 0.85rem 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--ink);
+      background: var(--white);
+      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .form-control::placeholder { color: var(--gray); }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--coral);
+      box-shadow: 0 0 0 3px rgba(234, 112, 86, 0.18);
+    }
+    textarea.form-control { min-height: 120px; resize: vertical; }
+    input[type="file"].form-control { padding: 0.65rem 0.75rem; cursor: pointer; }
+    input[type="color"].form-control { height: 48px; padding: 0.25rem; width: 80px; cursor: pointer; }
+
+    /* Radio- och checkbox-piller */
+    .radio-pill,
+    .check-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+      font-size: 1rem;
+    }
+    .radio-pill:hover,
+    .check-pill:hover { border-color: var(--coral); }
+    .radio-pill input,
+    .check-pill input { width: 1.1rem; height: 1.1rem; accent-color: var(--coral); flex-shrink: 0; }
+    .radio-pill:has(input:checked),
+    .check-pill:has(input:checked) {
+      border-color: var(--coral);
+      background: rgba(234, 112, 86, 0.06);
+    }
+    .pill-stack { display: grid; gap: 0.7rem; }
+
+    fieldset.ob-fieldset { border: none; padding: 0; margin: 0; }
+    fieldset.ob-fieldset legend { font-weight: 600; color: var(--ink); margin-bottom: 0.85rem; padding: 0; }
+
+    /* Honungsfälla — visuellt dold, men inte display:none (för bots) */
+    .ob-hp {
+      position: absolute !important;
+      left: -9999px !important;
+      width: 1px; height: 1px;
+      overflow: hidden;
+    }
+
+    /* Villkorade fält (visas via JS) */
+    .ob-conditional { display: none; }
+    .ob-conditional.is-shown { display: block; }
+
+    /* Subdomän-bygge */
+    .ob-subdomain { display: flex; align-items: center; gap: 0.5rem; }
+    .ob-subdomain input { flex: 1; }
+    .ob-subdomain .ob-subdomain-suffix {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .ob-subdomain-preview { font-size: 0.9rem; color: var(--coral); font-weight: 600; margin-top: 0.5rem; }
+
+    /* Aviseringar (fel / mjuka noteringar) */
+    .ob-alert {
+      border-radius: var(--radius-btn);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .ob-alert--error { background: #FDECEC; border: 1px solid #E7B3B3; color: #8A2B22; }
+    .ob-alert--note { background: var(--coral-soft); border: 1px solid #F0C7BC; color: var(--ink); }
+    .ob-alert[hidden] { display: none; }
+
+    /* Lyckad inlämning */
+    .ob-success {
+      background: var(--white);
+      border: 2px solid var(--coral);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      padding: clamp(2rem, 5vw, 3rem);
+      text-align: center;
+    }
+    .ob-success-mark {
+      width: 64px; height: 64px;
+      margin: 0 auto 1.25rem;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: var(--coral-soft);
+      color: var(--coral);
+    }
+    .ob-success h2 { font-size: 1.75rem; font-weight: 700; }
+    .ob-success p { color: var(--gray); margin-top: 0.85rem; line-height: 1.7; }
+
+    .btn[disabled] { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    @media (max-width: 640px) {
+      .ob-grid--2, .ob-grid--3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Delad header (injiceras av js/partials.js) -->
+  <div data-amoora-header data-active=""></div>
+
+  <main>
+    <!-- Hero -->
+    <section class="section" style="background: var(--cream); padding-block: clamp(3.5rem, 7vw, 5rem) clamp(2rem, 4vw, 3rem);">
+      <div class="container">
+        <div class="ob-shell" style="text-align: center;">
+          <span class="eyebrow">ONBOARDING</span>
+          <h1 style="font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.06; letter-spacing: -0.02em; margin-top: 1.25rem;">
+            Nu bygger vi <span class="hl" style="color: var(--coral);">ditt system</span>
+          </h1>
+          <p class="hero-sub" style="margin: 1.25rem auto 0; max-width: 44rem;">
+            Tack för att du valde Amoora. Fyll i uppgifterna nedan så att vårt team kan bygga
+            ditt eget fristående beställningssystem — anpassat efter din restaurang, ditt
+            varumärke och din meny. Det tar ungefär 10 minuter och du kan fylla i det du har just nu.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulär -->
+    <section class="section" style="padding-block: clamp(2rem, 4vw, 3rem) clamp(4rem, 8vw, 6rem);">
+      <div class="container">
+        <div class="ob-shell">
+
+          <!-- Felmeddelande -->
+          <div class="ob-alert ob-alert--error" id="obError" role="alert" hidden></div>
+          <!-- Mjuk notering (t.ex. om en filuppladdning misslyckades) -->
+          <div class="ob-alert ob-alert--note" id="obNote" role="status" hidden></div>
+
+          <form id="onboardingForm" novalidate>
+
+            <!-- A. Restaurang ----------------------------------------------- -->
+            <section class="ob-section">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow">A · Restaurang</span>
+                <h2>Om din restaurang</h2>
+                <p class="ob-section-sub">Grunduppgifter och vilken plan du har valt.</p>
+              </div>
+
+              <div class="ob-grid ob-grid--2">
+                <div class="ob-field--full">
+                  <label class="form-label" for="restaurantName">Restaurangens namn <span class="req">*</span></label>
+                  <input type="text" id="restaurantName" name="restaurant_name" class="form-control" required placeholder="T.ex. Capri Blue">
+                </div>
+                <div>
+                  <label class="form-label" for="orgNr">Organisationsnummer</label>
+                  <input type="text" id="orgNr" name="org_nr" class="form-control" placeholder="556677-8899">
+                </div>
+                <div>
+                  <label class="form-label" for="contactPerson">Kontaktperson <span class="req">*</span></label>
+                  <input type="text" id="contactPerson" name="contact_person" class="form-control" required placeholder="För- och efternamn">
+                </div>
+                <div>
+                  <label class="form-label" for="contactRole">Roll</label>
+                  <input type="text" id="contactRole" name="contact_role" class="form-control" placeholder="T.ex. Ägare, restaurangchef">
+                </div>
+                <div>
+                  <label class="form-label" for="email">E-post <span class="req">*</span></label>
+                  <input type="email" id="email" name="email" class="form-control" required placeholder="namn@restaurang.se">
+                </div>
+                <div>
+                  <label class="form-label" for="phone">Telefon</label>
+                  <input type="tel" id="phone" name="phone" class="form-control" placeholder="070-123 45 67">
+                </div>
+                <div class="ob-field--full">
+                  <label class="form-label" for="address">Adress</label>
+                  <input type="text" id="address" name="address" class="form-control" placeholder="Gatuadress">
+                </div>
+                <div>
+                  <label class="form-label" for="postalCode">Postnummer</label>
+                  <input type="text" id="postalCode" name="postal_code" class="form-control" placeholder="123 45">
+                </div>
+                <div>
+                  <label class="form-label" for="city">Ort</label>
+                  <input type="text" id="city" name="city" class="form-control" placeholder="Stockholm">
+                </div>
+              </div>
+
+              <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
+                <legend>Vald plan</legend>
+                <div class="pill-stack">
+                  <label class="radio-pill">
+                    <input type="radio" name="plan" value="Basic" checked>
+                    <span>Basic</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="plan" value="Growth">
+                    <span>Growth</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="plan" value="Premium">
+                    <span>Premium</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
+                <legend>Tillval (kryssa i det som gäller)</legend>
+                <div class="pill-stack">
+                  <label class="check-pill">
+                    <input type="checkbox" name="addons" value="Extra Sunmi V2 S-terminal">
+                    <span>Extra Sunmi V2 S-terminal</span>
+                  </label>
+                  <label class="check-pill">
+                    <input type="checkbox" name="addons" value="12 mån hosting förbetalt">
+                    <span>12 mån hosting förbetalt</span>
+                  </label>
+                  <label class="check-pill">
+                    <input type="checkbox" name="addons" value="Anpassad integration">
+                    <span>Anpassad integration</span>
+                  </label>
+                  <label class="check-pill">
+                    <input type="checkbox" name="addons" value="Menymigrering">
+                    <span>Menymigrering</span>
+                  </label>
+                  <label class="check-pill">
+                    <input type="checkbox" name="addons" value="Utbildningssession på plats">
+                    <span>Utbildningssession på plats</span>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+
+            <!-- B. Varumärke ------------------------------------------------- -->
+            <section class="ob-section">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow">B · Varumärke</span>
+                <h2>Ditt varumärke</h2>
+                <p class="ob-section-sub">Logotyp, färger och bilder som gör systemet till ditt.</p>
+              </div>
+
+              <div class="ob-grid">
+                <div>
+                  <label class="form-label" for="logoFile">Logotyp</label>
+                  <input type="file" id="logoFile" name="logo" class="form-control" accept="image/*,.svg,.pdf">
+                  <p class="form-hint">En fil. PNG, SVG eller PDF fungerar bäst.</p>
+                </div>
+
+                <div>
+                  <label class="check-pill" style="max-width: max-content;">
+                    <input type="checkbox" id="useDefaultColors" name="use_default_colors" value="1" checked>
+                    <span>Använd Amoora standardfärger</span>
+                  </label>
+                  <div class="ob-conditional" id="brandColorWrap" style="margin-top: 1rem;">
+                    <label class="form-label" for="brandColor">Primärfärg</label>
+                    <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                      <input type="color" id="brandColorPicker" class="form-control" value="#EA7056" aria-label="Välj primärfärg">
+                      <input type="text" id="brandColor" name="brand_color" class="form-control" style="max-width: 180px;" placeholder="#EA7056">
+                    </div>
+                    <p class="form-hint">Ange din färg som HEX-kod, eller använd färgväljaren.</p>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="form-label" for="photoFiles">Foton</label>
+                  <input type="file" id="photoFiles" name="photos" class="form-control" accept="image/*" multiple>
+                  <p class="form-hint">Bilder på rätter, lokal eller miljö. Flera filer tillåtna.</p>
+                </div>
+
+                <div>
+                  <label class="form-label" for="brandNotes">Varumärkesnoteringar</label>
+                  <textarea id="brandNotes" name="brand_notes" class="form-control" placeholder="Ton, känsla, typsnitt, befintlig grafisk profil..."></textarea>
+                </div>
+              </div>
+            </section>
+
+            <!-- C. Domän & online ------------------------------------------- -->
+            <section class="ob-section">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow">C · Domän & online</span>
+                <h2>Domän och närvaro online</h2>
+                <p class="ob-section-sub">Var ska ditt system ligga, och var finns du redan idag?</p>
+              </div>
+
+              <fieldset class="ob-fieldset">
+                <legend>Webbadress för ditt system</legend>
+                <div class="pill-stack">
+                  <label class="radio-pill">
+                    <input type="radio" name="domain_choice" value="own" id="domainOwn">
+                    <span>Jag har en egen domän</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="domain_choice" value="subdomain" id="domainSub" checked>
+                    <span>Ge mig en adress under amoora.se</span>
+                  </label>
+                </div>
+
+                <div class="ob-conditional" id="ownDomainWrap" style="margin-top: 1.25rem;">
+                  <label class="form-label" for="ownDomain">Egen domän</label>
+                  <input type="text" id="ownDomain" class="form-control" placeholder="t.ex. caprigatan.se">
+                </div>
+
+                <div class="ob-conditional is-shown" id="subDomainWrap" style="margin-top: 1.25rem;">
+                  <label class="form-label" for="subDomain">Önskad adress</label>
+                  <div class="ob-subdomain">
+                    <input type="text" id="subDomain" class="form-control" placeholder="caprblue">
+                    <span class="ob-subdomain-suffix">.amoora.se</span>
+                  </div>
+                  <p class="ob-subdomain-preview" id="subDomainPreview" hidden></p>
+                </div>
+              </fieldset>
+
+              <div class="ob-grid" style="margin-top: 1.5rem;">
+                <div>
+                  <label class="form-label" for="existingWeb">Befintlig webbplats</label>
+                  <input type="text" id="existingWeb" name="existing_web" class="form-control" placeholder="https://...">
+                </div>
+              </div>
+
+              <div class="ob-grid ob-grid--3" style="margin-top: 1.25rem;">
+                <div>
+                  <label class="form-label" for="socialIg">Instagram</label>
+                  <input type="text" id="socialIg" class="form-control" placeholder="@dittkonto">
+                </div>
+                <div>
+                  <label class="form-label" for="socialFb">Facebook</label>
+                  <input type="text" id="socialFb" class="form-control" placeholder="facebook.com/...">
+                </div>
+                <div>
+                  <label class="form-label" for="socialTt">TikTok</label>
+                  <input type="text" id="socialTt" class="form-control" placeholder="@dittkonto">
+                </div>
+              </div>
+            </section>
+
+            <!-- D. Meny ----------------------------------------------------- -->
+            <section class="ob-section">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow">D · Meny</span>
+                <h2>Din meny</h2>
+                <p class="ob-section-sub">Länka din befintliga meny eller ladda upp den — välj det som är enklast.</p>
+              </div>
+
+              <div class="ob-grid">
+                <div>
+                  <label class="form-label" for="menuLink">Länk till din Foodora-meny</label>
+                  <input type="text" id="menuLink" name="menu_link" class="form-control" placeholder="https://www.foodora.se/restaurant/...">
+                  <p class="form-hint">Om du redan finns på Foodora kan vi utgå från din meny där.</p>
+                </div>
+                <div>
+                  <label class="form-label" for="menuFiles">Eller ladda upp din meny</label>
+                  <input type="file" id="menuFiles" name="menu" class="form-control" accept="image/*,application/pdf" multiple>
+                  <p class="form-hint">Bilder eller PDF. Flera filer tillåtna.</p>
+                </div>
+                <div>
+                  <label class="form-label" for="menuNotes">Noteringar om kategorier & varianter</label>
+                  <textarea id="menuNotes" name="menu_notes" class="form-control" placeholder="T.ex. storlekar, tillval, allergener, kategoriindelning..."></textarea>
+                </div>
+              </div>
+            </section>
+
+            <!-- E. Drift ---------------------------------------------------- -->
+            <section class="ob-section">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow">E · Drift</span>
+                <h2>Öppettider och leverans</h2>
+                <p class="ob-section-sub">Hur din verksamhet fungerar i praktiken.</p>
+              </div>
+
+              <fieldset class="ob-fieldset">
+                <legend>Öppettider</legend>
+                <div class="ob-grid ob-grid--3">
+                  <div>
+                    <label class="form-label" for="hoursMon">Måndag</label>
+                    <input type="text" id="hoursMon" class="form-control" placeholder="11–22">
+                  </div>
+                  <div>
+                    <label class="form-label" for="hoursTue">Tisdag</label>
+                    <input type="text" id="hoursTue" class="form-control" placeholder="11–22">
+                  </div>
+                  <div>
+                    <label class="form-label" for="hoursWed">Onsdag</label>
+                    <input type="text" id="hoursWed" class="form-control" placeholder="11–22">
+                  </div>
+                  <div>
+                    <label class="form-label" for="hoursThu">Torsdag</label>
+                    <input type="text" id="hoursThu" class="form-control" placeholder="11–22">
+                  </div>
+                  <div>
+                    <label class="form-label" for="hoursFri">Fredag</label>
+                    <input type="text" id="hoursFri" class="form-control" placeholder="11–23">
+                  </div>
+                  <div>
+                    <label class="form-label" for="hoursSat">Lördag</label>
+                    <input type="text" id="hoursSat" class="form-control" placeholder="12–23">
+                  </div>
+                  <div>
+                    <label class="form-label" for="hoursSun">Söndag</label>
+                    <input type="text" id="hoursSun" class="form-control" placeholder="12–21">
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
+                <legend>Serveringssätt</legend>
+                <div class="pill-stack">
+                  <label class="check-pill">
+                    <input type="checkbox" id="offerPickup" name="offer_pickup" value="1" checked>
+                    <span>Upphämtning</span>
+                  </label>
+                  <label class="check-pill">
+                    <input type="checkbox" id="offerDelivery" name="offer_delivery" value="1">
+                    <span>Leverans</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="ob-conditional" id="deliveryRadiusWrap" style="margin-top: 1.25rem;">
+                <label class="form-label" for="deliveryRadius">Leveransradie</label>
+                <input type="text" id="deliveryRadius" name="delivery_radius" class="form-control" placeholder="T.ex. 5 km">
+              </div>
+
+              <div class="ob-grid ob-grid--2" style="margin-top: 1.5rem;">
+                <div>
+                  <label class="form-label" for="vatHandling">Momshantering</label>
+                  <select id="vatHandling" name="vat_handling" class="form-control">
+                    <option value="6% ta med / leverans" selected>6 % – ta med / leverans</option>
+                    <option value="12% äta här">12 % – äta här</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label" for="terminalAddress">Leveransadress för Sunmi-terminal (om annan)</label>
+                  <input type="text" id="terminalAddress" name="terminal_delivery_address" class="form-control" placeholder="Om terminalen ska skickas till annan adress">
+                </div>
+              </div>
+            </section>
+
+            <!-- F. Betalning ------------------------------------------------ -->
+            <section class="ob-section">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow">F · Betalning</span>
+                <h2>Betalning och utbetalning</h2>
+                <p class="ob-section-sub">Hur pengarna kommer in till dig.</p>
+              </div>
+
+              <fieldset class="ob-fieldset">
+                <legend>Har du ett Stripe-konto?</legend>
+                <div class="pill-stack">
+                  <label class="radio-pill">
+                    <input type="radio" name="has_stripe" value="yes">
+                    <span>Ja</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="has_stripe" value="no">
+                    <span>Nej</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="has_stripe" value="setup_for_me" checked>
+                    <span>Ni sätter upp åt mig</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
+                <legend>Klarna</legend>
+                <label class="check-pill" style="max-width: max-content;">
+                  <input type="checkbox" id="klarnaInterest" name="klarna_interest" value="1">
+                  <span>Jag är intresserad av Klarna som betalsätt</span>
+                </label>
+              </fieldset>
+
+              <div class="ob-grid" style="margin-top: 1.5rem;">
+                <div>
+                  <label class="form-label" for="payoutNotes">Utbetalningsnoteringar</label>
+                  <textarea id="payoutNotes" name="payout_notes" class="form-control" placeholder="Bankuppgifter delas senare via säker kanal — skriv ev. övriga önskemål här."></textarea>
+                </div>
+              </div>
+            </section>
+
+            <!-- G. Övrigt --------------------------------------------------- -->
+            <section class="ob-section">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow">G · Övrigt</span>
+                <h2>Något mer vi bör veta?</h2>
+                <p class="ob-section-sub">Allt som hjälper oss bygga rätt system för dig.</p>
+              </div>
+
+              <div class="ob-grid">
+                <div>
+                  <label class="form-label" for="other">Fritext</label>
+                  <textarea id="other" name="other" class="form-control" placeholder="Önskemål, frågor, särskilda förutsättningar..."></textarea>
+                </div>
+              </div>
+            </section>
+
+            <!-- Honungsfälla — lämna tom (spamfilter) -->
+            <div class="ob-hp" aria-hidden="true">
+              <label for="company">Företag (lämna tomt)</label>
+              <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="obSubmit" style="margin-top: 0.5rem;">
+              Skicka in och börja bygga →
+            </button>
+            <p class="form-hint" style="text-align: center; margin-top: 1rem;">
+              Fält märkta med <span style="color: var(--coral);">*</span> är obligatoriska. Resten kan kompletteras senare.
+            </p>
+          </form>
+
+          <!-- Lyckad inlämning (dold tills submit lyckas) -->
+          <div class="ob-success" id="obSuccess" hidden>
+            <div class="ob-success-mark" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <h2>Tack — vi har tagit emot dina uppgifter och börjar bygga ditt system.</h2>
+            <p>
+              Vårt team går igenom allt du skickat in och hör av sig inom kort med nästa steg.
+              Du behöver inte göra något mer just nu. Har du frågor under tiden — mejla
+              <a href="mailto:info@amoora.se" style="color: var(--coral); font-weight: 600;">info@amoora.se</a>.
+            </p>
+            <a href="index.html" class="btn btn-secondary" style="margin-top: 1.75rem;">Tillbaka till startsidan</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Delad footer (injiceras av js/partials.js) -->
+  <div data-amoora-footer></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Onboardinglogik: filuppladdning till privat storage + POST till Edge Function -->
+  <script type="module">
+    import { supabase, FUNCTIONS_BASE, STORAGE_BUCKET } from "./js/supabase-client.js";
+
+    const cfg = window.AMOORA_CONFIG || {};
+
+    const form        = document.getElementById("onboardingForm");
+    const submitBtn   = document.getElementById("obSubmit");
+    const errorBox    = document.getElementById("obError");
+    const noteBox     = document.getElementById("obNote");
+    const successBox  = document.getElementById("obSuccess");
+
+    /* --- Villkorad UI -------------------------------------------------- */
+
+    // B: Visa primärfärg endast om standardfärger INTE används
+    const useDefaultColors = document.getElementById("useDefaultColors");
+    const brandColorWrap   = document.getElementById("brandColorWrap");
+    const brandColorPicker = document.getElementById("brandColorPicker");
+    const brandColorText   = document.getElementById("brandColor");
+
+    function syncBrandColor() {
+      // Färgväljare och textfält hålls i synk
+      brandColorWrap.classList.toggle("is-shown", !useDefaultColors.checked);
+    }
+    useDefaultColors.addEventListener("change", syncBrandColor);
+    brandColorPicker.addEventListener("input", () => { brandColorText.value = brandColorPicker.value; });
+    brandColorText.addEventListener("input", () => {
+      if (/^#?[0-9a-fA-F]{6}$/.test(brandColorText.value.trim())) {
+        brandColorPicker.value = brandColorText.value.trim().startsWith("#")
+          ? brandColorText.value.trim()
+          : "#" + brandColorText.value.trim();
+      }
+    });
+    syncBrandColor();
+
+    // C: Egen domän vs subdomän
+    const domainOwn      = document.getElementById("domainOwn");
+    const domainSub      = document.getElementById("domainSub");
+    const ownDomainWrap  = document.getElementById("ownDomainWrap");
+    const subDomainWrap  = document.getElementById("subDomainWrap");
+    const subDomainInput = document.getElementById("subDomain");
+    const subDomainPrev  = document.getElementById("subDomainPreview");
+
+    function syncDomain() {
+      const own = domainOwn.checked;
+      ownDomainWrap.classList.toggle("is-shown", own);
+      subDomainWrap.classList.toggle("is-shown", !own);
+    }
+    domainOwn.addEventListener("change", syncDomain);
+    domainSub.addEventListener("change", syncDomain);
+    subDomainInput.addEventListener("input", () => {
+      const v = subDomainInput.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
+      if (v) {
+        subDomainPrev.textContent = "Din adress blir: " + v + ".amoora.se";
+        subDomainPrev.hidden = false;
+      } else {
+        subDomainPrev.hidden = true;
+      }
+    });
+    syncDomain();
+
+    // E: Leveransradie visas endast om leverans är vald
+    const offerDelivery     = document.getElementById("offerDelivery");
+    const deliveryRadiusWrap = document.getElementById("deliveryRadiusWrap");
+    function syncDelivery() {
+      deliveryRadiusWrap.classList.toggle("is-shown", offerDelivery.checked);
+    }
+    offerDelivery.addEventListener("change", syncDelivery);
+    syncDelivery();
+
+    /* --- Hjälpfunktioner ----------------------------------------------- */
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.hidden = false;
+      errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    function clearAlerts() {
+      errorBox.hidden = true;
+      noteBox.hidden = true;
+    }
+    function showNote(msg) {
+      noteBox.textContent = msg;
+      noteBox.hidden = false;
+    }
+
+    // Laddar upp en fil till privat storage och returnerar object-PATH (ej publik URL).
+    // Kastar vidare fel så att anroparen kan hantera dem mjukt.
+    async function uploadFile(file) {
+      const path = crypto.randomUUID() + "/" + file.name.replace(/[^\w.\-]/g, "_");
+      const { error } = await supabase.storage
+        .from(STORAGE_BUCKET)
+        .upload(path, file, { upsert: false });
+      if (error) throw error;
+      return path; // spara PATH-strängen, inte publik URL (bucket är privat)
+    }
+
+    // Laddar upp en lista filer. Returnerar { paths, failed } så att en
+    // misslyckad uppladdning inte stoppar hela inlämningen.
+    async function uploadMany(files) {
+      const paths = [];
+      let failed = 0;
+      for (const file of files) {
+        try {
+          paths.push(await uploadFile(file));
+        } catch (e) {
+          console.warn("Uppladdning misslyckades för", file.name, e);
+          failed++;
+        }
+      }
+      return { paths, failed };
+    }
+
+    /* --- Inlämning ------------------------------------------------------ */
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearAlerts();
+
+      // Honungsfälla: om ifylld, avbryt tyst (bot)
+      if (document.getElementById("company").value.trim() !== "") {
+        return;
+      }
+
+      // Obligatoriska fält
+      const restaurantName = document.getElementById("restaurantName").value.trim();
+      const contactPerson  = document.getElementById("contactPerson").value.trim();
+      const email          = document.getElementById("email").value.trim();
+
+      if (!restaurantName || !contactPerson || !email) {
+        showError("Fyll i restaurangens namn, kontaktperson och e-post för att fortsätta.");
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("Ange en giltig e-postadress.");
+        return;
+      }
+
+      // Busy-läge på knappen under uppladdning + POST
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Laddar upp…";
+
+      let uploadFailures = 0;
+
+      try {
+        // --- Filuppladdningar (mjuk felhantering) ---
+        let logo_url = "";
+        const logoInput = document.getElementById("logoFile");
+        if (logoInput.files.length > 0) {
+          try {
+            logo_url = await uploadFile(logoInput.files[0]);
+          } catch (err) {
+            console.warn("Logo-uppladdning misslyckades", err);
+            uploadFailures++;
+          }
+        }
+
+        const photosRes = await uploadMany(document.getElementById("photoFiles").files);
+        const photo_urls = photosRes.paths;
+        uploadFailures += photosRes.failed;
+
+        const menuRes = await uploadMany(document.getElementById("menuFiles").files);
+        const menu_urls = menuRes.paths;
+        uploadFailures += menuRes.failed;
+
+        // --- Samla in övriga fält ---
+        const plan = (form.querySelector('input[name="plan"]:checked') || {}).value || "";
+        const addons = Array.from(form.querySelectorAll('input[name="addons"]:checked')).map((c) => c.value);
+
+        const useDefault = useDefaultColors.checked;
+        const brand_color = useDefault ? "" : brandColorText.value.trim();
+
+        const domainChoice = domainOwn.checked ? "own" : "subdomain";
+        const domainValue = domainChoice === "own"
+          ? document.getElementById("ownDomain").value.trim()
+          : (subDomainInput.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, "")
+              ? subDomainInput.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, "") + ".amoora.se"
+              : "");
+
+        const hasStripe = (form.querySelector('input[name="has_stripe"]:checked') || {}).value || "";
+
+        // --- Bygg payload (snake_case enligt kontrakt) ---
+        const payload = {
+          restaurant_name: restaurantName,
+          org_nr: document.getElementById("orgNr").value.trim(),
+          contact_person: contactPerson,
+          contact_role: document.getElementById("contactRole").value.trim(),
+          email: email,
+          phone: document.getElementById("phone").value.trim(),
+          address: document.getElementById("address").value.trim(),
+          postal_code: document.getElementById("postalCode").value.trim(),
+          city: document.getElementById("city").value.trim(),
+          plan: plan,
+          addons: addons,
+          logo_url: logo_url,
+          brand_color: brand_color,
+          use_default_colors: useDefault,
+          photo_urls: photo_urls,
+          brand_notes: document.getElementById("brandNotes").value.trim(),
+          domain_choice: domainChoice,
+          domain_value: domainValue,
+          existing_web: document.getElementById("existingWeb").value.trim(),
+          social: {
+            instagram: document.getElementById("socialIg").value.trim(),
+            facebook: document.getElementById("socialFb").value.trim(),
+            tiktok: document.getElementById("socialTt").value.trim()
+          },
+          menu_link: document.getElementById("menuLink").value.trim(),
+          menu_urls: menu_urls,
+          menu_notes: document.getElementById("menuNotes").value.trim(),
+          opening_hours: {
+            mon: document.getElementById("hoursMon").value.trim(),
+            tue: document.getElementById("hoursTue").value.trim(),
+            wed: document.getElementById("hoursWed").value.trim(),
+            thu: document.getElementById("hoursThu").value.trim(),
+            fri: document.getElementById("hoursFri").value.trim(),
+            sat: document.getElementById("hoursSat").value.trim(),
+            sun: document.getElementById("hoursSun").value.trim()
+          },
+          offer_pickup: document.getElementById("offerPickup").checked,
+          offer_delivery: offerDelivery.checked,
+          delivery_radius: offerDelivery.checked ? document.getElementById("deliveryRadius").value.trim() : "",
+          vat_handling: document.getElementById("vatHandling").value,
+          terminal_delivery_address: document.getElementById("terminalAddress").value.trim(),
+          has_stripe: hasStripe,
+          klarna_interest: document.getElementById("klarnaInterest").checked,
+          payout_notes: document.getElementById("payoutNotes").value.trim(),
+          other: document.getElementById("other").value.trim(),
+          company: "" // honungsfälla, alltid tom vid äkta inlämning
+        };
+
+        // --- POST till Edge Function ---
+        const res = await fetch(FUNCTIONS_BASE + "/notify-onboarding", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + cfg.SUPABASE_ANON_KEY,
+            "apikey": cfg.SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify(payload)
+        });
+
+        let data = null;
+        try { data = await res.json(); } catch (_) { /* tom/ogiltig body */ }
+
+        if (!res.ok || !data || data.ok !== true) {
+          throw new Error((data && data.error) || ("Servern svarade med status " + res.status));
+        }
+
+        // --- Klart: visa lyckad inlämning ---
+        form.hidden = true;
+        clearAlerts();
+        successBox.hidden = false;
+
+        // Mjuk notering om någon fil inte gick att ladda upp
+        if (uploadFailures > 0) {
+          showNote("Obs: en eller flera filer kunde inte laddas upp just nu, men dina uppgifter är mottagna. Vi hör av oss om vi behöver filerna igen.");
+          noteBox.hidden = false;
+        }
+
+        successBox.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      } catch (err) {
+        console.error("Onboarding misslyckades", err);
+        showError("Något gick fel när uppgifterna skulle skickas. Försök igen, eller mejla oss på info@amoora.se så hjälper vi dig.");
+        // Behåll formuläret så att inget går förlorat
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
+    });
+  </script>
+</body>
+</html>

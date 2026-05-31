@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Adminpanel — Amoora</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (CDN) + brand config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            coral: "#EA7056",
+            "coral-dark": "#D85B40",
+            "coral-soft": "#FBE4DD",
+            ink: "#1C1B1A",
+            "ink-soft": "#2B2A28",
+            cream: "#FFF9F6",
+            graytext: "#6B6764",
+            bordersoft: "#EFE9E5"
+          },
+          fontFamily: {
+            display: ["'Space Grotesk'", "sans-serif"],
+            body: ["'Inter'", "sans-serif"]
+          },
+          borderRadius: {
+            card: "24px",
+            btn: "14px"
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Runtime config (must load before the module that reads window.AMOORA_CONFIG) -->
+  <script src="js/site-config.js"></script>
+
+  <style>
+    /* --- admin page (scoped) --- */
+    .admin-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      height: 72px;
+    }
+    .admin-topbar img { height: 40px; width: auto; }
+    .admin-topbar .who {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    .admin-topbar .who .email { font-weight: 600; color: var(--ink); }
+
+    .btn-outline {
+      background: var(--white);
+      color: var(--ink);
+      border: 1.5px solid var(--border);
+      padding: 11px 20px;
+      font-size: 0.9375rem;
+    }
+    .btn-outline:hover { border-color: var(--coral); color: var(--coral); }
+
+    .admin-main { padding-block: clamp(2rem, 4vw, 3rem) 5rem; }
+
+    .admin-state {
+      max-width: 520px;
+      margin: 4rem auto;
+      text-align: center;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      padding: 2.5rem;
+    }
+    .admin-state h2 { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.75rem; }
+    .admin-state p { color: var(--gray); margin-bottom: 1.5rem; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+    }
+    .tab {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--gray);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 0.85rem 1.1rem;
+      margin-bottom: -1px;
+      cursor: pointer;
+      transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .tab:hover { color: var(--ink); }
+    .tab.is-active { color: var(--coral); border-bottom-color: var(--coral); }
+    .tab .count {
+      display: inline-block;
+      min-width: 1.5rem;
+      margin-left: 0.4rem;
+      padding: 0.05rem 0.45rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--coral);
+      background: var(--coral-soft);
+      border-radius: 999px;
+    }
+
+    .view { display: none; }
+    .view.is-active { display: block; }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: flex-end;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .filter-group label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray);
+    }
+    .select-control {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 0.6rem 0.8rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: var(--white);
+      color: var(--ink);
+    }
+    .select-control:focus { outline: none; border-color: var(--coral); }
+
+    /* Table */
+    .table-wrap {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    .data-table th {
+      text-align: left;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gray);
+      background: var(--cream);
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .data-table tbody tr.row-main { cursor: pointer; transition: background var(--dur) var(--ease); }
+    .data-table tbody tr.row-main:hover { background: var(--cream); }
+    .data-table tbody tr.row-main.is-open { background: var(--coral-soft); }
+    .data-table tr.row-detail > td {
+      background: var(--cream);
+      padding: 1.5rem;
+    }
+    .data-table a.maillink { color: var(--coral-dark); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* Status pill / select */
+    .status-select {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .status-select:focus { outline: none; border-color: var(--coral); }
+    .source-pill {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.2rem 0.6rem;
+      white-space: nowrap;
+    }
+
+    /* Detail panel */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .detail-block {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.1rem 1.25rem;
+    }
+    .detail-block h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--coral);
+      margin-bottom: 0.85rem;
+    }
+    .detail-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 0.75rem;
+      padding: 0.3rem 0;
+      font-size: 0.9rem;
+      align-items: start;
+    }
+    .detail-row dt { color: var(--gray); font-weight: 500; }
+    .detail-row dd { margin: 0; color: var(--ink); word-break: break-word; }
+    .detail-block ul.tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .detail-block ul.tag-list li {
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: var(--coral-soft);
+      color: var(--coral-dark);
+      border-radius: 999px;
+      padding: 0.2rem 0.65rem;
+    }
+    .mini-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 0.25rem; }
+    .mini-table td { padding: 0.25rem 0.5rem 0.25rem 0; vertical-align: top; }
+    .mini-table td:first-child { color: var(--gray); white-space: nowrap; font-weight: 500; }
+    .file-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--coral-dark);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 0.4rem 0.7rem;
+      margin: 0.2rem 0.3rem 0.2rem 0;
+      cursor: pointer;
+      transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    .file-btn:hover { border-color: var(--coral); }
+    .file-btn[disabled] { opacity: 0.6; cursor: default; }
+
+    .empty-state {
+      text-align: center;
+      color: var(--gray);
+      padding: 3.5rem 1.5rem;
+    }
+    .table-error {
+      background: rgba(224, 106, 106, 0.1);
+      border: 1px solid rgba(224, 106, 106, 0.35);
+      color: #B83A2E;
+      border-radius: var(--radius-btn);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+    }
+    .muted { color: var(--gray); }
+
+    @media (max-width: 760px) {
+      .data-table { font-size: 0.82rem; }
+      .data-table th, .data-table td { padding: 0.6rem 0.6rem; }
+      .col-optional { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="admin-topbar">
+    <div class="container admin-topbar-inner">
+      <a href="index.html" aria-label="Amoora — startsida">
+        <img src="assets/images/logo-full.png" alt="Amoora">
+      </a>
+      <div class="who" id="who" hidden>
+        <span class="email" id="whoEmail"></span>
+        <button type="button" class="btn btn-outline" id="signOutBtn">Logga ut</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <div class="container">
+
+      <!-- Loading / auth gate -->
+      <div class="admin-state" id="loadingState">
+        <p class="muted">Laddar…</p>
+      </div>
+
+      <!-- Not authorized -->
+      <div class="admin-state" id="deniedState" hidden>
+        <h2>Du har inte behörighet</h2>
+        <p>Ditt konto har inte tillgång till adminpanelen.</p>
+        <button type="button" class="btn btn-secondary" id="deniedSignOut">Logga ut</button>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="dashboard" hidden>
+        <div class="tabs" role="tablist">
+          <button class="tab is-active" data-view="leads" role="tab">
+            Bokningar / Leads<span class="count" id="leadsCount" hidden></span>
+          </button>
+          <button class="tab" data-view="onboarding" role="tab">
+            Onboardade kunder<span class="count" id="onboardingCount" hidden></span>
+          </button>
+        </div>
+
+        <!-- LEADS VIEW -->
+        <section class="view is-active" id="view-leads">
+          <div class="filters">
+            <div class="filter-group">
+              <label for="leadStatusFilter">Status</label>
+              <select class="select-control" id="leadStatusFilter">
+                <option value="">Alla</option>
+                <option value="new">Ny</option>
+                <option value="contacted">Kontaktad</option>
+                <option value="booked">Bokad</option>
+                <option value="won">Vunnen</option>
+                <option value="lost">Förlorad</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="leadSourceFilter">Källa</label>
+              <select class="select-control" id="leadSourceFilter">
+                <option value="">Alla</option>
+                <option value="contact_form">Kontaktformulär</option>
+                <option value="email_cta">E-post-CTA</option>
+                <option value="calculator">Räknare</option>
+                <option value="newsletter">Nyhetsbrev</option>
+              </select>
+            </div>
+          </div>
+          <div id="leadsContainer"></div>
+        </section>
+
+        <!-- ONBOARDING VIEW -->
+        <section class="view" id="view-onboarding">
+          <div class="filters">
+            <div class="filter-group">
+              <label for="obStatusFilter">Status</label>
+              <select class="select-control" id="obStatusFilter">
+                <option value="">Alla</option>
+                <option value="received">Mottagen</option>
+                <option value="in_progress">Pågående</option>
+                <option value="live">Live</option>
+              </select>
+            </div>
+          </div>
+          <div id="onboardingContainer"></div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import { supabase, STORAGE_BUCKET } from "./js/supabase-client.js";
+
+    /* ----------------------------------------------------------------------
+       Label maps (Swedish)
+       ---------------------------------------------------------------------- */
+    const LEAD_STATUS = {
+      new: "Ny", contacted: "Kontaktad", booked: "Bokad", won: "Vunnen", lost: "Förlorad"
+    };
+    const LEAD_SOURCE = {
+      contact_form: "Kontaktformulär", email_cta: "E-post-CTA",
+      calculator: "Räknare", newsletter: "Nyhetsbrev"
+    };
+    const OB_STATUS = { received: "Mottagen", in_progress: "Pågående", live: "Live" };
+
+    /* ----------------------------------------------------------------------
+       Helpers
+       ---------------------------------------------------------------------- */
+    const esc = (v) => {
+      if (v === null || v === undefined) return "";
+      return String(v)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    };
+    const dash = (v) => (v === null || v === undefined || v === "" ? "—" : v);
+    const fmtDate = (iso) => {
+      if (!iso) return "—";
+      try {
+        return new Date(iso).toLocaleString("sv-SE", {
+          year: "numeric", month: "2-digit", day: "2-digit",
+          hour: "2-digit", minute: "2-digit"
+        });
+      } catch (_) { return iso; }
+    };
+    const labelOr = (map, key) => (key && map[key]) ? map[key] : (key ? key : "—");
+
+    // Coerce a jsonb value that may arrive as array, object, or JSON-string.
+    const asArray = (v) => {
+      if (Array.isArray(v)) return v;
+      if (typeof v === "string" && v.trim()) {
+        try { const p = JSON.parse(v); return Array.isArray(p) ? p : [v]; }
+        catch (_) { return [v]; }
+      }
+      return [];
+    };
+    const asObject = (v) => {
+      if (v && typeof v === "object" && !Array.isArray(v)) return v;
+      if (typeof v === "string" && v.trim()) {
+        try { const p = JSON.parse(v); return (p && typeof p === "object") ? p : null; }
+        catch (_) { return null; }
+      }
+      return null;
+    };
+
+    /* ----------------------------------------------------------------------
+       Auth gate
+       ---------------------------------------------------------------------- */
+    const loadingState = document.getElementById("loadingState");
+    const deniedState = document.getElementById("deniedState");
+    const dashboard = document.getElementById("dashboard");
+    const who = document.getElementById("who");
+    const whoEmail = document.getElementById("whoEmail");
+
+    async function signOut() {
+      try { await supabase.auth.signOut(); } catch (_) {}
+      window.location.href = "login.html";
+    }
+    document.getElementById("signOutBtn").addEventListener("click", signOut);
+    document.getElementById("deniedSignOut").addEventListener("click", signOut);
+
+    let session = null;
+    try {
+      const res = await supabase.auth.getSession();
+      session = res.data.session;
+    } catch (_) { session = null; }
+
+    if (!session) {
+      window.location.href = "login.html";
+    } else {
+      whoEmail.textContent = session.user.email || "";
+
+      // Verify admin membership.
+      let me = null;
+      try {
+        const { data } = await supabase
+          .from("admins").select("id").eq("id", session.user.id).maybeSingle();
+        me = data;
+      } catch (_) { me = null; }
+
+      loadingState.hidden = true;
+
+      if (!me) {
+        who.hidden = false; // still allow signing out
+        deniedState.hidden = false;
+      } else {
+        who.hidden = false;
+        dashboard.hidden = false;
+        initDashboard();
+      }
+    }
+
+    /* ----------------------------------------------------------------------
+       Dashboard
+       ---------------------------------------------------------------------- */
+    function initDashboard() {
+      // Tabs
+      const tabs = document.querySelectorAll(".tab");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          tabs.forEach((t) => t.classList.remove("is-active"));
+          tab.classList.add("is-active");
+          document.querySelectorAll(".view").forEach((v) => v.classList.remove("is-active"));
+          document.getElementById("view-" + tab.dataset.view).classList.add("is-active");
+        });
+      });
+
+      // Filters
+      document.getElementById("leadStatusFilter").addEventListener("change", renderLeads);
+      document.getElementById("leadSourceFilter").addEventListener("change", renderLeads);
+      document.getElementById("obStatusFilter").addEventListener("change", renderOnboarding);
+
+      loadLeads();
+      loadOnboarding();
+    }
+
+    /* ----------------------------------------------------------------------
+       LEADS
+       ---------------------------------------------------------------------- */
+    let leadsData = [];
+    const leadsContainer = document.getElementById("leadsContainer");
+    const leadsCount = document.getElementById("leadsCount");
+
+    async function loadLeads() {
+      leadsContainer.innerHTML = '<p class="muted">Laddar leads…</p>';
+      try {
+        const { data, error } = await supabase
+          .from("leads").select("*").order("created_at", { ascending: false });
+        if (error) throw error;
+        leadsData = data || [];
+        leadsCount.textContent = String(leadsData.length);
+        leadsCount.hidden = false;
+        renderLeads();
+      } catch (err) {
+        leadsContainer.innerHTML =
+          '<div class="table-error">Kunde inte hämta leads. ' + esc(err.message || "") + '</div>';
+      }
+    }
+
+    function renderLeads() {
+      const statusF = document.getElementById("leadStatusFilter").value;
+      const sourceF = document.getElementById("leadSourceFilter").value;
+      const rows = leadsData.filter((l) =>
+        (!statusF || l.status === statusF) && (!sourceF || l.source === sourceF));
+
+      if (!leadsData.length) {
+        leadsContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga leads än</div></div>';
+        return;
+      }
+      if (!rows.length) {
+        leadsContainer.innerHTML =
+          '<div class="table-wrap"><div class="empty-state">Inga leads matchar filtret</div></div>';
+        return;
+      }
+
+      const statusOptions = (sel) => Object.keys(LEAD_STATUS).map((k) =>
+        `<option value="${k}"${k === sel ? " selected" : ""}>${esc(LEAD_STATUS[k])}</option>`).join("");
+
+      let html = '<div class="table-wrap"><table class="data-table"><thead><tr>' +
+        '<th>Datum</th><th>Namn</th><th>Restaurang</th><th>E-post</th>' +
+        '<th class="col-optional">Telefon</th><th>Källa</th>' +
+        '<th class="col-optional">Plan</th><th>Status</th></tr></thead><tbody>';
+
+      rows.forEach((l) => {
+        const mail = l.email
+          ? `<a class="maillink" href="mailto:${esc(l.email)}" onclick="event.stopPropagation()">${esc(l.email)}</a>`
+          : "—";
+        html +=
+          `<tr class="row-main" data-lead="${esc(l.id)}">` +
+            `<td>${esc(fmtDate(l.created_at))}</td>` +
+            `<td>${esc(dash(l.name))}</td>` +
+            `<td>${esc(dash(l.restaurant_name))}</td>` +
+            `<td>${mail}</td>` +
+            `<td class="col-optional">${esc(dash(l.phone))}</td>` +
+            `<td><span class="source-pill">${esc(labelOr(LEAD_SOURCE, l.source))}</span></td>` +
+            `<td class="col-optional">${esc(dash(l.plan_interest))}</td>` +
+            `<td><select class="status-select" data-status-for="${esc(l.id)}" onclick="event.stopPropagation()">` +
+              statusOptions(l.status) + `</select></td>` +
+          `</tr>` +
+          `<tr class="row-detail" data-detail="${esc(l.id)}" hidden><td colspan="8">` +
+            `<div class="detail-grid">` +
+              `<div class="detail-block"><h4>Meddelande</h4><p>${l.message ? esc(l.message) : '<span class="muted">—</span>'}</p></div>` +
+              `<div class="detail-block"><h4>Interna anteckningar</h4><p>${l.notes ? esc(l.notes) : '<span class="muted">—</span>'}</p></div>` +
+              `<div class="detail-block"><h4>Detaljer</h4>` +
+                `<div class="detail-row"><dt>Stad</dt><dd>${esc(dash(l.city))}</dd></div>` +
+                `<div class="detail-row"><dt>Telefon</dt><dd>${esc(dash(l.phone))}</dd></div>` +
+                `<div class="detail-row"><dt>Plan</dt><dd>${esc(dash(l.plan_interest))}</dd></div>` +
+              `</div>` +
+            `</div>` +
+          `</td></tr>`;
+      });
+      html += "</tbody></table></div>";
+      leadsContainer.innerHTML = html;
+
+      // Row expand
+      leadsContainer.querySelectorAll("tr.row-main").forEach((tr) => {
+        tr.addEventListener("click", () => {
+          const id = tr.dataset.lead;
+          const detail = leadsContainer.querySelector(`tr.row-detail[data-detail="${CSS.escape(id)}"]`);
+          if (!detail) return;
+          detail.hidden = !detail.hidden;
+          tr.classList.toggle("is-open", !detail.hidden);
+        });
+      });
+
+      // Status change
+      leadsContainer.querySelectorAll("select[data-status-for]").forEach((sel) => {
+        sel.addEventListener("change", async (e) => {
+          const id = sel.dataset.statusFor;
+          const status = sel.value;
+          const prev = (leadsData.find((l) => String(l.id) === String(id)) || {}).status;
+          sel.disabled = true;
+          try {
+            const { error } = await supabase.from("leads").update({ status }).eq("id", id);
+            if (error) throw error;
+            const item = leadsData.find((l) => String(l.id) === String(id));
+            if (item) item.status = status;
+          } catch (err) {
+            alert("Kunde inte uppdatera status: " + (err.message || "okänt fel"));
+            if (prev !== undefined) sel.value = prev;
+          } finally {
+            sel.disabled = false;
+          }
+        });
+      });
+    }
+
+    /* ----------------------------------------------------------------------
+       ONBOARDING
+       ---------------------------------------------------------------------- */
+    let obData = [];
+    const obContainer = document.getElementById("onboardingContainer");
+    const onboardingCount = document.getElementById("onboardingCount");
+
+    async function loadOnboarding() {
+      obContainer.innerHTML = '<p class="muted">Laddar kunder…</p>';
+      try {
+        const { data, error } = await supabase
+          .from("onboarding_submissions").select("*").order("created_at", { ascending: false });
+        if (error) throw error;
+        obData = data || [];
+        onboardingCount.textContent = String(obData.length);
+        onboardingCount.hidden = false;
+        renderOnboarding();
+      } catch (err) {
+        obContainer.innerHTML =
+          '<div class="table-error">Kunde inte hämta onboardade kunder. ' + esc(err.message || "") + '</div>';
+      }
+    }
+
+    function renderOnboarding() {
+      const statusF = document.getElementById("obStatusFilter").value;
+      const rows = obData.filter((o) => !statusF || o.status === statusF);
+
+      if (!obData.length) {
+        obContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga onboardade kunder än</div></div>';
+        return;
+      }
+      if (!rows.length) {
+        obContainer.innerHTML =
+          '<div class="table-wrap"><div class="empty-state">Inga kunder matchar filtret</div></div>';
+        return;
+      }
+
+      const statusOptions = (sel) => Object.keys(OB_STATUS).map((k) =>
+        `<option value="${k}"${k === sel ? " selected" : ""}>${esc(OB_STATUS[k])}</option>`).join("");
+
+      let html = '<div class="table-wrap"><table class="data-table"><thead><tr>' +
+        '<th>Datum</th><th>Restaurang</th><th>Kontaktperson</th><th>E-post</th>' +
+        '<th class="col-optional">Plan</th><th>Status</th></tr></thead><tbody>';
+
+      rows.forEach((o) => {
+        const mail = o.email
+          ? `<a class="maillink" href="mailto:${esc(o.email)}" onclick="event.stopPropagation()">${esc(o.email)}</a>`
+          : "—";
+        html +=
+          `<tr class="row-main" data-ob="${esc(o.id)}">` +
+            `<td>${esc(fmtDate(o.created_at))}</td>` +
+            `<td>${esc(dash(o.restaurant_name))}</td>` +
+            `<td>${esc(dash(o.contact_person))}</td>` +
+            `<td>${mail}</td>` +
+            `<td class="col-optional">${esc(dash(o.plan))}</td>` +
+            `<td><select class="status-select" data-ob-status-for="${esc(o.id)}" onclick="event.stopPropagation()">` +
+              statusOptions(o.status) + `</select></td>` +
+          `</tr>` +
+          `<tr class="row-detail" data-ob-detail="${esc(o.id)}" hidden><td colspan="6">` +
+            obDetailHtml(o) +
+          `</td></tr>`;
+      });
+      html += "</tbody></table></div>";
+      obContainer.innerHTML = html;
+
+      // Row expand (lazily mint signed URLs for file buttons on first open)
+      obContainer.querySelectorAll("tr.row-main").forEach((tr) => {
+        tr.addEventListener("click", () => {
+          const id = tr.dataset.ob;
+          const detail = obContainer.querySelector(`tr.row-detail[data-ob-detail="${CSS.escape(id)}"]`);
+          if (!detail) return;
+          detail.hidden = !detail.hidden;
+          tr.classList.toggle("is-open", !detail.hidden);
+        });
+      });
+
+      // File buttons -> mint signed URL on click
+      obContainer.querySelectorAll(".file-btn[data-path]").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          const path = btn.dataset.path;
+          const original = btn.textContent;
+          btn.disabled = true;
+          btn.textContent = "Öppnar…";
+          try {
+            const { data, error } = await supabase.storage
+              .from(STORAGE_BUCKET).createSignedUrl(path, 3600);
+            if (error || !data || !data.signedUrl) throw (error || new Error("Ingen URL"));
+            window.open(data.signedUrl, "_blank", "noopener");
+          } catch (err) {
+            alert("Kunde inte öppna filen: " + (err.message || "okänt fel"));
+          } finally {
+            btn.disabled = false;
+            btn.textContent = original;
+          }
+        });
+      });
+
+      // Status change
+      obContainer.querySelectorAll("select[data-ob-status-for]").forEach((sel) => {
+        sel.addEventListener("change", async () => {
+          const id = sel.dataset.obStatusFor;
+          const status = sel.value;
+          const prev = (obData.find((o) => String(o.id) === String(id)) || {}).status;
+          sel.disabled = true;
+          try {
+            const { error } = await supabase
+              .from("onboarding_submissions").update({ status }).eq("id", id);
+            if (error) throw error;
+            const item = obData.find((o) => String(o.id) === String(id));
+            if (item) item.status = status;
+          } catch (err) {
+            alert("Kunde inte uppdatera status: " + (err.message || "okänt fel"));
+            if (prev !== undefined) sel.value = prev;
+          } finally {
+            sel.disabled = false;
+          }
+        });
+      });
+    }
+
+    // Build the grouped detail panel for an onboarding submission.
+    function obDetailHtml(o) {
+      const row = (label, value) =>
+        `<div class="detail-row"><dt>${esc(label)}</dt><dd>${value}</dd></div>`;
+      const txt = (v) => esc(dash(v));
+      const yesNo = (v) => (v === true ? "Ja" : v === false ? "Nej" : "—");
+
+      // Addons (jsonb array)
+      const addons = asArray(o.addons);
+      const addonsHtml = addons.length
+        ? `<ul class="tag-list">${addons.map((a) => `<li>${esc(typeof a === "object" ? JSON.stringify(a) : a)}</li>`).join("")}</ul>`
+        : '<span class="muted">—</span>';
+
+      // Social (jsonb object)
+      const social = asObject(o.social);
+      let socialHtml = '<span class="muted">—</span>';
+      if (social && Object.keys(social).length) {
+        socialHtml = '<table class="mini-table"><tbody>' +
+          Object.entries(social).map(([k, v]) => {
+            const val = (typeof v === "string" && /^https?:\/\//i.test(v))
+              ? `<a class="maillink" href="${esc(v)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(v)}</a>`
+              : esc(typeof v === "object" ? JSON.stringify(v) : v);
+            return `<tr><td>${esc(k)}</td><td>${val}</td></tr>`;
+          }).join("") + "</tbody></table>";
+      }
+
+      // Opening hours (jsonb object: day -> hours)
+      const hours = asObject(o.opening_hours);
+      let hoursHtml = '<span class="muted">—</span>';
+      if (hours && Object.keys(hours).length) {
+        hoursHtml = '<table class="mini-table"><tbody>' +
+          Object.entries(hours).map(([day, val]) =>
+            `<tr><td>${esc(day)}</td><td>${esc(typeof val === "object" ? JSON.stringify(val) : val)}</td></tr>`
+          ).join("") + "</tbody></table>";
+      }
+
+      // File buttons (paths in storage). Lazily signed on click.
+      const fileBtn = (path, label) =>
+        `<button type="button" class="file-btn" data-path="${esc(path)}">${esc(label)}</button>`;
+
+      let logoHtml = '<span class="muted">—</span>';
+      if (o.logo_url) logoHtml = fileBtn(o.logo_url, "Visa logotyp");
+
+      const photos = asArray(o.photo_urls);
+      const photosHtml = photos.length
+        ? photos.map((p, i) => fileBtn(p, "Foto " + (i + 1))).join("")
+        : '<span class="muted">—</span>';
+
+      const menus = asArray(o.menu_urls);
+      const menusHtml = menus.length
+        ? menus.map((p, i) => fileBtn(p, "Menyfil " + (i + 1))).join("")
+        : '<span class="muted">—</span>';
+
+      const menuLinkHtml = o.menu_link
+        ? `<a class="maillink" href="${esc(o.menu_link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(o.menu_link)}</a>`
+        : '<span class="muted">—</span>';
+      const webHtml = o.existing_web
+        ? `<a class="maillink" href="${esc(o.existing_web)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(o.existing_web)}</a>`
+        : '<span class="muted">—</span>';
+
+      return '<div class="detail-grid">' +
+        // Restaurang
+        '<div class="detail-block"><h4>Restaurang</h4>' +
+          row("Restaurang", txt(o.restaurant_name)) +
+          row("Org.nr", txt(o.org_nr)) +
+          row("Kontaktperson", txt(o.contact_person)) +
+          row("Roll", txt(o.contact_role)) +
+          row("E-post", txt(o.email)) +
+          row("Telefon", txt(o.phone)) +
+          row("Adress", txt(o.address)) +
+          row("Postnr", txt(o.postal_code)) +
+          row("Stad", txt(o.city)) +
+          row("Plan", txt(o.plan)) +
+          row("Tillägg", addonsHtml) +
+        '</div>' +
+        // Varumärke
+        '<div class="detail-block"><h4>Varumärke</h4>' +
+          row("Logotyp", logoHtml) +
+          row("Varumärkesfärg", txt(o.brand_color)) +
+          row("Standardfärger", yesNo(o.use_default_colors)) +
+          row("Foton", photosHtml) +
+          row("Anteckningar", txt(o.brand_notes)) +
+        '</div>' +
+        // Domän
+        '<div class="detail-block"><h4>Domän</h4>' +
+          row("Val", txt(o.domain_choice)) +
+          row("Domän", txt(o.domain_value)) +
+          row("Befintlig webb", webHtml) +
+          row("Sociala medier", socialHtml) +
+        '</div>' +
+        // Meny
+        '<div class="detail-block"><h4>Meny</h4>' +
+          row("Menylänk", menuLinkHtml) +
+          row("Menyfiler", menusHtml) +
+          row("Anteckningar", txt(o.menu_notes)) +
+        '</div>' +
+        // Drift
+        '<div class="detail-block"><h4>Drift</h4>' +
+          row("Öppettider", hoursHtml) +
+          row("Avhämtning", yesNo(o.offer_pickup)) +
+          row("Leverans", yesNo(o.offer_delivery)) +
+          row("Leveransradie", txt(o.delivery_radius)) +
+        '</div>' +
+        // Betalning
+        '<div class="detail-block"><h4>Betalning</h4>' +
+          row("Momshantering", txt(o.vat_handling)) +
+          row("Terminal-leveransadress", txt(o.terminal_delivery_address)) +
+          row("Har Stripe", yesNo(o.has_stripe)) +
+          row("Klarna-intresse", yesNo(o.klarna_interest)) +
+          row("Utbetalningsnoteringar", txt(o.payout_notes)) +
+        '</div>' +
+        // Övrigt
+        '<div class="detail-block"><h4>Övrigt</h4>' +
+          row("Övrigt", txt(o.other)) +
+        '</div>' +
+      '</div>';
+    }
+  </script>
+</body>
+</html>
