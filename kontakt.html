@@ -66,22 +66,22 @@
     </nav>
   </aside>
   <main>
-    <section class="section contact-hero" style="background-color: var(--cream-bg); padding: 6rem 2rem;">
+    <section class="section contact-hero">
       <div class="container">
-        <div style="max-width: 700px; margin: 0 auto; text-align: center;">
-          <span class="eyebrow" style="display: inline-block; color: var(--coral); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1rem;" data-i18n="contact.hero.label">KONTAKT</span>
-          <h1 class="section-title" style="font-size: clamp(2.5rem, 4vw, 4rem); line-height: 1.05; margin: 1rem 0; color: var(--ink);" data-i18n-html="contact.hero.h1">Boka en gratis demo.<br><span class="hl">Se ditt eget system.</span></h1>
-          <p class="section-copy" style="font-size: 1.125rem; line-height: 1.8; color: var(--graytext); margin: 0 auto; max-width: 44rem;" data-i18n="contact.hero.sub">20 minuter. Ingen säljpitch. Vi visar hur Amoora skulle fungera för just din restaurang — och du frågar allt du undrar.</p>
+        <div class="measure-readable text-center">
+          <span class="eyebrow" data-i18n="contact.hero.label">KONTAKT</span>
+          <h1 class="section-title" data-i18n-html="contact.hero.h1">Boka en gratis demo.<br><span class="hl">Se ditt eget system.</span></h1>
+          <p class="lead" data-i18n="contact.hero.sub">20 minuter. Ingen säljpitch. Vi visar hur Amoora skulle fungera för just din restaurang — och du frågar allt du undrar.</p>
         </div>
       </div>
     </section>
-    <section class="section" style="padding: 4rem 2rem 2rem;">
-      <div class="container" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem;">
+    <section class="section">
+      <div class="container contact-layout">
         <div>
-          <div style="background: white; padding: 2rem; border-radius: 30px; box-shadow: var(--shadow-soft); border: 1px solid var(--bordersoft);">
-            <h2 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--ink);" data-i18n="contact.form.title">Skicka ett meddelande</h2>
-            <p style="color: var(--graytext); font-size: 1rem; line-height: 1.75; margin-bottom: 1.75rem;" data-i18n="contact.form.subtitle">Fyll i formuläret så återkommer vi inom 24 timmar med tre föreslagna tider.</p>
-            <form class="contact-form" style="display: grid; gap: 1.5rem;">
+          <div class="surface-card">
+            <h2 class="contact-card-title" data-i18n="contact.form.title">Skicka ett meddelande</h2>
+            <p class="text-muted contact-card-sub" data-i18n="contact.form.subtitle">Fyll i formuläret så återkommer vi inom 24 timmar med tre föreslagna tider.</p>
+            <form class="contact-form stack">
               <div>
                 <label for="contactName" class="form-label" data-i18n="contact.form.name">Namn</label>
                 <input type="text" id="contactName" name="name" required class="form-control" data-i18n-placeholder="contact.form.namePlaceholder">
@@ -95,9 +95,9 @@
                 <input type="tel" id="contactPhone" name="phone" class="form-control" data-i18n-placeholder="contact.form.phonePlaceholder">
               </div>
               <div>
-                <fieldset style="border: 1px solid var(--bordersoft); border-radius: 18px; padding: 1rem;">
-                  <legend style="font-weight: 700; color: var(--ink);" data-i18n="contact.form.plan">Vilken plan är du intresserad av?</legend>
-                  <div style="display: grid; gap: 0.75rem; margin-top: 0.75rem;">
+                <fieldset class="surface-card surface-card--flat surface-card--sm">
+                  <legend class="text-strong" data-i18n="contact.form.plan">Vilken plan är du intresserad av?</legend>
+                  <div class="stack-sm" style="margin-top: 0.75rem;">
                     <label class="radio-pill">
                       <input type="radio" name="plan" value="basic" checked>
                       <span data-i18n="contact.form.plan.system">Amoora Basic</span>
@@ -121,34 +121,34 @@
                 <label for="contactMessage" class="form-label" data-i18n="contact.form.message">Meddelande</label>
                 <textarea id="contactMessage" name="message" rows="5" required class="form-control" data-i18n-placeholder="contact.form.messagePlaceholder"></textarea>
               </div>
-              <div class="form-note" style="display: flex; gap: 0.75rem; align-items: flex-start;">
-                <input type="checkbox" id="contactPrivacy" name="privacy" required style="margin-top: 0.25rem; width: 1rem; height: 1rem;">
-                <label for="contactPrivacy" style="font-size: 0.95rem; color: var(--graytext);">
+              <div class="form-note consent-row">
+                <input type="checkbox" id="contactPrivacy" name="privacy" required>
+                <label for="contactPrivacy" class="text-muted">
                   <span data-i18n="contact.form.privacy">Jag godkänner att Amoora sparar mina uppgifter för att svara på min förfrågan.</span>
                 </label>
               </div>
-              <button type="submit" class="btn btn-primary" style="width: fit-content; padding: 0.95rem 2.2rem;" data-i18n="contact.form.submit">Boka demo →</button>
+              <button type="submit" class="btn btn-primary consent-submit" data-i18n="contact.form.submit">Boka demo →</button>
             </form>
           </div>
         </div>
         <div>
-          <div style="display: grid; gap: 1.5rem;">
-            <div style="background: var(--cream-bg); padding: 2rem; border-radius: 30px; border: 1px solid var(--bordersoft);">
-              <p style="font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); font-weight: 700; margin-bottom: 1rem;" data-i18n="contact.info.label">FÖREDRAR DU ATT RING ELLER MEJLA?</p>
-              <div style="display: grid; gap: 1rem;">
+          <div class="stack">
+            <div class="surface-card surface-card--cream">
+              <p class="kicker contact-info-label" data-i18n="contact.info.label">FÖREDRAR DU ATT RING ELLER MEJLA?</p>
+              <div class="stack-sm">
                 <div>
-                  <p style="font-size: 0.95rem; font-weight: 700; color: var(--ink);" data-i18n="contact.card.phone.title">Telefon</p>
-                  <a href="tel:+46101850001" style="display: block; font-size: 1.125rem; color: var(--coral); font-weight: 700; text-decoration: none;">+46 10 185 00 01</a>
-                  <p style="margin: 0.5rem 0 0; color: var(--graytext);" data-i18n="contact.card.phone.hours">Mån–Fre 09–17</p>
+                  <p class="text-strong contact-field-title" data-i18n="contact.card.phone.title">Telefon</p>
+                  <a href="tel:+46101850001" class="contact-line">+46 10 185 00 01</a>
+                  <p class="text-muted contact-field-meta" data-i18n="contact.card.phone.hours">Mån–Fre 09–17</p>
                 </div>
                 <div>
-                  <p style="font-size: 0.95rem; font-weight: 700; color: var(--ink);" data-i18n="contact.card.email.title">E-post</p>
-                  <a href="mailto:info@amoora.se" style="display: block; font-size: 1.125rem; color: var(--coral); font-weight: 700; text-decoration: none;">info@amoora.se</a>
-                  <p style="margin: 0.5rem 0 0; color: var(--graytext);" data-i18n="contact.card.email.response">Svar inom 24 timmar</p>
+                  <p class="text-strong contact-field-title" data-i18n="contact.card.email.title">E-post</p>
+                  <a href="mailto:info@amoora.se" class="contact-line">info@amoora.se</a>
+                  <p class="text-muted contact-field-meta" data-i18n="contact.card.email.response">Svar inom 24 timmar</p>
                 </div>
                 <div>
-                  <p style="font-size: 0.95rem; font-weight: 700; color: var(--ink);" data-i18n="contact.card.social.title">Sociala medier</p>
-                  <div style="display: flex; gap: 1rem; margin-top: 0.75rem;">
+                  <p class="text-strong contact-field-title" data-i18n="contact.card.social.title">Sociala medier</p>
+                  <div class="btn-row" style="margin-top: 0.75rem;">
                     <a href="https://www.instagram.com/amoora.se/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link icon-link">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
                     </a>
@@ -159,29 +159,29 @@
                 </div>
               </div>
             </div>
-            <div style="background: white; padding: 2rem; border-radius: 30px; box-shadow: var(--shadow-soft); border: 1px solid var(--bordersoft);">
-              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--ink);" data-i18n="contact.what.title">Vad händer efter du bokat?</h3>
-              <ol style="display: grid; gap: 1rem; padding-left: 1.25rem; color: var(--graytext); line-height: 1.8;">
+            <div class="surface-card">
+              <h3 class="contact-card-h3" data-i18n="contact.what.title">Vad händer efter du bokat?</h3>
+              <ol class="text-muted contact-steps">
                 <li data-i18n="contact.what.1">Du får en bekräftelse via e-post med tre föreslagna tider.</li>
                 <li data-i18n="contact.what.2">Vi har ett 20-minuters videosamtal — du visar din nuvarande situation.</li>
                 <li data-i18n="contact.what.3">Vi visar Capri Blue live och hur ditt system skulle se ut.</li>
                 <li data-i18n="contact.what.4">Du får en konkret offert och ROI-beräkning. Inga förpliktelser.</li>
               </ol>
             </div>
-            <div style="background: var(--coral-soft); padding: 2rem; border-radius: 30px; border-left: 5px solid var(--coral);">
-              <p style="font-size: 0.95rem; color: var(--ink); margin-bottom: 1rem; font-weight: 700;" data-i18n="contact.trust.title">Du är i gott sällskap</p>
-              <div style="display: grid; gap: 1rem;">
-                <div style="background: white; padding: 1rem 1.25rem; border-radius: 18px; border: 1px solid var(--bordersoft);">
-                  <p style="font-weight: 700; color: var(--ink);" data-i18n="contact.trust.1.name">Capri Blue</p>
-                  <p style="margin: 0.35rem 0 0; color: var(--graytext);" data-i18n="contact.trust.1.detail">Första kunden, live nu</p>
+            <div class="surface-card surface-card--accent">
+              <p class="text-strong contact-trust-title" data-i18n="contact.trust.title">Du är i gott sällskap</p>
+              <div class="stack-sm">
+                <div class="surface-card surface-card--sm">
+                  <p class="text-strong" data-i18n="contact.trust.1.name">Capri Blue</p>
+                  <p class="text-muted contact-field-meta" data-i18n="contact.trust.1.detail">Första kunden, live nu</p>
                 </div>
-                <div style="background: white; padding: 1rem 1.25rem; border-radius: 18px; border: 1px solid var(--bordersoft);">
-                  <p style="font-weight: 700; color: var(--ink);" data-i18n="contact.trust.2.name">Lynkrr AB</p>
-                  <p style="margin: 0.35rem 0 0; color: var(--graytext);" data-i18n="contact.trust.2.detail">Etablerat svenskt bolag</p>
+                <div class="surface-card surface-card--sm">
+                  <p class="text-strong" data-i18n="contact.trust.2.name">Lynkrr AB</p>
+                  <p class="text-muted contact-field-meta" data-i18n="contact.trust.2.detail">Etablerat svenskt bolag</p>
                 </div>
-                <div style="background: white; padding: 1rem 1.25rem; border-radius: 18px; border: 1px solid var(--bordersoft);">
-                  <p style="font-weight: 700; color: var(--ink);" data-i18n="contact.trust.3.name">Klarna-fakturering</p>
-                  <p style="margin: 0.35rem 0 0; color: var(--graytext);" data-i18n="contact.trust.3.detail">Tillgängligt på alla planer</p>
+                <div class="surface-card surface-card--sm">
+                  <p class="text-strong" data-i18n="contact.trust.3.name">Klarna-fakturering</p>
+                  <p class="text-muted contact-field-meta" data-i18n="contact.trust.3.detail">Tillgängligt på alla planer</p>
                 </div>
               </div>
             </div>
@@ -189,20 +189,20 @@
         </div>
       </div>
     </section>
-    <section class="section" style="background-color: var(--cream-bg); padding: 4rem 2rem;">
-      <div class="container" style="max-width: 640px; margin: 0 auto; text-align: center;">
-        <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: var(--ink);" data-i18n="contact.faq.title">Vanliga frågor</h2>
-        <p style="font-size: 1.125rem; color: var(--graytext); margin-bottom: 2rem; line-height: 1.7;" data-i18n="contact.faq.sub">Svaren du letar efter finns ofta redan här.</p>
+    <section class="section section--soft">
+      <div class="container measure-narrow text-center">
+        <h2 class="section-title" data-i18n="contact.faq.title">Vanliga frågor</h2>
+        <p class="lead contact-block-sub" data-i18n="contact.faq.sub">Svaren du letar efter finns ofta redan här.</p>
         <a href="priser.html#faq" class="btn btn-outline" data-i18n="contact.faq.link">Se alla vanliga frågor</a>
       </div>
     </section>
-    <section class="section" style="padding: 4rem 2rem 6rem;">
-      <div class="container" style="max-width: 760px; margin: 0 auto; text-align: center;">
-        <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: var(--ink);" data-i18n="contact.ready.title">Eller ring oss direkt</h2>
-        <p style="font-size: 1.125rem; color: var(--graytext); margin-bottom: 2rem; line-height: 1.7;" data-i18n="contact.ready.sub">Om du föredrar ett spontant samtal — ring eller mejla, vi svarar i samma stund.</p>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-          <a href="tel:+46101850001" class="btn btn-primary" style="padding: 1rem 2rem; min-width: 180px;" data-i18n="contact.ready.call">Ring +46 10 185 00 01</a>
-          <a href="mailto:info@amoora.se" class="btn btn-outline" style="padding: 1rem 2rem; min-width: 180px;" data-i18n="contact.ready.email">Mejla info@amoora.se</a>
+    <section class="section">
+      <div class="container measure-readable text-center">
+        <h2 class="section-title" data-i18n="contact.ready.title">Eller ring oss direkt</h2>
+        <p class="lead contact-block-sub" data-i18n="contact.ready.sub">Om du föredrar ett spontant samtal — ring eller mejla, vi svarar i samma stund.</p>
+        <div class="btn-row btn-row--center">
+          <a href="tel:+46101850001" class="btn btn-primary" data-i18n="contact.ready.call">Ring +46 10 185 00 01</a>
+          <a href="mailto:info@amoora.se" class="btn btn-outline" data-i18n="contact.ready.email">Mejla info@amoora.se</a>
         </div>
       </div>
     </section>
