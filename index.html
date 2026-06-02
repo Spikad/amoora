@@ -30,35 +30,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind (CDN) + brand config -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            coral: "#EA7056",
-            "coral-dark": "#D85B40",
-            "coral-soft": "#FBE4DD",
-            ink: "#1C1B1A",
-            "ink-soft": "#2B2A28",
-            cream: "#FFF9F6",
-            graytext: "#6B6764",
-            bordersoft: "#EFE9E5"
-          },
-          fontFamily: {
-            display: ["'Space Grotesk'", "sans-serif"],
-            body: ["'Inter'", "sans-serif"]
-          },
-          borderRadius: {
-            card: "24px",
-            btn: "14px"
-          }
-        }
-      }
-    };
-  </script>
-
+  <!-- Design tokens live in css/style.css :root (Tailwind CDN dropped — it was
+       loaded site-wide but unused; all styling is hand-authored CSS). -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -154,41 +127,17 @@
             </ul>
           </div>
 
-          <!-- Device mockup -->
+          <!-- Device frame with real product screenshots -->
           <div class="hero-visual fade-up" data-delay="2" aria-hidden="true">
             <div class="device-laptop">
               <div class="screen">
-                <div class="mock-ui">
-                  <div class="mock-bar w-40 coral"></div>
-                  <div class="mock-bar w-60"></div>
-                  <div class="mock-card">
-                    <span class="mock-thumb"></span>
-                    <span class="mock-lines">
-                      <span class="mock-bar w-60" style="margin:0 0 6px"></span>
-                      <span class="mock-bar w-40" style="margin:0"></span>
-                    </span>
-                    <span class="mock-pill">NY</span>
-                  </div>
-                  <div class="mock-card">
-                    <span class="mock-thumb"></span>
-                    <span class="mock-lines">
-                      <span class="mock-bar w-60" style="margin:0 0 6px"></span>
-                      <span class="mock-bar w-40" style="margin:0"></span>
-                    </span>
-                  </div>
-                </div>
+                <img class="device-shot" src="assets/images/amoora-system-02-menu.png" alt="" decoding="async" fetchpriority="high">
               </div>
               <div class="laptop-base"></div>
             </div>
             <div class="device-phone">
               <div class="screen">
-                <div class="mock-ui">
-                  <div class="mock-bar w-60 coral"></div>
-                  <div class="mock-bar w-40"></div>
-                  <div class="mock-thumb" style="width:100%;height:46px;border-radius:8px;margin:8px 0;"></div>
-                  <div class="mock-bar w-60"></div>
-                  <div class="mock-bar w-40"></div>
-                </div>
+                <img class="device-shot" src="assets/images/amoora-system-04-checkout.png" alt="" decoding="async">
               </div>
             </div>
           </div>
@@ -256,11 +205,22 @@
       </div>
     </section>
 
-    <section class="section">
+    <!-- ===================================== LOSS TICKER (calculator hook) -->
+    <section class="section loss-section">
       <div class="container">
-        <div class="compare-stat fade-up" style="background:var(--coral);border-radius:18px;padding:2.25rem;text-align:center;">
-          <h2 style="color:var(--white);margin:0;font-size:clamp(1.25rem,3vw,1.75rem);">Spara 30% på varje order. Räkna själv.</h2>
-          <div style="margin-top:1rem;"><a href="raknare.html" class="btn" style="background:var(--white);color:var(--coral);padding:0.85rem 1.25rem;border-radius:12px;font-weight:700;">Öppna räknaren →</a></div>
+        <div class="loss-card fade-up">
+          <span class="eyebrow" data-i18n="loss.eyebrow">Provisionen</span>
+          <h2 class="loss-title" data-i18n="loss.title">Pengar som rinner rakt till Foodora</h2>
+          <p class="loss-example" data-i18n="loss.example">Exempel: en pizzeria som säljer 100 000 kr/mån via Foodora</p>
+          <div class="loss-figure">
+            <span class="loss-amount">360 000 kr</span>
+            <span class="loss-unit" data-i18n="loss.perYear">förlorad provision per år</span>
+          </div>
+          <p class="loss-live">
+            <span data-i18n="loss.since">Sedan du öppnade den här sidan:</span>
+            <span class="loss-live-amount" id="lossSince" data-loss-year="360000">0,00 kr</span>
+          </p>
+          <a href="raknare.html" class="btn btn-primary loss-cta" data-i18n="loss.cta">Räkna på din egen förlust →</a>
         </div>
       </div>
     </section>
@@ -346,7 +306,7 @@
     </section>
 
     <!-- ================================================ 4. HOW IT WORKS -->
-    <section class="section" style="background:var(--coral-soft);">
+    <section class="section section--soft">
       <div class="container">
         <div class="section-head section-head--center fade-up">
           <span class="eyebrow" data-i18n="how.eyebrow">Så fungerar det</span>
@@ -505,7 +465,7 @@
           </article>
         </div>
 
-        <p class="pricing-deposit fade-up" data-i18n="price.deposit" style="text-align:center;color:var(--gray);margin-top:1.25rem;font-size:0.95rem;">Alla priser exkl. moms. Betalning via Klarna eller Swish. 50% deposition vid signering.</p>
+        <p class="pricing-deposit fade-up" data-i18n="price.deposit">Alla priser exkl. moms. Betalning via Klarna eller Swish. 50% deposition vid signering.</p>
 
         <div class="pricing-foot fade-up">
           <a href="priser.html" class="link-arrow">
@@ -517,7 +477,7 @@
     </section>
 
     <!-- ================================================ 6. SOCIAL PROOF -->
-    <section class="section" style="background:var(--coral-soft);">
+    <section class="section section--soft">
       <div class="container">
         <div class="section-head section-head--center fade-up">
           <span class="eyebrow" data-i18n="proof.eyebrow">Kunder</span>
@@ -565,82 +525,44 @@
           </div>
         </article>
 
-        <!-- Logo marquee (duplicated set for seamless loop) -->
-        <div class="marquee fade-up" aria-label="Restauranglogotyper">
+        <!-- "Built for" category strip — honest cuisine categories, not implied clients -->
+        <p class="marquee-caption fade-up" data-i18n="proof.builtFor">Byggt för varje typ av restaurang</p>
+        <div class="marquee fade-up" aria-label="Restaurangtyper Amoora är byggt för">
           <div class="marquee-track">
-            <span class="marquee-logo"><span class="dot"></span>Bella Napoli</span>
-            <span class="marquee-logo"><span class="dot"></span>Pizzeria Sole</span>
-            <span class="marquee-logo"><span class="dot"></span>Kebab House</span>
-            <span class="marquee-logo"><span class="dot"></span>Trattoria Roma</span>
-            <span class="marquee-logo"><span class="dot"></span>Sushi Nord</span>
-            <span class="marquee-logo"><span class="dot"></span>Burgaren</span>
-            <!-- duplicate -->
-            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Bella Napoli</span>
-            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Pizzeria Sole</span>
-            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Kebab House</span>
-            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Trattoria Roma</span>
-            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Sushi Nord</span>
-            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Burgaren</span>
+            <span class="marquee-logo"><span class="dot"></span>Pizzeria</span>
+            <span class="marquee-logo"><span class="dot"></span>Kebab</span>
+            <span class="marquee-logo"><span class="dot"></span>Sushi</span>
+            <span class="marquee-logo"><span class="dot"></span>Thai</span>
+            <span class="marquee-logo"><span class="dot"></span>Burgare</span>
+            <span class="marquee-logo"><span class="dot"></span>Libanesiskt</span>
+            <span class="marquee-logo"><span class="dot"></span>Indiskt</span>
+            <span class="marquee-logo"><span class="dot"></span>Falafel</span>
+            <!-- duplicate for seamless loop -->
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Pizzeria</span>
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Kebab</span>
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Sushi</span>
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Thai</span>
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Burgare</span>
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Libanesiskt</span>
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Indiskt</span>
+            <span class="marquee-logo" aria-hidden="true"><span class="dot"></span>Falafel</span>
           </div>
         </div>
 
-        <div class="testimonials">
-          <figure class="testimonial fade-up" data-delay="1">
-            <span class="sample-tag" data-i18n="proof.sample">Exempel</span>
-            <div class="stars" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-            </div>
-            <blockquote data-i18n="proof.t1">Vi sparar tusentals kronor varje månad sedan vi bytte till Amoora.</blockquote>
-            <figcaption class="who">
-              <span class="avatar" aria-hidden="true">M</span>
-              <span>
-                <span class="who-name" data-i18n="proof.t1.name">Marco B.</span><br>
-                <span class="who-role" data-i18n="proof.t1.role">Pizzeria-ägare, Stockholm</span>
-              </span>
-            </figcaption>
-          </figure>
-
-          <figure class="testimonial fade-up" data-delay="2">
-            <span class="sample-tag" data-i18n="proof.sample">Exempel</span>
-            <div class="stars" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-            </div>
-            <blockquote data-i18n="proof.t2">Äntligen äger vi vår kunddata och vårt eget system.</blockquote>
-            <figcaption class="who">
-              <span class="avatar" aria-hidden="true">S</span>
-              <span>
-                <span class="who-name" data-i18n="proof.t2.name">Sara L.</span><br>
-                <span class="who-role" data-i18n="proof.t2.role">Restaurangägare, Göteborg</span>
-              </span>
-            </figcaption>
-          </figure>
-
-          <figure class="testimonial fade-up" data-delay="3">
-            <span class="sample-tag" data-i18n="proof.sample">Exempel</span>
-            <div class="stars" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-            </div>
-            <blockquote data-i18n="proof.t3">Installationen tog en vecka. Nu behåller vi 100% av intäkterna.</blockquote>
-            <figcaption class="who">
-              <span class="avatar" aria-hidden="true">A</span>
-              <span>
-                <span class="who-name" data-i18n="proof.t3.name">Ahmed K.</span><br>
-                <span class="who-role" data-i18n="proof.t3.role">Pizzeria-ägare, Malmö</span>
-              </span>
-            </figcaption>
-          </figure>
+        <!-- Capri Blue case-study facts — factual, no fabricated quotes -->
+        <div class="case-facts fade-up" aria-label="Capri Blue — fakta">
+          <div class="case-fact">
+            <span class="case-fact-num">#1</span>
+            <span class="case-fact-label" data-i18n="case.fact1">Sveriges första Amoora-restaurang</span>
+          </div>
+          <div class="case-fact">
+            <span class="case-fact-num">0%</span>
+            <span class="case-fact-label" data-i18n="case.fact2">provision på direktbeställningar</span>
+          </div>
+          <div class="case-fact">
+            <span class="case-fact-num" data-i18n="case.fact3.num">Live</span>
+            <span class="case-fact-label" data-i18n="case.fact3">eget system, online nu</span>
+          </div>
         </div>
       </div>
     </section>

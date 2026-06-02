@@ -529,6 +529,11 @@ const I18N = {
     "proof.eyebrow": "Kunder",
     "proof.h2": "Restauranger som litar på Amoora",
     "proof.sub": "Restauranger och pizzerior över hela Sverige äger nu sina egna system.",
+    "proof.builtFor": "Byggt för varje typ av restaurang",
+    "case.fact1": "Sveriges första Amoora-restaurang",
+    "case.fact2": "provision på direktbeställningar",
+    "case.fact3.num": "Live",
+    "case.fact3": "eget system, online nu",
     "proof.sample": "Exempel",
     "proof.t1": "Vi sparar tusentals kronor varje månad sedan vi bytte till Amoora.",
     "proof.t1.name": "Marco B.",
@@ -547,6 +552,12 @@ const I18N = {
     "stats.4.label": "dagar till lansering",
 
     /* Final CTA */
+    "loss.eyebrow": "Provisionen",
+    "loss.title": "Pengar som rinner rakt till Foodora",
+    "loss.example": "Exempel: en pizzeria som säljer 100 000 kr/mån via Foodora",
+    "loss.perYear": "förlorad provision per år",
+    "loss.since": "Sedan du öppnade den här sidan:",
+    "loss.cta": "Räkna på din egen förlust →",
     "final.h2": "Redo att äga ditt eget system?",
     "final.sub": "Boka en gratis demo så visar vi hur Amoora fungerar för just din restaurang.",
     "final.placeholder": "Din e-postadress",
@@ -1095,6 +1106,11 @@ const I18N = {
     "proof.eyebrow": "Customers",
     "proof.h2": "Restaurants that trust Amoora",
     "proof.sub": "Restaurants and pizzerias across Sweden now own their own systems.",
+    "proof.builtFor": "Built for every kind of restaurant",
+    "case.fact1": "Sweden's first Amoora restaurant",
+    "case.fact2": "commission on direct orders",
+    "case.fact3.num": "Live",
+    "case.fact3": "own system, online now",
     "proof.sample": "Sample",
     "proof.t1": "We save thousands of kronor every month since we switched to Amoora.",
     "proof.t1.name": "Marco B.",
@@ -1113,6 +1129,12 @@ const I18N = {
     "stats.4.label": "days to launch",
 
     /* Final CTA */
+    "loss.eyebrow": "The commission",
+    "loss.title": "Money flowing straight to Foodora",
+    "loss.example": "Example: a pizzeria selling 100,000 kr/month via Foodora",
+    "loss.perYear": "lost to commission per year",
+    "loss.since": "Since you opened this page:",
+    "loss.cta": "Calculate your own loss →",
     "final.h2": "Ready to own your own system?",
     "final.sub": "Book a free demo and we'll show you how Amoora works for your restaurant.",
     "final.placeholder": "Your email address",
@@ -1797,6 +1819,34 @@ function initLangToggle() {
 }
 
 /* --------------------------------------------------------------------------
+   7b. LOSS TICKER — live "lost to Foodora since you landed" counter (homepage)
+   Rate derived from the same example as the hero: 360 000 kr/year commission.
+   No-ops on pages without #lossSince; respects prefers-reduced-motion.
+   -------------------------------------------------------------------------- */
+function initLossTicker() {
+  const el = document.getElementById("lossSince");
+  if (!el) return;
+
+  const perYear = parseFloat(el.getAttribute("data-loss-year")) || 360000;
+  const perSecond = perYear / (365 * 24 * 60 * 60);
+  const fmt = (n) =>
+    n.toLocaleString("sv-SE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("requestAnimationFrame" in window)) {
+    el.textContent = fmt(0);
+    return;
+  }
+
+  const start = performance.now();
+  const tick = (now) => {
+    el.textContent = fmt(((now - start) / 1000) * perSecond);
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+/* --------------------------------------------------------------------------
    8. BOOT
    -------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
@@ -1811,4 +1861,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initCalculator();
   initSavingsCalculator();
   initCapriLinks();
+  initLossTicker();
 });
