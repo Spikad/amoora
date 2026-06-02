@@ -1,42 +1,42 @@
-# Amoora — Manual setup (the bits only you can do)
+# Amoora — setup status & the bits only you can do
 
 Everything in the codebase is built and committed (branch `full-build-pass`).
-The **only** remaining work is provisioning your Supabase project + Resend, because
-those need credentials/OAuth I can't complete for you. Do the steps below once.
+
+**The Supabase CLI on this machine is now logged into an account that CAN see this
+project** (org `olqthptgatstvyjdyytq`), so the schema and edge functions have
+already been applied for you. The **only** remaining work is the credential/DNS
+steps that need your accounts — sections 3–5 below.
 
 Supabase project ref: **`yjudyrytavaudtlqiqvn`** · URL: `https://yjudyrytavaudtlqiqvn.supabase.co`
 
-> Note: the Supabase CLI on this machine is logged into a different account that
-> can't see this project, and the MCP OAuth flow wasn't completed, so I couldn't
-> apply anything automatically. The steps below are the turnkey version.
+| # | Step | Who | Status |
+|---|------|-----|--------|
+| 1 | Apply DB schema (tables + RLS + storage) | Claude (CLI) | ✅ **DONE** |
+| 2 | Deploy edge functions | Claude (CLI) | ✅ **DONE** |
+| 3 | Set `RESEND_API_KEY` secret | **You** | ⬜ pending |
+| 4 | Verify `amoora.se` in Resend (DNS) | **You** | ⬜ pending |
+| 5 | Create admin user + grant access | **You** | ⬜ pending |
 
 ---
 
-## 1. Apply the database schema (tables + RLS + storage)
+## 1. Apply the database schema (tables + RLS + storage) — ✅ DONE
 
-**Easiest — SQL Editor (no CLI):**
-1. Open the [SQL Editor](https://supabase.com/dashboard/project/yjudyrytavaudtlqiqvn/sql/new).
-2. Paste the entire contents of **`supabase/APPLY_IN_SQL_EDITOR.sql`** and click **Run**.
-   (It's idempotent — safe to re-run.)
+Applied via `supabase db push` against `yjudyrytavaudtlqiqvn`. Both migrations
+(`20260531120000_core_schema.sql`, `20260531120100_onboarding_storage.sql`) show
+in the remote migration list. Verified live: `leads`, `onboarding_submissions`,
+and `admins` exist (REST returns `42501 permission denied` for the anon role —
+i.e. tables present and locked down exactly as intended), plus the private
+`onboarding` storage bucket.
 
-**Or via CLI** (if you log in as an account with access to this project):
-```bash
-supabase login                      # opens browser
-supabase link --project-ref yjudyrytavaudtlqiqvn
-supabase db push                    # applies supabase/migrations/*
-```
-
-Verify: Table Editor should show `leads`, `onboarding_submissions`, `admins`, and
-Storage should show a private bucket `onboarding`.
+> If you ever need to re-apply by hand: paste **`supabase/APPLY_IN_SQL_EDITOR.sql`**
+> into the [SQL Editor](https://supabase.com/dashboard/project/yjudyrytavaudtlqiqvn/sql/new)
+> and Run (idempotent), or run `supabase db push` after `supabase link --project-ref yjudyrytavaudtlqiqvn`.
 
 ---
 
-## 2. Deploy the edge functions
+## 2. Deploy the edge functions — ✅ DONE
 
-```bash
-supabase functions deploy notify-lead --project-ref yjudyrytavaudtlqiqvn
-supabase functions deploy notify-onboarding --project-ref yjudyrytavaudtlqiqvn
-```
+`notify-lead` and `notify-onboarding` are deployed and **ACTIVE** (version 1).
 `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are injected automatically by the
 edge runtime — you do **not** set those. `verify_jwt=false` is set (in
 `supabase/config.toml`) because these are public form endpoints; they validate
@@ -45,6 +45,8 @@ input + use a honeypot, and write via the service role.
 Function URLs (already wired into the frontend):
 - `https://yjudyrytavaudtlqiqvn.supabase.co/functions/v1/notify-lead`
 - `https://yjudyrytavaudtlqiqvn.supabase.co/functions/v1/notify-onboarding`
+
+> To redeploy after edits: `supabase functions deploy <name> --project-ref yjudyrytavaudtlqiqvn`.
 
 ---
 
