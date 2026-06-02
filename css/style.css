@@ -2802,3 +2802,59 @@ textarea.form-control { resize: vertical; min-height: 7rem; }
   font-size: 1.1rem;
   opacity: 0.7;
 }
+
+/* ==========================================================================
+   UTILITIES & SURFACES — shared content helpers (Phase B inline-style cleanup)
+   Replaces ad-hoc inline styles across kontakt/raknare/onboarding/legal/404
+   so spacing, radius, and colour stay on the design system.
+   ========================================================================== */
+.text-muted   { color: var(--gray); }
+.text-center  { text-align: center; }
+.text-strong  { color: var(--ink); font-weight: 700; }
+.lead         { font-size: var(--body-lg); line-height: 1.7; color: var(--gray); }
+
+/* centered, measure-capped content blocks */
+.measure-narrow   { max-width: 640px; margin-inline: auto; }
+.measure-readable { max-width: 760px; margin-inline: auto; }
+
+/* vertical stacks with rhythm */
+.stack    { display: grid; gap: var(--space-4); }
+.stack-sm { display: grid; gap: var(--space-3); }
+
+/* small uppercase coral kicker label */
+.kicker {
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--coral);
+  font-weight: 700;
+}
+
+/* surface cards — one radius/elevation language for all content panels */
+.surface-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  box-shadow: var(--shadow-soft);
+}
+.surface-card--cream  { background: var(--cream); box-shadow: none; }
+.surface-card--accent { background: var(--coral-soft); border: none; border-left: 5px solid var(--coral); box-shadow: none; }
+.surface-card--flat   { box-shadow: none; }
+.surface-card--sm     { padding: 1rem 1.25rem; border-radius: var(--radius-sm); }
+
+/* contact-style link inside a card */
+.contact-line {
+  display: block;
+  font-size: 1.125rem;
+  color: var(--coral);
+  font-weight: 700;
+}
+
+/* centered button row */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.btn-row--center { justify-content: center; }
