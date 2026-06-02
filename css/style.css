@@ -7,7 +7,7 @@
    1. DESIGN TOKENS
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand colors */
+  /* Brand colors — single source of truth */
   --coral:        #EA7056;
   --coral-dark:   #D85B40;
   --coral-soft:   #FBE4DD;
@@ -15,16 +15,38 @@
   --ink-soft:     #2B2A28;
   --white:        #FFFFFF;
   --cream:        #FFF9F6;
+  --cream-deep:   #FBEFE9;   /* warmer cream for layered backgrounds */
   --gray:         #6B6764;
+  --gray-strong:  #4A4744;   /* higher-contrast body on cream (AA on small text) */
   --border:       #EFE9E5;
 
-  /* Type scale */
+  /* Aliases — reconcile the historical naming split so legacy markup
+     (kontakt/raknare inline styles, the dropped Tailwind config) resolves. */
+  --graytext:     var(--gray);
+  --cream-bg:     var(--cream);
+  --bordersoft:   var(--border);
+
+  /* Type scale — modular, display vs body intent encoded in the tokens */
   --hero-h1:    clamp(2.75rem, 6vw, 5rem);
+  --display:    clamp(2.25rem, 5vw, 3.75rem);
   --section-h2: clamp(2rem, 4vw, 3.25rem);
   --card-h3:    1.375rem;
   --body-lg:    1.125rem;
   --body:       1rem;
   --label:      0.8125rem;
+  --measure:    65ch;        /* readable body line length cap */
+  --track-tight:   -0.03em;  /* display headings */
+  --track-snug:    -0.02em;  /* section headings */
+  --leading-body:  1.7;
+
+  /* Spacing rhythm (8pt-based) */
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: clamp(4rem, 8vw, 7rem);
 
   /* Radii */
   --radius-card:   24px;
@@ -32,9 +54,11 @@
   --radius-sm:     12px;
   --radius-pill:   999px;
 
-  /* Shadows */
+  /* Elevation tiers — consistent ramp */
+  --shadow-xs:     0 1px 2px rgba(28, 27, 26, 0.06);
   --shadow-soft:   0 4px 24px rgba(28, 27, 26, 0.08);
   --shadow-lift:   0 18px 48px rgba(28, 27, 26, 0.14);
+  --shadow-deep:   0 32px 70px rgba(28, 27, 26, 0.20);
   --shadow-coral:  0 12px 32px rgba(234, 112, 86, 0.32);
 
   /* Layout */
@@ -42,9 +66,12 @@
   --gutter:        24px;
   --bento-gap:     20px;
 
-  /* Motion */
+  /* Motion — spring easing + a choreographed duration ramp */
   --ease:          cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
   --dur:           200ms;
+  --dur-fast:      120ms;
+  --dur-slow:      640ms;
 }
 
 /* --------------------------------------------------------------------------
@@ -140,6 +167,17 @@ button {
 }
 .section--coral h2 { color: var(--white); }
 
+/* Soft warm background section (how-it-works, social proof) */
+.section--soft { background: var(--coral-soft); }
+
+/* Centered fine-print under the pricing teaser */
+.pricing-deposit {
+  text-align: center;
+  color: var(--gray);
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+}
+
 /* Section label — coral pill + dot */
 .eyebrow {
   display: inline-flex;
@@ -209,6 +247,13 @@ h2.section-title {
               box-shadow var(--dur) var(--ease),
               color var(--dur) var(--ease);
   white-space: nowrap;
+  /* keep a 1.5px box so bordered/unbordered variants share a footprint */
+  border: 1.5px solid transparent;
+  will-change: transform;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
 }
 
 .btn-primary {
@@ -218,25 +263,33 @@ h2.section-title {
 }
 .btn-primary:hover {
   background: var(--coral-dark);
-  transform: scale(1.02);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(234, 112, 86, 0.42);
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.985);
+  box-shadow: 0 6px 16px rgba(234, 112, 86, 0.30);
 }
 
 .btn-secondary {
   background: var(--white);
   color: var(--ink);
-  border: 1.5px solid var(--ink);
+  border-color: var(--ink);
 }
 .btn-secondary:hover {
   background: var(--ink);
   color: var(--white);
-  transform: scale(1.02);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
 }
+.btn-secondary:active { transform: translateY(0) scale(0.985); box-shadow: none; }
 
 .btn-ghost-light {
   background: var(--white);
   color: var(--ink);
 }
-.btn-ghost-light:hover { transform: scale(1.02); background: var(--cream); }
+.btn-ghost-light:hover { transform: translateY(-2px); background: var(--cream); box-shadow: var(--shadow-soft); }
+.btn-ghost-light:active { transform: translateY(0) scale(0.985); }
 
 .btn-sm { padding: 11px 20px; font-size: 0.9375rem; }
 
@@ -538,6 +591,15 @@ h2.section-title {
   aspect-ratio: 9 / 19;
 }
 
+/* Real product screenshot filling a device screen */
+.device-shot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
 /* Mock UI inside devices */
 .mock-ui { padding: 12px; font-family: 'Inter', sans-serif; }
 .mock-bar {
@@ -574,6 +636,77 @@ h2.section-title {
   border-radius: 999px;
   padding: 3px 9px;
 }
+
+/* --------------------------------------------------------------------------
+   6b. LOSS TICKER — calculator emotional hook (centerpiece)
+   -------------------------------------------------------------------------- */
+.loss-section { padding-block: clamp(3rem, 6vw, 5rem); }
+.loss-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--white);
+  border-radius: var(--radius-card);
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+  text-align: center;
+  box-shadow: var(--shadow-deep);
+}
+/* warm bleed behind the figure */
+.loss-card::before {
+  content: "";
+  position: absolute;
+  inset: auto 50% -40% 50%;
+  transform: translateX(-50%);
+  width: 620px; height: 320px;
+  background: radial-gradient(ellipse at center, rgba(234,112,86,0.45), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+.loss-card > * { position: relative; z-index: 1; }
+.loss-card .eyebrow { background: rgba(234, 112, 86, 0.18); }
+.loss-title {
+  color: var(--white);
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  letter-spacing: var(--track-snug);
+  line-height: 1.1;
+  margin-top: 1.1rem;
+}
+.loss-example { color: rgba(255,255,255,0.66); margin-top: 0.9rem; font-size: 0.98rem; }
+.loss-figure { margin: 2rem 0 0.5rem; }
+.loss-amount {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3rem, 10vw, 6rem);
+  line-height: 1;
+  color: var(--coral);
+  letter-spacing: -0.04em;
+}
+.loss-unit {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.6);
+}
+.loss-live {
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.82);
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.loss-live-amount {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--coral);
+  font-variant-numeric: tabular-nums;
+  min-width: 6ch;
+}
+.loss-cta { margin-top: 2rem; }
 
 /* --------------------------------------------------------------------------
    7. COMPARISON (Problem / Solution)
@@ -1106,10 +1239,19 @@ h2.section-title {
 /* --------------------------------------------------------------------------
    11. SOCIAL PROOF
    -------------------------------------------------------------------------- */
+.marquee-caption {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: var(--label);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gray);
+}
 .marquee {
   position: relative;
   overflow: hidden;
-  margin-top: 2.5rem;
+  margin-top: 1.25rem;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
           mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
@@ -1134,6 +1276,43 @@ h2.section-title {
 }
 .marquee-logo:hover { opacity: 1; color: var(--ink); }
 .marquee-logo .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--coral); }
+
+/* Capri Blue case-study facts — factual proof, no fabricated quotes */
+.case-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--bento-gap);
+  margin-top: 3.5rem;
+}
+.case-fact {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.case-fact:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+.case-fact-num {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1;
+  color: var(--coral);
+  letter-spacing: var(--track-snug);
+}
+.case-fact-label {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--gray);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+@media (max-width: 720px) {
+  .case-facts { grid-template-columns: 1fr; }
+}
 
 .testimonials {
   display: grid;
@@ -1553,13 +1732,14 @@ h2.section-title {
    -------------------------------------------------------------------------- */
 .fade-up {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 620ms var(--ease), transform 620ms var(--ease);
+  transform: translateY(28px) scale(0.985);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
   will-change: opacity, transform;
 }
 .fade-up.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 /* Stagger helper */
 .fade-up[data-delay="1"] { transition-delay: 80ms; }
@@ -2525,16 +2705,23 @@ h2.section-title {
   font: inherit;
   color: var(--ink);
   background: var(--white);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 0.8rem 0.95rem;
-  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  padding: 0.85rem 1rem;
+  transition: border-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              background var(--dur) var(--ease);
 }
+.form-control::placeholder,
+.form-input::placeholder { color: var(--gray); opacity: 0.8; }
+.form-control:hover,
+.form-input:hover { border-color: #E0D7D1; }
 .form-control:focus,
 .form-input:focus {
   outline: none;
   border-color: var(--coral);
-  box-shadow: 0 0 0 3px var(--coral-soft);
+  box-shadow: 0 0 0 4px var(--coral-soft);
+  background: var(--white);
 }
 textarea.form-control { resize: vertical; min-height: 7rem; }
 
