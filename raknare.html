@@ -62,110 +62,126 @@
           <p class="section-sub" data-i18n="calculator.sub">Två frågor. Sju svar. Se exakt hur mycket din restaurang förlorar varje månad — och när du blir fri.</p>
         </div>
 
-        <div class="calculator-scenarios fade-up" data-delay="1">
-          <button type="button" class="calculator-scenario is-selected" data-preset="small" aria-pressed="true">
-            <span class="scenario-icon" aria-hidden="true">...</span>
-            <strong data-i18n="calculator.scenario.small">Liten pizzeria</strong>
-            <span data-i18n="calculator.scenario.smallMeta">50 ordrar/v · 130 kr</span>
-          </button>
-          <button type="button" class="calculator-scenario" data-preset="medium" aria-pressed="false">
-            <span class="scenario-icon" aria-hidden="true">...</span>
-            <strong data-i18n="calculator.scenario.medium">Medel pizzeria</strong>
-            <span data-i18n="calculator.scenario.mediumMeta">150 ordrar/v · 150 kr</span>
-          </button>
-          <button type="button" class="calculator-scenario" data-preset="large" aria-pressed="false">
-            <span class="scenario-icon" aria-hidden="true">...</span>
-            <strong data-i18n="calculator.scenario.large">Stor pizzeria</strong>
-            <span data-i18n="calculator.scenario.largeMeta">350 ordrar/v · 170 kr</span>
-          </button>
-        </div>
+        <div class="calc-workspace fade-up" data-delay="1">
+          <!-- LEFT: controls -->
+          <aside class="calc-controls">
+            <div class="calc-controls-head">
+              <h3 class="calc-panel-title" data-i18n="calculator.controls.heading">Din situation</h3>
+              <p class="calc-panel-hint" data-i18n="calculator.controls.hint">Välj en startpunkt eller dra i reglagen.</p>
+            </div>
 
-        <div class="calculator-inputs fade-up" data-delay="2">
-          <article class="calculator-card">
-            <h3 data-i18n="calculator.input.orders.title">Beställningar per vecka via plattformar</h3>
-            <div class="calculator-value" id="calcOrdersValue">100</div>
-            <input id="calcOrders" type="range" min="0" max="500" step="10" value="100" aria-valuemin="0" aria-valuemax="500" aria-valuenow="100" aria-label="Beställningar per vecka" data-i18n-aria="calculator.input.orders.title">
-            <p class="calculator-note" data-i18n="calculator.input.orders.note">Foodora, Wolt, eller liknande</p>
-          </article>
+            <div class="calc-presets" role="group" aria-label="Förinställda scenarier">
+              <button type="button" class="calculator-scenario is-selected" data-preset="small" aria-pressed="true">
+                <strong data-i18n="calculator.scenario.small">Liten pizzeria</strong>
+                <span data-i18n="calculator.scenario.smallMeta">50 ordrar/v · 130 kr</span>
+              </button>
+              <button type="button" class="calculator-scenario" data-preset="medium" aria-pressed="false">
+                <strong data-i18n="calculator.scenario.medium">Medel pizzeria</strong>
+                <span data-i18n="calculator.scenario.mediumMeta">150 ordrar/v · 150 kr</span>
+              </button>
+              <button type="button" class="calculator-scenario" data-preset="large" aria-pressed="false">
+                <strong data-i18n="calculator.scenario.large">Stor pizzeria</strong>
+                <span data-i18n="calculator.scenario.largeMeta">350 ordrar/v · 170 kr</span>
+              </button>
+            </div>
 
-          <article class="calculator-card">
-            <h3 data-i18n="calculator.input.avg.title">Snittordervärde (kr)</h3>
-            <div class="calculator-value" id="calcAvgValue">150 kr</div>
-            <input id="calcAvg" type="range" min="80" max="400" step="5" value="150" aria-valuemin="80" aria-valuemax="400" aria-valuenow="150" aria-label="Snittordervärde" data-i18n-aria="calculator.input.avg.title">
-            <p class="calculator-note" data-i18n="calculator.input.avg.note">Typiskt 130-170 kr för pizza i Sverige</p>
-          </article>
-        </div>
-
-        <div class="calculator-advanced fade-up" data-delay="3">
-          <button type="button" class="calculator-advanced-toggle" aria-expanded="false" id="calcAdvancedToggle" data-i18n="calculator.advanced.toggle">Avancerat: justera provision %</button>
-          <div class="calculator-advanced-panel" id="calcAdvancedPanel">
-            <label for="calcCommission" class="calculator-slider-label" data-i18n="calculator.advanced.title">Plattformens provision %</label>
-            <div class="calculator-value calculator-value--small"><span id="calcCommissionValue">30</span>%</div>
-            <input id="calcCommission" type="range" min="10" max="30" step="1" value="30" aria-valuemin="10" aria-valuemax="30" aria-valuenow="30" aria-label="Plattformens provision" data-i18n-aria="calculator.advanced.title">
-          </div>
-        </div>
-
-        <div class="calculator-results fade-up" data-delay="4" aria-live="polite">
-          <article class="calculator-main-result">
-            <span class="calculator-result-label" data-i18n="calculator.results.lostLabel">DU FÖRLORAR JUST NU</span>
-            <div class="calculator-main-value" id="calcYearlyValue">0 kr</div>
-            <p class="calculator-main-sub" id="calcYearlySub" data-i18n="calculator.results.lostSub">kronor per år till Foodora</p>
-            <p class="calculator-result-meta" id="calcPerLine">Per månad: 0 kr · Per dag: 0 kr · Per minut: 0 kr</p>
-            <p class="calculator-ticker" id="calcTicker" data-i18n="calculator.tickerText">Sedan du öppnade den här sidan har du förlorat 0 kr till Foodora...</p>
-          </article>
-
-          <div class="calculator-bento">
-            <article class="calculator-card calculator-card--white">
-              <span class="calculator-card-label" data-i18n="calculator.breakpoint.label">BRYTPUNKT</span>
-              <div class="calculator-card-value" id="calcPaybackDays">—</div>
-              <p class="calculator-card-note" data-i18n="calculator.breakpoint.note">dagar tills Amoora betalat tillbaka sig</p>
-            </article>
-            <article class="calculator-card calculator-card--coral">
-              <span class="calculator-card-label calculator-card-label--light" data-i18n="calculator.freedom.label">DITT FRIHETSDATUM</span>
-              <div class="calculator-card-value calculator-card-value--white" id="calcFreedomDate">—</div>
-              <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.freedom.note">Från detta datum är du 100% provisionsfri</p>
-            </article>
-            <article class="calculator-card calculator-card--ink calculator-card--wide">
-              <span class="calculator-card-label calculator-card-label--light" data-i18n="calculator.equivalent.label">DET ÄR LIKA MED</span>
-              <div class="calculator-equivalents">
-                <div>
-                  <div class="calculator-card-value" id="calcOvens">0</div>
-                  <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.equivalent.oven">pizzaugnar</p>
-                </div>
-                <div>
-                  <div class="calculator-card-value" id="calcEmployees">0</div>
-                  <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.equivalent.employee">heltidsanställda</p>
-                </div>
-                <div>
-                  <div class="calculator-card-value" id="calcVacations">0</div>
-                  <p class="calculator-card-note calculator-card-note--light" data-i18n="calculator.equivalent.vacation">familjesemestrar</p>
-                </div>
+            <div class="calc-field">
+              <div class="calc-field-head">
+                <label for="calcOrders" data-i18n="calculator.input.orders.title">Beställningar per vecka via plattformar</label>
+                <span class="calc-field-value" id="calcOrdersValue">100</span>
               </div>
-              <p class="calculator-card-small calculator-card-small--light" data-i18n="calculator.equivalent.note">Allt detta — borta. Varje år. Till Foodora.</p>
-            </article>
-          </div>
+              <input id="calcOrders" class="calc-range" type="range" min="0" max="500" step="10" value="100" aria-valuemin="0" aria-valuemax="500" aria-valuenow="100" aria-label="Beställningar per vecka" data-i18n-aria="calculator.input.orders.title">
+              <div class="calc-field-scale"><span>0</span><span>500</span></div>
+              <p class="calc-field-note" data-i18n="calculator.input.orders.note">Foodora, Wolt, eller liknande</p>
+            </div>
 
-          <section class="calculator-chart">
-            <div class="calculator-chart-head">
-              <span data-i18n="calculator.chart.title">Årlig kostnad: tre alternativ</span>
+            <div class="calc-field">
+              <div class="calc-field-head">
+                <label for="calcAvg" data-i18n="calculator.input.avg.title">Snittordervärde (kr)</label>
+                <span class="calc-field-value" id="calcAvgValue">150 kr</span>
+              </div>
+              <input id="calcAvg" class="calc-range" type="range" min="80" max="400" step="5" value="150" aria-valuemin="80" aria-valuemax="400" aria-valuenow="150" aria-label="Snittordervärde" data-i18n-aria="calculator.input.avg.title">
+              <div class="calc-field-scale"><span>80 kr</span><span>400 kr</span></div>
+              <p class="calc-field-note" data-i18n="calculator.input.avg.note">Typiskt 130-170 kr för pizza i Sverige</p>
             </div>
-            <div class="chart-row">
-              <div class="chart-row-label" id="chartFoodoraLabel" data-i18n="calculator.chart.foodora">Foodora (30% provision)</div>
-              <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--foodora" id="barFoodora"></div></div>
-              <div class="chart-row-value" id="chartFoodoraValue">0 kr</div>
+
+            <div class="calc-field calc-field--accent">
+              <div class="calc-field-head">
+                <label for="calcCommission" data-i18n="calculator.advanced.title">Plattformens provision %</label>
+                <span class="calc-field-value"><span id="calcCommissionValue">30</span>%</span>
+              </div>
+              <input id="calcCommission" class="calc-range" type="range" min="10" max="30" step="1" value="30" aria-valuemin="10" aria-valuemax="30" aria-valuenow="30" aria-label="Plattformens provision" data-i18n-aria="calculator.advanced.title">
+              <div class="calc-field-scale"><span>10%</span><span>30%</span></div>
+              <p class="calc-field-note" data-i18n="calculator.commission.note">Foodora tar oftast runt 30 %. Dra mellan 10–30 %.</p>
             </div>
-            <div class="chart-row">
-              <div class="chart-row-label" id="chartWoltLabel" data-i18n="calculator.chart.wolt">Wolt (25% provision)</div>
-              <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--wolt" id="barWolt"></div></div>
-              <div class="chart-row-value" id="chartWoltValue">0 kr</div>
+          </aside>
+
+          <!-- RIGHT: live result -->
+          <div class="calc-output" aria-live="polite">
+            <article class="calc-hero">
+              <span class="calc-hero-label" data-i18n="calculator.results.lostLabel">DU FÖRLORAR JUST NU</span>
+              <div class="calc-hero-value" id="calcYearlyValue">0 kr</div>
+              <p class="calc-hero-sub" id="calcYearlySub" data-i18n="calculator.results.lostSub">kronor per år till Foodora</p>
+              <div class="calc-hero-breakdown" id="calcPerLine">Per månad: 0 kr · Per dag: 0 kr · Per minut: 0 kr</div>
+              <p class="calc-hero-ticker" id="calcTicker" data-i18n="calculator.tickerText">Sedan du öppnade den här sidan har du förlorat 0 kr till Foodora...</p>
+            </article>
+
+            <div class="calc-metrics">
+              <article class="calc-metric">
+                <span class="calc-metric-label" data-i18n="calculator.breakpoint.label">BRYTPUNKT</span>
+                <div class="calc-metric-value" id="calcPaybackDays">—</div>
+                <p class="calc-metric-note" data-i18n="calculator.breakpoint.note">dagar tills Amoora betalat tillbaka sig</p>
+              </article>
+              <article class="calc-metric calc-metric--coral">
+                <span class="calc-metric-label" data-i18n="calculator.freedom.label">DITT FRIHETSDATUM</span>
+                <div class="calc-metric-value" id="calcFreedomDate">—</div>
+                <p class="calc-metric-note" data-i18n="calculator.freedom.note">Från detta datum är du 100% provisionsfri</p>
+              </article>
             </div>
-            <div class="chart-row">
-              <div class="chart-row-label" data-i18n="calculator.chart.amoora">Amoora (engångskostnad)</div>
-              <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--amoora" id="barAmoora"></div></div>
-              <div class="chart-row-value" id="chartAmooraValue">46 587 kr (år 1) · 6 588 kr/år</div>
-            </div>
-          </section>
+          </div>
         </div>
+
+        <!-- Comparison chart (full width) -->
+        <section class="calculator-chart fade-up" data-delay="2">
+          <div class="calculator-chart-head">
+            <span data-i18n="calculator.chart.title">Årlig kostnad: tre alternativ</span>
+          </div>
+          <div class="chart-row">
+            <div class="chart-row-label" id="chartFoodoraLabel" data-i18n="calculator.chart.foodora">Foodora (30% provision)</div>
+            <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--foodora" id="barFoodora"></div></div>
+            <div class="chart-row-value" id="chartFoodoraValue">0 kr</div>
+          </div>
+          <div class="chart-row">
+            <div class="chart-row-label" id="chartWoltLabel" data-i18n="calculator.chart.wolt">Wolt (25% provision)</div>
+            <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--wolt" id="barWolt"></div></div>
+            <div class="chart-row-value" id="chartWoltValue">0 kr</div>
+          </div>
+          <div class="chart-row">
+            <div class="chart-row-label" data-i18n="calculator.chart.amoora">Amoora (engångskostnad)</div>
+            <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--amoora" id="barAmoora"></div></div>
+            <div class="chart-row-value" id="chartAmooraValue">46 587 kr (år 1) · 6 588 kr/år</div>
+          </div>
+        </section>
+
+        <!-- "That equals" strip -->
+        <section class="calc-equivalents fade-up" data-delay="3">
+          <span class="calc-equivalents-label" data-i18n="calculator.equivalent.label">DET ÄR LIKA MED</span>
+          <div class="calc-equivalents-grid">
+            <div>
+              <div class="calc-eq-value" id="calcOvens">0</div>
+              <p data-i18n="calculator.equivalent.oven">pizzaugnar</p>
+            </div>
+            <div>
+              <div class="calc-eq-value" id="calcEmployees">0</div>
+              <p data-i18n="calculator.equivalent.employee">heltidsanställda</p>
+            </div>
+            <div>
+              <div class="calc-eq-value" id="calcVacations">0</div>
+              <p data-i18n="calculator.equivalent.vacation">familjesemestrar</p>
+            </div>
+          </div>
+          <p class="calc-equivalents-note" data-i18n="calculator.equivalent.note">Allt detta — borta. Varje år. Till Foodora.</p>
+        </section>
 
         <section class="calculator-share fade-up" data-delay="5">
           <div class="calculator-share-row">
@@ -190,19 +206,19 @@
     <section class="section">
       <div class="container">
         <div class="trust-cards">
-          <div class="trust-card">✓ Räknaren bygger på riktiga Foodora-siffror (25-35%)</div>
-          <div class="trust-card">✓ Resultaten är genomsnitt — din situation kan variera</div>
-          <div class="trust-card">✓ Boka en demo så gör vi en exakt beräkning för din restaurang</div>
+          <div class="trust-card"><span class="trust-check" aria-hidden="true">✓</span> <span data-i18n="calculator.trust.1">Räknaren bygger på riktiga marknadssiffror — justerbar provision 10–30 %</span></div>
+          <div class="trust-card"><span class="trust-check" aria-hidden="true">✓</span> <span data-i18n="calculator.trust.2">Resultaten är genomsnitt — din situation kan variera</span></div>
+          <div class="trust-card"><span class="trust-check" aria-hidden="true">✓</span> <span data-i18n="calculator.trust.3">Boka en demo så gör vi en exakt beräkning för din restaurang</span></div>
         </div>
       </div>
     </section>
 
     <!-- Final CTA -->
-    <section class="section" style="background:var(--coral);color:var(--white);padding-block:3.5rem;margin-top:2rem;">
-      <div class="container text-center">
-        <h2 style="margin:0 0 0.5rem 0;">Övertygad? Nästa steg är 20 minuter.</h2>
-        <p style="margin:0 0 1rem 0;">Boka demo så går vi igenom resultatet tillsammans och visar systemet live.</p>
-        <a href="kontakt.html" class="btn btn-ghost-light">Boka demo →</a>
+    <section class="section section--coral">
+      <div class="container text-center final-cta">
+        <h2 class="fade-up" data-i18n="calculator.cta.bottom.h2">Övertygad? Nästa steg är 20 minuter.</h2>
+        <p class="fade-up" data-i18n="calculator.cta.bottom.p">Boka demo så går vi igenom resultatet tillsammans och visar systemet live.</p>
+        <a href="kontakt.html" class="btn btn-ghost-light fade-up" data-i18n="calculator.cta.bottom.btn">Boka demo →</a>
       </div>
     </section>
 
