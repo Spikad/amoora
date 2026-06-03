@@ -1395,6 +1395,8 @@ function initCalculator() {
   const chartFoodoraValue = document.getElementById("chartFoodoraValue");
   const chartWoltValue = document.getElementById("chartWoltValue");
   const chartAmooraValue = document.getElementById("chartAmooraValue");
+  const chartFoodoraLabel = document.getElementById("chartFoodoraLabel");
+  const chartWoltLabel = document.getElementById("chartWoltLabel");
   const presetButtons = document.querySelectorAll(".calculator-scenario");
   const advancedToggle = document.getElementById("calcAdvancedToggle");
   const advancedPanel = document.getElementById("calcAdvancedPanel");
@@ -1403,6 +1405,9 @@ function initCalculator() {
   const toast = document.getElementById("calcToast");
   const amooraFirstYear = 46587; // Growth setup 39 999 + 12 × 549 kr/mån
   const amooraAnnual = 6588;     // 12 × 549 kr/mån
+  const WOLT_PCT = 25;           // Wolt comparison commission (fixed reference)
+  const COMMISSION_MIN = 10;     // slider bounds (kept in sync with raknare.html)
+  const COMMISSION_MAX = 30;
   let tickerStart = performance.now();
   let tickerInterval = null;
 
@@ -1425,13 +1430,27 @@ function initCalculator() {
     return template.replace("{amount}", formatCurrency(amount, 0));
   };
 
+  // Fill an i18n "{pct}"-templated chart label with a concrete percentage.
+  const setChartLabel = (el, key, pct) => {
+    if (!el) return;
+    const tpl = I18N[currentLang]?.[key] || el.textContent || "";
+    el.textContent = tpl.replace("{pct}", String(pct));
+  };
+
   const updateMetrics = () => {
     const orders = parseInt(ordersInput.value, 10) || 0;
     const avg = parseInt(avgInput.value, 10) || 0;
-    const commission = parseInt(commissionInput.value, 10) || 0;
+    // Clamp commission to the supported 10–30% band so the math can't run on
+    // an out-of-range value (e.g. a stale URL/preset or manual input).
+    const commission = Math.min(
+      COMMISSION_MAX,
+      Math.max(COMMISSION_MIN, parseInt(commissionInput.value, 10) || COMMISSION_MIN)
+    );
+
+    // Annual platform commission = weekly orders × avg order value × 52 weeks × rate.
     const annualRevenue = orders * avg * 52;
     const foodoraAnnual = Math.round(annualRevenue * (commission / 100));
-    const woltAnnual = Math.round(annualRevenue * 0.25);
+    const woltAnnual = Math.round(annualRevenue * (WOLT_PCT / 100));
     const monthly = Math.round(foodoraAnnual / 12);
     const daily = Math.round(foodoraAnnual / 365);
     const minute = Math.max(foodoraAnnual / 525600, 0);
@@ -1448,6 +1467,12 @@ function initCalculator() {
     ordersValue.textContent = formatNumber(orders, true);
     avgValue.textContent = `${formatNumber(avg, true)} kr`;
     commissionValue.textContent = String(commission);
+    // Keep the slider's value + ARIA state consistent with the clamped number.
+    if (parseInt(commissionInput.value, 10) !== commission) commissionInput.value = String(commission);
+    commissionInput.setAttribute("aria-valuenow", String(commission));
+    ordersInput.setAttribute("aria-valuenow", String(orders));
+    avgInput.setAttribute("aria-valuenow", String(avg));
+
     yearlyValue.textContent = formatCurrency(foodoraAnnual, 0);
     perLine.textContent = `Per månad: ${formatCurrency(monthly)} · Per dag: ${formatCurrency(daily)} · Per minut: ${formatCurrency(minute, 1)}`;
     paybackDays.textContent = payback > 0 ? String(payback) : "—";
@@ -1455,6 +1480,10 @@ function initCalculator() {
     ovens.textContent = String(ovensCount);
     employees.textContent = String(employeeCount);
     vacations.textContent = String(vacationCount);
+
+    // Chart labels follow the actual commissions (Foodora = slider, Wolt = fixed).
+    setChartLabel(chartFoodoraLabel, "calculator.chart.foodora", commission);
+    setChartLabel(chartWoltLabel, "calculator.chart.wolt", WOLT_PCT);
     chartFoodoraValue.textContent = formatCurrency(foodoraAnnual, 0);
     chartWoltValue.textContent = formatCurrency(woltAnnual, 0);
     chartAmooraValue.textContent = `${formatCurrency(amooraFirstYear, 0)} (år 1) · ${formatCurrency(amooraAnnual, 0)}/år`;

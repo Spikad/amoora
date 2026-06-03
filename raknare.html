@@ -101,7 +101,7 @@
           <div class="calculator-advanced-panel" id="calcAdvancedPanel">
             <label for="calcCommission" class="calculator-slider-label" data-i18n="calculator.advanced.title">Plattformens provision %</label>
             <div class="calculator-value calculator-value--small"><span id="calcCommissionValue">30</span>%</div>
-            <input id="calcCommission" type="range" min="20" max="35" step="1" value="30" aria-valuemin="20" aria-valuemax="35" aria-valuenow="30" aria-label="Plattformens provision" data-i18n-aria="calculator.advanced.title">
+            <input id="calcCommission" type="range" min="10" max="30" step="1" value="30" aria-valuemin="10" aria-valuemax="30" aria-valuenow="30" aria-label="Plattformens provision" data-i18n-aria="calculator.advanced.title">
           </div>
         </div>
 
@@ -150,12 +150,12 @@
               <span data-i18n="calculator.chart.title">Årlig kostnad: tre alternativ</span>
             </div>
             <div class="chart-row">
-              <div class="chart-row-label" data-i18n="calculator.chart.foodora">Foodora (30% provision)</div>
+              <div class="chart-row-label" id="chartFoodoraLabel" data-i18n="calculator.chart.foodora">Foodora (30% provision)</div>
               <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--foodora" id="barFoodora"></div></div>
               <div class="chart-row-value" id="chartFoodoraValue">0 kr</div>
             </div>
             <div class="chart-row">
-              <div class="chart-row-label" data-i18n="calculator.chart.wolt">Wolt (25% provision)</div>
+              <div class="chart-row-label" id="chartWoltLabel" data-i18n="calculator.chart.wolt">Wolt (25% provision)</div>
               <div class="chart-bar-track"><div class="chart-bar-fill chart-bar-fill--wolt" id="barWolt"></div></div>
               <div class="chart-row-value" id="chartWoltValue">0 kr</div>
             </div>
