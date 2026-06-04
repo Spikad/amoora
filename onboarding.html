@@ -191,8 +191,106 @@
 
     .btn[disabled] { opacity: 0.6; cursor: not-allowed; transform: none; }
 
+    /* ====================================================================
+       WIZARD — flerstegslayout
+       ==================================================================== */
+
+    /* Språkväljare */
+    .ob-langbar { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.75rem; }
+    .ob-lang {
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    .ob-lang:hover { border-color: var(--coral); }
+    .ob-lang.is-active { background: var(--coral); border-color: var(--coral); color: var(--white); }
+
+    /* Förloppsindikator */
+    .ob-progress { margin-bottom: 1.75rem; }
+    .ob-progress-meta {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 1rem; margin-bottom: 0.6rem;
+    }
+    .ob-progress-step { font-weight: 700; color: var(--ink); font-size: 0.95rem; }
+    .ob-progress-title { color: var(--gray); font-size: 0.9rem; text-align: right; }
+    .ob-progress-track {
+      height: 8px;
+      width: 100%;
+      background: var(--coral-soft);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .ob-progress-fill {
+      height: 100%;
+      width: 12.5%;
+      background: var(--coral);
+      border-radius: var(--radius-pill);
+      transition: width var(--dur) var(--ease);
+    }
+
+    /* Stegkort — alla i DOM, ett synligt åt gången */
+    .ob-step { display: none; }
+    .ob-step.is-active {
+      display: block;
+      animation: ob-step-in var(--dur) var(--ease);
+    }
+    @keyframes ob-step-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Navigeringsknappar */
+    .ob-nav {
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+      margin-top: 1.75rem;
+    }
+    .ob-nav .ob-nav-spacer { flex: 1; }
+    .ob-nav .btn { min-width: 9rem; }
+
+    /* Granska-vy (steg 8) */
+    .ob-review-group { margin-bottom: 1.5rem; }
+    .ob-review-group:last-child { margin-bottom: 0; }
+    .ob-review-group h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .ob-review-row {
+      display: grid;
+      grid-template-columns: 11rem 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.35rem 0;
+      font-size: 0.95rem;
+    }
+    .ob-review-row dt { color: var(--gray); font-weight: 600; }
+    .ob-review-row dd { color: var(--ink); margin: 0; word-break: break-word; }
+    .ob-review-row dd.is-empty { color: var(--gray); font-style: italic; }
+
     @media (max-width: 640px) {
       .ob-grid--2, .ob-grid--3 { grid-template-columns: 1fr; }
+      .ob-nav { flex-direction: column-reverse; }
+      .ob-nav .btn, .ob-nav .ob-nav-spacer { width: 100%; }
+      .ob-nav .ob-nav-spacer { display: none; }
+      .ob-review-row { grid-template-columns: 1fr; gap: 0.1rem; }
+      .ob-progress-title { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ob-step.is-active { animation: none; }
+      .ob-progress-fill { transition: none; }
     }
   </style>
 </head>
@@ -206,14 +304,17 @@
     <section class="section" style="background: var(--cream); padding-block: clamp(3.5rem, 7vw, 5rem) clamp(2rem, 4vw, 3rem);">
       <div class="container">
         <div class="ob-shell text-center">
-          <span class="eyebrow">ONBOARDING</span>
+          <div class="ob-langbar">
+            <button type="button" class="ob-lang" data-lang="sv" aria-pressed="true">SV</button>
+            <button type="button" class="ob-lang" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+          <span class="eyebrow" data-i18n="onb.hero.eyebrow">ONBOARDING</span>
           <h1 style="font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.06; letter-spacing: -0.02em; margin-top: 1.25rem;">
-            Nu bygger vi <span class="hl" style="color: var(--coral);">ditt system</span>
+            <span data-i18n="onb.hero.h1pre">Nu bygger vi </span><span class="hl" style="color: var(--coral);" data-i18n="onb.hero.h1hl">ditt system</span>
           </h1>
-          <p class="hero-sub" style="margin: 1.25rem auto 0; max-width: 44rem;">
-            Tack för att du valde Amoora. Fyll i uppgifterna nedan så att vårt team kan bygga
-            ditt eget fristående beställningssystem — anpassat efter din restaurang, ditt
-            varumärke och din meny. Det tar ungefär 10 minuter och du kan fylla i det du har just nu.
+          <p class="hero-sub" style="margin: 1.25rem auto 0; max-width: 44rem;" data-i18n="onb.hero.sub">
+            Tack för att du valde Amoora. Vi tar det steg för steg — fyll i det du har just nu, så
+            bygger vårt team ditt eget fristående beställningssystem. Det tar ungefär 10 minuter.
           </p>
         </div>
       </div>
@@ -229,57 +330,81 @@
           <!-- Mjuk notering (t.ex. om en filuppladdning misslyckades) -->
           <div class="ob-alert ob-alert--note" id="obNote" role="status" hidden></div>
 
+          <!-- Förloppsindikator (kvarstår över alla steg) -->
+          <div class="ob-progress" aria-hidden="false">
+            <div class="ob-progress-meta">
+              <span class="ob-progress-step">
+                <span data-i18n="onb.progress">Steg</span>
+                <span id="obStepNum">1</span>
+                <span data-i18n="onb.progress.of">av</span> 8
+              </span>
+              <span class="ob-progress-title" id="obStepTitle" data-i18n="onb.step1.title">Om din restaurang</span>
+            </div>
+            <div class="ob-progress-track">
+              <div class="ob-progress-fill" id="obProgressFill"></div>
+            </div>
+          </div>
+
           <form id="onboardingForm" novalidate>
 
-            <!-- A. Restaurang ----------------------------------------------- -->
-            <section class="ob-section">
+            <!-- STEG 1: Restaurang ------------------------------------------ -->
+            <section class="ob-step is-active ob-section" data-step="1">
               <div class="ob-section-head">
-                <span class="ob-section-eyebrow">A · Restaurang</span>
-                <h2>Om din restaurang</h2>
-                <p class="ob-section-sub">Grunduppgifter och vilken plan du har valt.</p>
+                <span class="ob-section-eyebrow" data-i18n="onb.step1.eyebrow">Steg 1 · Restaurang</span>
+                <h2 data-i18n="onb.step1.title">Om din restaurang</h2>
+                <p class="ob-section-sub" data-i18n="onb.step1.sub">Grunduppgifter om dig och din restaurang.</p>
               </div>
 
               <div class="ob-grid ob-grid--2">
                 <div class="ob-field--full">
-                  <label class="form-label" for="restaurantName">Restaurangens namn <span class="req">*</span></label>
+                  <label class="form-label" for="restaurantName"><span data-i18n="onb.f.restaurantName">Restaurangens namn</span> <span class="req">*</span></label>
                   <input type="text" id="restaurantName" name="restaurant_name" class="form-control" required placeholder="T.ex. Capri Blue">
                 </div>
                 <div>
-                  <label class="form-label" for="orgNr">Organisationsnummer</label>
+                  <label class="form-label" for="orgNr" data-i18n="onb.f.orgNr">Organisationsnummer</label>
                   <input type="text" id="orgNr" name="org_nr" class="form-control" placeholder="556677-8899">
                 </div>
                 <div>
-                  <label class="form-label" for="contactPerson">Kontaktperson <span class="req">*</span></label>
+                  <label class="form-label" for="contactPerson"><span data-i18n="onb.f.contactPerson">Kontaktperson</span> <span class="req">*</span></label>
                   <input type="text" id="contactPerson" name="contact_person" class="form-control" required placeholder="För- och efternamn">
                 </div>
                 <div>
-                  <label class="form-label" for="contactRole">Roll</label>
+                  <label class="form-label" for="contactRole" data-i18n="onb.f.contactRole">Roll</label>
                   <input type="text" id="contactRole" name="contact_role" class="form-control" placeholder="T.ex. Ägare, restaurangchef">
                 </div>
                 <div>
-                  <label class="form-label" for="email">E-post <span class="req">*</span></label>
+                  <label class="form-label" for="email"><span data-i18n="onb.f.email">E-post</span> <span class="req">*</span></label>
                   <input type="email" id="email" name="email" class="form-control" required placeholder="namn@restaurang.se">
                 </div>
                 <div>
-                  <label class="form-label" for="phone">Telefon</label>
+                  <label class="form-label" for="phone" data-i18n="onb.f.phone">Telefon</label>
                   <input type="tel" id="phone" name="phone" class="form-control" placeholder="070-123 45 67">
                 </div>
                 <div class="ob-field--full">
-                  <label class="form-label" for="address">Adress</label>
+                  <label class="form-label" for="address" data-i18n="onb.f.address">Adress</label>
                   <input type="text" id="address" name="address" class="form-control" placeholder="Gatuadress">
                 </div>
                 <div>
-                  <label class="form-label" for="postalCode">Postnummer</label>
+                  <label class="form-label" for="postalCode" data-i18n="onb.f.postalCode">Postnummer</label>
                   <input type="text" id="postalCode" name="postal_code" class="form-control" placeholder="123 45">
                 </div>
                 <div>
-                  <label class="form-label" for="city">Ort</label>
+                  <label class="form-label" for="city" data-i18n="onb.f.city">Ort</label>
                   <input type="text" id="city" name="city" class="form-control" placeholder="Stockholm">
                 </div>
               </div>
+            </section>
 
-              <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
-                <legend>Vald plan</legend>
+            <!-- STEG 2: Plan + tillval -------------------------------------- -->
+            <section class="ob-step ob-section" data-step="2">
+              <div class="ob-section-head">
+                <span class="ob-section-eyebrow" data-i18n="onb.step2.eyebrow">Steg 2 · Plan</span>
+                <h2 data-i18n="onb.step2.title">Vald plan och tillval</h2>
+                <p class="ob-section-sub" data-i18n="onb.step2.sub">Bekräfta vilken plan du valt och kryssa i eventuella tillval.</p>
+              </div>
+
+              <fieldset class="ob-fieldset">
+                <legend data-i18n="onb.f.plan">Vald plan</legend>
                 <div class="pill-stack">
                   <label class="radio-pill">
                     <input type="radio" name="plan" value="Basic" checked>
@@ -297,7 +422,7 @@
               </fieldset>
 
               <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
-                <legend>Tillval (kryssa i det som gäller)</legend>
+                <legend data-i18n="onb.f.addons">Tillval (kryssa i det som gäller)</legend>
                 <div class="pill-stack">
                   <label class="check-pill">
                     <input type="checkbox" name="addons" value="Extra Sunmi V2 S-terminal">
@@ -323,77 +448,77 @@
               </fieldset>
             </section>
 
-            <!-- B. Varumärke ------------------------------------------------- -->
-            <section class="ob-section">
+            <!-- STEG 3: Varumärke ------------------------------------------- -->
+            <section class="ob-step ob-section" data-step="3">
               <div class="ob-section-head">
-                <span class="ob-section-eyebrow">B · Varumärke</span>
-                <h2>Ditt varumärke</h2>
-                <p class="ob-section-sub">Logotyp, färger och bilder som gör systemet till ditt.</p>
+                <span class="ob-section-eyebrow" data-i18n="onb.step3.eyebrow">Steg 3 · Varumärke</span>
+                <h2 data-i18n="onb.step3.title">Ditt varumärke</h2>
+                <p class="ob-section-sub" data-i18n="onb.step3.sub">Logotyp, färger och bilder som gör systemet till ditt.</p>
               </div>
 
               <div class="ob-grid">
                 <div>
-                  <label class="form-label" for="logoFile">Logotyp</label>
+                  <label class="form-label" for="logoFile" data-i18n="onb.f.logo">Logotyp</label>
                   <input type="file" id="logoFile" name="logo" class="form-control" accept="image/*,.svg,.pdf">
-                  <p class="form-hint">En fil. PNG, SVG eller PDF fungerar bäst.</p>
+                  <p class="form-hint" data-i18n="onb.f.logoHint">En fil. PNG, SVG eller PDF fungerar bäst.</p>
                 </div>
 
                 <div>
                   <label class="check-pill" style="max-width: max-content;">
                     <input type="checkbox" id="useDefaultColors" name="use_default_colors" value="1" checked>
-                    <span>Använd Amoora standardfärger</span>
+                    <span data-i18n="onb.f.useDefaultColors">Använd Amoora standardfärger</span>
                   </label>
                   <div class="ob-conditional" id="brandColorWrap" style="margin-top: 1rem;">
-                    <label class="form-label" for="brandColor">Primärfärg</label>
+                    <label class="form-label" for="brandColor" data-i18n="onb.f.brandColor">Primärfärg</label>
                     <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
                       <input type="color" id="brandColorPicker" class="form-control" value="#EA7056" aria-label="Välj primärfärg">
                       <input type="text" id="brandColor" name="brand_color" class="form-control" style="max-width: 180px;" placeholder="#EA7056">
                     </div>
-                    <p class="form-hint">Ange din färg som HEX-kod, eller använd färgväljaren.</p>
+                    <p class="form-hint" data-i18n="onb.f.brandColorHint">Ange din färg som HEX-kod, eller använd färgväljaren.</p>
                   </div>
                 </div>
 
                 <div>
-                  <label class="form-label" for="photoFiles">Foton</label>
+                  <label class="form-label" for="photoFiles" data-i18n="onb.f.photos">Foton</label>
                   <input type="file" id="photoFiles" name="photos" class="form-control" accept="image/*" multiple>
-                  <p class="form-hint">Bilder på rätter, lokal eller miljö. Flera filer tillåtna.</p>
+                  <p class="form-hint" data-i18n="onb.f.photosHint">Bilder på rätter, lokal eller miljö. Flera filer tillåtna.</p>
                 </div>
 
                 <div>
-                  <label class="form-label" for="brandNotes">Varumärkesnoteringar</label>
+                  <label class="form-label" for="brandNotes" data-i18n="onb.f.brandNotes">Varumärkesnoteringar</label>
                   <textarea id="brandNotes" name="brand_notes" class="form-control" placeholder="Ton, känsla, typsnitt, befintlig grafisk profil..."></textarea>
                 </div>
               </div>
             </section>
 
-            <!-- C. Domän & online ------------------------------------------- -->
-            <section class="ob-section">
+            <!-- STEG 4: Domän & online -------------------------------------- -->
+            <section class="ob-step ob-section" data-step="4">
               <div class="ob-section-head">
-                <span class="ob-section-eyebrow">C · Domän & online</span>
-                <h2>Domän och närvaro online</h2>
-                <p class="ob-section-sub">Var ska ditt system ligga, och var finns du redan idag?</p>
+                <span class="ob-section-eyebrow" data-i18n="onb.step4.eyebrow">Steg 4 · Domän & online</span>
+                <h2 data-i18n="onb.step4.title">Domän och närvaro online</h2>
+                <p class="ob-section-sub" data-i18n="onb.step4.sub">Var ska ditt system ligga, och var finns du redan idag?</p>
               </div>
 
               <fieldset class="ob-fieldset">
-                <legend>Webbadress för ditt system</legend>
+                <legend data-i18n="onb.f.domainLegend">Webbadress för ditt system</legend>
                 <div class="pill-stack">
                   <label class="radio-pill">
                     <input type="radio" name="domain_choice" value="own" id="domainOwn">
-                    <span>Jag har en egen domän</span>
+                    <span data-i18n="onb.f.domainOwn">Jag har en egen domän</span>
                   </label>
                   <label class="radio-pill">
                     <input type="radio" name="domain_choice" value="subdomain" id="domainSub" checked>
-                    <span>Ge mig en adress under amoora.se</span>
+                    <span data-i18n="onb.f.domainSub">Ge mig en adress under amoora.se</span>
                   </label>
                 </div>
 
                 <div class="ob-conditional" id="ownDomainWrap" style="margin-top: 1.25rem;">
-                  <label class="form-label" for="ownDomain">Egen domän</label>
+                  <label class="form-label" for="ownDomain" data-i18n="onb.f.ownDomain">Egen domän</label>
                   <input type="text" id="ownDomain" class="form-control" placeholder="t.ex. caprigatan.se">
                 </div>
 
                 <div class="ob-conditional is-shown" id="subDomainWrap" style="margin-top: 1.25rem;">
-                  <label class="form-label" for="subDomain">Önskad adress</label>
+                  <label class="form-label" for="subDomain" data-i18n="onb.f.subDomain">Önskad adress</label>
                   <div class="ob-subdomain">
                     <input type="text" id="subDomain" class="form-control" placeholder="caprblue">
                     <span class="ob-subdomain-suffix">.amoora.se</span>
@@ -404,185 +529,189 @@
 
               <div class="ob-grid" style="margin-top: 1.5rem;">
                 <div>
-                  <label class="form-label" for="existingWeb">Befintlig webbplats</label>
+                  <label class="form-label" for="existingWeb" data-i18n="onb.f.existingWeb">Befintlig webbplats</label>
                   <input type="text" id="existingWeb" name="existing_web" class="form-control" placeholder="https://...">
                 </div>
               </div>
 
               <div class="ob-grid ob-grid--3" style="margin-top: 1.25rem;">
                 <div>
-                  <label class="form-label" for="socialIg">Instagram</label>
+                  <label class="form-label" for="socialIg" data-i18n="onb.f.instagram">Instagram</label>
                   <input type="text" id="socialIg" class="form-control" placeholder="@dittkonto">
                 </div>
                 <div>
-                  <label class="form-label" for="socialFb">Facebook</label>
+                  <label class="form-label" for="socialFb" data-i18n="onb.f.facebook">Facebook</label>
                   <input type="text" id="socialFb" class="form-control" placeholder="facebook.com/...">
                 </div>
                 <div>
-                  <label class="form-label" for="socialTt">TikTok</label>
+                  <label class="form-label" for="socialTt" data-i18n="onb.f.tiktok">TikTok</label>
                   <input type="text" id="socialTt" class="form-control" placeholder="@dittkonto">
                 </div>
               </div>
             </section>
 
-            <!-- D. Meny ----------------------------------------------------- -->
-            <section class="ob-section">
+            <!-- STEG 5: Meny ------------------------------------------------ -->
+            <section class="ob-step ob-section" data-step="5">
               <div class="ob-section-head">
-                <span class="ob-section-eyebrow">D · Meny</span>
-                <h2>Din meny</h2>
-                <p class="ob-section-sub">Länka din befintliga meny eller ladda upp den — välj det som är enklast.</p>
+                <span class="ob-section-eyebrow" data-i18n="onb.step5.eyebrow">Steg 5 · Meny</span>
+                <h2 data-i18n="onb.step5.title">Din meny</h2>
+                <p class="ob-section-sub" data-i18n="onb.step5.sub">Länka din befintliga meny eller ladda upp den — välj det som är enklast.</p>
               </div>
 
               <div class="ob-grid">
                 <div>
-                  <label class="form-label" for="menuLink">Länk till din Foodora-meny</label>
+                  <label class="form-label" for="menuLink" data-i18n="onb.f.menuLink">Länk till din Foodora-meny</label>
                   <input type="text" id="menuLink" name="menu_link" class="form-control" placeholder="https://www.foodora.se/restaurant/...">
-                  <p class="form-hint">Om du redan finns på Foodora kan vi utgå från din meny där.</p>
+                  <p class="form-hint" data-i18n="onb.f.menuLinkHint">Om du redan finns på Foodora kan vi utgå från din meny där.</p>
                 </div>
                 <div>
-                  <label class="form-label" for="menuFiles">Eller ladda upp din meny</label>
+                  <label class="form-label" for="menuFiles" data-i18n="onb.f.menu">Eller ladda upp din meny</label>
                   <input type="file" id="menuFiles" name="menu" class="form-control" accept="image/*,application/pdf" multiple>
-                  <p class="form-hint">Bilder eller PDF. Flera filer tillåtna.</p>
+                  <p class="form-hint" data-i18n="onb.f.menuHint">Bilder eller PDF. Flera filer tillåtna.</p>
                 </div>
                 <div>
-                  <label class="form-label" for="menuNotes">Noteringar om kategorier & varianter</label>
+                  <label class="form-label" for="menuNotes" data-i18n="onb.f.menuNotes">Noteringar om kategorier & varianter</label>
                   <textarea id="menuNotes" name="menu_notes" class="form-control" placeholder="T.ex. storlekar, tillval, allergener, kategoriindelning..."></textarea>
                 </div>
               </div>
             </section>
 
-            <!-- E. Drift ---------------------------------------------------- -->
-            <section class="ob-section">
+            <!-- STEG 6: Drift ----------------------------------------------- -->
+            <section class="ob-step ob-section" data-step="6">
               <div class="ob-section-head">
-                <span class="ob-section-eyebrow">E · Drift</span>
-                <h2>Öppettider och leverans</h2>
-                <p class="ob-section-sub">Hur din verksamhet fungerar i praktiken.</p>
+                <span class="ob-section-eyebrow" data-i18n="onb.step6.eyebrow">Steg 6 · Drift</span>
+                <h2 data-i18n="onb.step6.title">Öppettider och leverans</h2>
+                <p class="ob-section-sub" data-i18n="onb.step6.sub">Hur din verksamhet fungerar i praktiken.</p>
               </div>
 
               <fieldset class="ob-fieldset">
-                <legend>Öppettider</legend>
+                <legend data-i18n="onb.f.openingHours">Öppettider</legend>
                 <div class="ob-grid ob-grid--3">
                   <div>
-                    <label class="form-label" for="hoursMon">Måndag</label>
+                    <label class="form-label" for="hoursMon" data-i18n="onb.f.mon">Måndag</label>
                     <input type="text" id="hoursMon" class="form-control" placeholder="11–22">
                   </div>
                   <div>
-                    <label class="form-label" for="hoursTue">Tisdag</label>
+                    <label class="form-label" for="hoursTue" data-i18n="onb.f.tue">Tisdag</label>
                     <input type="text" id="hoursTue" class="form-control" placeholder="11–22">
                   </div>
                   <div>
-                    <label class="form-label" for="hoursWed">Onsdag</label>
+                    <label class="form-label" for="hoursWed" data-i18n="onb.f.wed">Onsdag</label>
                     <input type="text" id="hoursWed" class="form-control" placeholder="11–22">
                   </div>
                   <div>
-                    <label class="form-label" for="hoursThu">Torsdag</label>
+                    <label class="form-label" for="hoursThu" data-i18n="onb.f.thu">Torsdag</label>
                     <input type="text" id="hoursThu" class="form-control" placeholder="11–22">
                   </div>
                   <div>
-                    <label class="form-label" for="hoursFri">Fredag</label>
+                    <label class="form-label" for="hoursFri" data-i18n="onb.f.fri">Fredag</label>
                     <input type="text" id="hoursFri" class="form-control" placeholder="11–23">
                   </div>
                   <div>
-                    <label class="form-label" for="hoursSat">Lördag</label>
+                    <label class="form-label" for="hoursSat" data-i18n="onb.f.sat">Lördag</label>
                     <input type="text" id="hoursSat" class="form-control" placeholder="12–23">
                   </div>
                   <div>
-                    <label class="form-label" for="hoursSun">Söndag</label>
+                    <label class="form-label" for="hoursSun" data-i18n="onb.f.sun">Söndag</label>
                     <input type="text" id="hoursSun" class="form-control" placeholder="12–21">
                   </div>
                 </div>
               </fieldset>
 
               <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
-                <legend>Serveringssätt</legend>
+                <legend data-i18n="onb.f.serving">Serveringssätt</legend>
                 <div class="pill-stack">
                   <label class="check-pill">
                     <input type="checkbox" id="offerPickup" name="offer_pickup" value="1" checked>
-                    <span>Upphämtning</span>
+                    <span data-i18n="onb.f.pickup">Upphämtning</span>
                   </label>
                   <label class="check-pill">
                     <input type="checkbox" id="offerDelivery" name="offer_delivery" value="1">
-                    <span>Leverans</span>
+                    <span data-i18n="onb.f.delivery">Leverans</span>
                   </label>
                 </div>
               </fieldset>
 
               <div class="ob-conditional" id="deliveryRadiusWrap" style="margin-top: 1.25rem;">
-                <label class="form-label" for="deliveryRadius">Leveransradie</label>
+                <label class="form-label" for="deliveryRadius" data-i18n="onb.f.deliveryRadius">Leveransradie</label>
                 <input type="text" id="deliveryRadius" name="delivery_radius" class="form-control" placeholder="T.ex. 5 km">
               </div>
 
               <div class="ob-grid ob-grid--2" style="margin-top: 1.5rem;">
                 <div>
-                  <label class="form-label" for="vatHandling">Momshantering</label>
+                  <label class="form-label" for="vatHandling" data-i18n="onb.f.vat">Momshantering</label>
                   <select id="vatHandling" name="vat_handling" class="form-control">
                     <option value="6% ta med / leverans" selected>6 % – ta med / leverans</option>
                     <option value="12% äta här">12 % – äta här</option>
                   </select>
                 </div>
                 <div>
-                  <label class="form-label" for="terminalAddress">Leveransadress för Sunmi-terminal (om annan)</label>
+                  <label class="form-label" for="terminalAddress" data-i18n="onb.f.terminalAddress">Leveransadress för Sunmi-terminal (om annan)</label>
                   <input type="text" id="terminalAddress" name="terminal_delivery_address" class="form-control" placeholder="Om terminalen ska skickas till annan adress">
                 </div>
               </div>
             </section>
 
-            <!-- F. Betalning ------------------------------------------------ -->
-            <section class="ob-section">
+            <!-- STEG 7: Betalning ------------------------------------------- -->
+            <section class="ob-step ob-section" data-step="7">
               <div class="ob-section-head">
-                <span class="ob-section-eyebrow">F · Betalning</span>
-                <h2>Betalning och utbetalning</h2>
-                <p class="ob-section-sub">Hur pengarna kommer in till dig.</p>
+                <span class="ob-section-eyebrow" data-i18n="onb.step7.eyebrow">Steg 7 · Betalning</span>
+                <h2 data-i18n="onb.step7.title">Betalning och utbetalning</h2>
+                <p class="ob-section-sub" data-i18n="onb.step7.sub">Hur pengarna kommer in till dig.</p>
               </div>
 
               <fieldset class="ob-fieldset">
-                <legend>Har du ett Stripe-konto?</legend>
+                <legend data-i18n="onb.f.hasStripe">Har du ett Stripe-konto?</legend>
                 <div class="pill-stack">
                   <label class="radio-pill">
                     <input type="radio" name="has_stripe" value="yes">
-                    <span>Ja</span>
+                    <span data-i18n="onb.f.stripeYes">Ja</span>
                   </label>
                   <label class="radio-pill">
                     <input type="radio" name="has_stripe" value="no">
-                    <span>Nej</span>
+                    <span data-i18n="onb.f.stripeNo">Nej</span>
                   </label>
                   <label class="radio-pill">
                     <input type="radio" name="has_stripe" value="setup_for_me" checked>
-                    <span>Ni sätter upp åt mig</span>
+                    <span data-i18n="onb.f.stripeSetup">Ni sätter upp åt mig</span>
                   </label>
                 </div>
               </fieldset>
 
               <fieldset class="ob-fieldset" style="margin-top: 1.5rem;">
-                <legend>Klarna</legend>
+                <legend data-i18n="onb.f.klarnaLegend">Klarna</legend>
                 <label class="check-pill" style="max-width: max-content;">
                   <input type="checkbox" id="klarnaInterest" name="klarna_interest" value="1">
-                  <span>Jag är intresserad av Klarna som betalsätt</span>
+                  <span data-i18n="onb.f.klarnaInterest">Jag är intresserad av Klarna som betalsätt</span>
                 </label>
               </fieldset>
 
               <div class="ob-grid" style="margin-top: 1.5rem;">
                 <div>
-                  <label class="form-label" for="payoutNotes">Utbetalningsnoteringar</label>
+                  <label class="form-label" for="payoutNotes" data-i18n="onb.f.payoutNotes">Utbetalningsnoteringar</label>
                   <textarea id="payoutNotes" name="payout_notes" class="form-control" placeholder="Bankuppgifter delas senare via säker kanal — skriv ev. övriga önskemål här."></textarea>
+                </div>
+                <div>
+                  <label class="form-label" for="other" data-i18n="onb.f.other">Något mer vi bör veta?</label>
+                  <textarea id="other" name="other" class="form-control" placeholder="Önskemål, frågor, särskilda förutsättningar..."></textarea>
                 </div>
               </div>
             </section>
 
-            <!-- G. Övrigt --------------------------------------------------- -->
-            <section class="ob-section">
+            <!-- STEG 8: Granska & skicka ------------------------------------ -->
+            <section class="ob-step ob-section" data-step="8">
               <div class="ob-section-head">
-                <span class="ob-section-eyebrow">G · Övrigt</span>
-                <h2>Något mer vi bör veta?</h2>
-                <p class="ob-section-sub">Allt som hjälper oss bygga rätt system för dig.</p>
+                <span class="ob-section-eyebrow" data-i18n="onb.step8.eyebrow">Steg 8 · Granska</span>
+                <h2 data-i18n="onb.step8.title">Granska och skicka</h2>
+                <p class="ob-section-sub" data-i18n="onb.step8.sub">Kontrollera dina uppgifter nedan. Vill du ändra något, gå tillbaka.</p>
               </div>
 
-              <div class="ob-grid">
-                <div>
-                  <label class="form-label" for="other">Fritext</label>
-                  <textarea id="other" name="other" class="form-control" placeholder="Önskemål, frågor, särskilda förutsättningar..."></textarea>
-                </div>
-              </div>
+              <!-- Skrivskyddad sammanfattning, fylls av JS -->
+              <div id="obReview" aria-live="polite"></div>
+
+              <p class="form-hint text-center" style="margin-top: 1.5rem;" data-i18n="onb.foot.required">
+                Fält märkta med * är obligatoriska. Resten kan kompletteras senare.
+              </p>
             </section>
 
             <!-- Honungsfälla — lämna tom (spamfilter) -->
@@ -591,12 +720,13 @@
               <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block" id="obSubmit" style="margin-top: 0.5rem;">
-              Skicka in och börja bygga →
-            </button>
-            <p class="form-hint text-center" style="margin-top: 1rem;">
-              Fält märkta med <span style="color: var(--coral);">*</span> är obligatoriska. Resten kan kompletteras senare.
-            </p>
+            <!-- Navigering -->
+            <div class="ob-nav">
+              <button type="button" class="btn btn-secondary" id="obBack" data-i18n="onb.btn.back" hidden>← Tillbaka</button>
+              <span class="ob-nav-spacer"></span>
+              <button type="button" class="btn btn-primary" id="obNext" data-i18n="onb.btn.next">Nästa →</button>
+              <button type="submit" class="btn btn-primary" id="obSubmit" data-i18n="onb.btn.submit" hidden>Skicka in och börja bygga →</button>
+            </div>
           </form>
 
           <!-- Lyckad inlämning (dold tills submit lyckas) -->
@@ -604,13 +734,12 @@
             <div class="ob-success-mark" aria-hidden="true">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
             </div>
-            <h2>Tack — vi har tagit emot dina uppgifter och börjar bygga ditt system.</h2>
-            <p>
+            <h2 data-i18n="onb.success.title">Tack — vi har tagit emot dina uppgifter och börjar bygga ditt system.</h2>
+            <p data-i18n="onb.success.body">
               Vårt team går igenom allt du skickat in och hör av sig inom kort med nästa steg.
-              Du behöver inte göra något mer just nu. Har du frågor under tiden — mejla
-              <a href="mailto:info@amoora.se" style="color: var(--coral); font-weight: 600;">info@amoora.se</a>.
+              Du behöver inte göra något mer just nu.
             </p>
-            <a href="index.html" class="btn btn-secondary" style="margin-top: 1.75rem;">Tillbaka till startsidan</a>
+            <a href="index.html" class="btn btn-secondary" style="margin-top: 1.75rem;" data-i18n="onb.success.back">Tillbaka till startsidan</a>
           </div>
 
         </div>
@@ -895,6 +1024,213 @@
         submitBtn.textContent = originalLabel;
       }
     });
+  </script>
+
+  <!-- Wizardnavigering: visar ett steg i taget, validerar och bygger granskningsvyn.
+       Rör INTE inlämningslogiken ovan — alla fält finns kvar i samma <form>. -->
+  <script>
+    (function () {
+      const TOTAL = 8;
+      const form        = document.getElementById("onboardingForm");
+      const steps       = Array.from(form.querySelectorAll(".ob-step"));
+      const backBtn     = document.getElementById("obBack");
+      const nextBtn     = document.getElementById("obNext");
+      const submitBtn   = document.getElementById("obSubmit");
+      const errorBox    = document.getElementById("obError");
+      const stepNumEl   = document.getElementById("obStepNum");
+      const stepTitleEl = document.getElementById("obStepTitle");
+      const fillEl      = document.getElementById("obProgressFill");
+      const reviewEl    = document.getElementById("obReview");
+
+      let current = 1; // 1-baserat
+
+      // Översättningshjälp: läs aktuell ordbok från main.js om den finns.
+      function t(key, fallback) {
+        try {
+          const lang = document.documentElement.getAttribute("lang") || "sv";
+          const dict = (window.I18N && window.I18N[lang]) || null;
+          if (dict && dict[key] != null) return dict[key];
+        } catch (e) { /* ignorera */ }
+        return fallback;
+      }
+
+      function hideError() { if (errorBox) errorBox.hidden = true; }
+
+      function reduceMotion() {
+        return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      }
+
+      function render() {
+        steps.forEach((s) => {
+          s.classList.toggle("is-active", Number(s.dataset.step) === current);
+        });
+
+        // Förlopp
+        if (stepNumEl) stepNumEl.textContent = String(current);
+        if (fillEl) fillEl.style.width = (current / TOTAL * 100) + "%";
+
+        // Titel speglar aktivt stegs rubrik (med rätt språk)
+        const activeH2 = steps[current - 1].querySelector("h2");
+        if (stepTitleEl && activeH2) {
+          const key = activeH2.getAttribute("data-i18n");
+          stepTitleEl.setAttribute("data-i18n", key);
+          stepTitleEl.textContent = activeH2.textContent;
+        }
+
+        // Knappar
+        backBtn.hidden = current === 1;
+        const last = current === TOTAL;
+        nextBtn.hidden = last;
+        submitBtn.hidden = !last;
+
+        if (last) buildReview();
+
+        // Scrolla mjukt upp till kortet
+        const target = document.querySelector(".ob-progress");
+        if (target) target.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "start" });
+      }
+
+      // Validerar de SYNLIGA, obligatoriska fälten i aktuellt steg.
+      function validateCurrent() {
+        const stepEl = steps[current - 1];
+        const fields = stepEl.querySelectorAll("input, select, textarea");
+        for (const f of fields) {
+          // hoppa över dolda (villkorade) fält
+          if (f.offsetParent === null && f.type !== "hidden") continue;
+          if (!f.checkValidity()) {
+            f.reportValidity();
+            if (errorBox) {
+              errorBox.textContent = t("onb.invalid", "Fyll i de obligatoriska fälten på den här sidan innan du går vidare.");
+              errorBox.hidden = false;
+            }
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function goNext() {
+        hideError();
+        if (!validateCurrent()) return;
+        if (current < TOTAL) { current++; render(); }
+      }
+      function goBack() {
+        hideError();
+        if (current > 1) { current--; render(); }
+      }
+
+      nextBtn.addEventListener("click", goNext);
+      backBtn.addEventListener("click", goBack);
+
+      /* --- Bygg skrivskyddad sammanfattning ------------------------------ */
+      function val(id) {
+        const el = document.getElementById(id);
+        return el ? (el.value || "").trim() : "";
+      }
+      function fileCount(id) {
+        const el = document.getElementById(id);
+        if (!el || !el.files || el.files.length === 0) return "";
+        const n = el.files.length;
+        const word = n === 1 ? t("onb.review.file", "fil vald") : t("onb.review.files", "filer valda");
+        return n + " " + word;
+      }
+      function checkedVal(name) {
+        const el = form.querySelector('input[name="' + name + '"]:checked');
+        return el ? (el.nextElementSibling ? el.nextElementSibling.textContent.trim() : el.value) : "";
+      }
+      function checkedList(name) {
+        return Array.from(form.querySelectorAll('input[name="' + name + '"]:checked'))
+          .map((c) => c.nextElementSibling ? c.nextElementSibling.textContent.trim() : c.value)
+          .join(", ");
+      }
+      function boolVal(id) {
+        const el = document.getElementById(id);
+        if (!el) return "";
+        return el.checked ? t("onb.f.stripeYes", "Ja") : t("onb.f.stripeNo", "Nej");
+      }
+      function esc(s) {
+        return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      }
+
+      function row(labelKey, labelFallback, value) {
+        const empty = t("onb.review.empty", "(ej ifyllt)");
+        const v = value && String(value).length ? esc(value) : null;
+        return '<div class="ob-review-row"><dt data-i18n="' + labelKey + '">' + esc(labelFallback) + '</dt>' +
+          '<dd' + (v ? '' : ' class="is-empty"') + '>' + (v || esc(empty)) + '</dd></div>';
+      }
+      function group(titleKey, titleFallback, rows) {
+        return '<div class="ob-review-group"><h3 data-i18n="' + titleKey + '">' + esc(titleFallback) + '</h3>' + rows.join("") + '</div>';
+      }
+
+      function buildReview() {
+        const domainOwn = document.getElementById("domainOwn");
+        const domainVal = (domainOwn && domainOwn.checked)
+          ? val("ownDomain")
+          : (val("subDomain") ? val("subDomain").toLowerCase().replace(/[^a-z0-9-]/g, "") + ".amoora.se" : "");
+        const useDefault = document.getElementById("useDefaultColors");
+        const brandColor = (useDefault && useDefault.checked) ? "" : val("brandColor");
+
+        const hours = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+          .map((d) => val("hours" + d)).filter(Boolean).join(" · ");
+
+        const social = [val("socialIg"), val("socialFb"), val("socialTt")].filter(Boolean).join(" · ");
+
+        const html = [
+          group("onb.step1.title", "Om din restaurang", [
+            row("onb.f.restaurantName", "Restaurangens namn", val("restaurantName")),
+            row("onb.f.orgNr", "Organisationsnummer", val("orgNr")),
+            row("onb.f.contactPerson", "Kontaktperson", val("contactPerson")),
+            row("onb.f.contactRole", "Roll", val("contactRole")),
+            row("onb.f.email", "E-post", val("email")),
+            row("onb.f.phone", "Telefon", val("phone")),
+            row("onb.f.address", "Adress", [val("address"), val("postalCode"), val("city")].filter(Boolean).join(", "))
+          ]),
+          group("onb.step2.title", "Vald plan och tillval", [
+            row("onb.f.plan", "Vald plan", checkedVal("plan")),
+            row("onb.f.addons", "Tillval", checkedList("addons"))
+          ]),
+          group("onb.step3.title", "Ditt varumärke", [
+            row("onb.f.logo", "Logotyp", fileCount("logoFile")),
+            row("onb.f.brandColor", "Primärfärg", brandColor),
+            row("onb.f.photos", "Foton", fileCount("photoFiles")),
+            row("onb.f.brandNotes", "Varumärkesnoteringar", val("brandNotes"))
+          ]),
+          group("onb.step4.title", "Domän och närvaro online", [
+            row("onb.f.domainLegend", "Webbadress", domainVal),
+            row("onb.f.existingWeb", "Befintlig webbplats", val("existingWeb")),
+            row("onb.f.instagram", "Sociala medier", social)
+          ]),
+          group("onb.step5.title", "Din meny", [
+            row("onb.f.menuLink", "Menylänk", val("menuLink")),
+            row("onb.f.menu", "Uppladdad meny", fileCount("menuFiles")),
+            row("onb.f.menuNotes", "Menynoteringar", val("menuNotes"))
+          ]),
+          group("onb.step6.title", "Öppettider och leverans", [
+            row("onb.f.openingHours", "Öppettider", hours),
+            row("onb.f.pickup", "Upphämtning", boolVal("offerPickup")),
+            row("onb.f.delivery", "Leverans", boolVal("offerDelivery")),
+            row("onb.f.deliveryRadius", "Leveransradie", val("deliveryRadius")),
+            row("onb.f.vat", "Momshantering", val("vatHandling")),
+            row("onb.f.terminalAddress", "Terminaladress", val("terminalAddress"))
+          ]),
+          group("onb.step7.title", "Betalning och utbetalning", [
+            row("onb.f.hasStripe", "Stripe", checkedVal("has_stripe")),
+            row("onb.f.klarnaInterest", "Klarna", boolVal("klarnaInterest")),
+            row("onb.f.payoutNotes", "Utbetalningsnoteringar", val("payoutNotes")),
+            row("onb.f.other", "Övrigt", val("other"))
+          ])
+        ].join("");
+
+        if (reviewEl) {
+          reviewEl.innerHTML = html;
+          // Översätt nyskapade etiketter om main.js exponerar setLang/applyTranslations
+          const lang = document.documentElement.getAttribute("lang") || "sv";
+          if (typeof window.applyTranslations === "function") window.applyTranslations(lang);
+        }
+      }
+
+      render();
+    })();
   </script>
 </body>
 </html>
