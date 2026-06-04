@@ -437,15 +437,22 @@
     document.getElementById("signOutBtn").addEventListener("click", signOut);
     document.getElementById("deniedSignOut").addEventListener("click", signOut);
 
-    let session = null;
-    try {
-      const res = await supabase.auth.getSession();
-      session = res.data.session;
-    } catch (_) { session = null; }
+    // NOTE: boot() is a hoisted declaration but is only CALLED at the very end
+    // of this module — after every const/let below is initialized. Calling it
+    // inline here (mid-module, during the top-level await continuation) would
+    // hit the TDZ on leadsContainer/leadsData and silently fail the data load.
+    async function boot() {
+      let session = null;
+      try {
+        const res = await supabase.auth.getSession();
+        session = res.data.session;
+      } catch (_) { session = null; }
 
-    if (!session) {
-      window.location.href = "login.html";
-    } else {
+      if (!session) {
+        window.location.href = "login.html";
+        return;
+      }
+
       whoEmail.textContent = session.user.email || "";
 
       // Verify admin membership.
@@ -841,6 +848,9 @@
         '</div>' +
       '</div>';
     }
+
+    // Start the app — now that all state/consts above are initialized.
+    boot();
   </script>
 </body>
 </html>
