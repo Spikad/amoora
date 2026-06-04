@@ -21,41 +21,179 @@
   <script src="js/site-config.js"></script>
 
   <style>
-    /* --- admin page (scoped) --- */
-    .admin-topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* =====================================================================
+       Admin app shell (scoped to admin.html)
+       --------------------------------------------------------------------- */
+    :root {
+      --sidebar-w: 264px;
+      --topbar-h: 60px;
+    }
+
+    body.admin-body {
       background: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* App layout grid: fixed sidebar + scrolling main */
+    .app-shell {
+      min-height: 100vh;
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 200;
+      transition: transform var(--dur) var(--ease);
+    }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 1.4rem 1.5rem;
       border-bottom: 1px solid var(--border);
     }
-    .admin-topbar-inner {
+    .sidebar-brand img { height: 34px; width: auto; }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    /* Nav items reuse .tab (JS toggles .is-active on these) */
+    .sidebar-nav .tab {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      height: 72px;
+      gap: 0.6rem;
+      width: 100%;
+      text-align: left;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--gray);
+      background: none;
+      border: none;
+      border-radius: var(--radius-btn);
+      padding: 0.7rem 0.9rem;
+      cursor: pointer;
+      transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
     }
-    .admin-topbar img { height: 40px; width: auto; }
-    .admin-topbar .who {
+    .sidebar-nav .tab:hover { color: var(--ink); background: var(--cream); }
+    .sidebar-nav .tab.is-active { color: var(--coral); background: var(--coral-soft); }
+    .sidebar-nav .tab .count {
+      display: inline-block;
+      min-width: 1.5rem;
+      text-align: center;
+      padding: 0.05rem 0.45rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--coral);
+      background: var(--coral-soft);
+      border-radius: 999px;
+    }
+    .sidebar-nav .tab.is-active .count { background: var(--white); }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 1.25rem;
       display: flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: 0.9rem;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .sidebar-footer .who-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--gray);
     }
-    .admin-topbar .who .email { font-weight: 600; color: var(--ink); }
+    .sidebar-footer .email {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+      word-break: break-word;
+    }
 
     .btn-outline {
       background: var(--white);
       color: var(--ink);
       border: 1.5px solid var(--border);
-      padding: 11px 20px;
-      font-size: 0.9375rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
     }
     .btn-outline:hover { border-color: var(--coral); color: var(--coral); }
 
-    .admin-main { padding-block: clamp(2rem, 4vw, 3rem) 5rem; }
+    /* ---------- Mobile top bar (hamburger) ---------- */
+    .mobile-topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 150;
+      align-items: center;
+      gap: 0.75rem;
+      height: var(--topbar-h);
+      padding: 0 1rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-topbar img { height: 28px; width: auto; }
+    .hamburger {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      width: 42px;
+      height: 42px;
+      padding: 9px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+    .hamburger span {
+      display: block;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 27, 26, 0.4);
+      z-index: 180;
+    }
+
+    /* ---------- Main content ---------- */
+    .app-main {
+      margin-left: var(--sidebar-w);
+      padding: clamp(1.5rem, 3vw, 2.75rem) clamp(1.25rem, 4vw, 3rem) 5rem;
+      max-width: 1400px;
+    }
+    .view-head {
+      margin-bottom: 1.5rem;
+    }
+    .view-head h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 1.9rem);
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+    .view-head p { color: var(--gray); margin: 0.35rem 0 0; }
 
     .admin-state {
       max-width: 520px;
@@ -70,43 +208,20 @@
     .admin-state h2 { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.75rem; }
     .admin-state p { color: var(--gray); margin-bottom: 1.5rem; }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 0.5rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 1.75rem;
-      flex-wrap: wrap;
-    }
-    .tab {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--gray);
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      padding: 0.85rem 1.1rem;
-      margin-bottom: -1px;
-      cursor: pointer;
-      transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-    }
-    .tab:hover { color: var(--ink); }
-    .tab.is-active { color: var(--coral); border-bottom-color: var(--coral); }
-    .tab .count {
-      display: inline-block;
-      min-width: 1.5rem;
-      margin-left: 0.4rem;
-      padding: 0.05rem 0.45rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--coral);
-      background: var(--coral-soft);
-      border-radius: 999px;
-    }
-
     .view { display: none; }
     .view.is-active { display: block; }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 900px) {
+      .mobile-topbar { display: flex; }
+      .sidebar {
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lift);
+      }
+      body.nav-open .sidebar { transform: translateX(0); }
+      body.nav-open .sidebar-backdrop { display: block; }
+      .app-main { margin-left: 0; }
+    }
 
     /* Filters */
     .filters {
@@ -280,21 +395,46 @@
   </style>
 </head>
 
-<body>
-  <header class="admin-topbar">
-    <div class="container admin-topbar-inner">
-      <a href="index.html" aria-label="Amoora — startsida">
-        <img src="assets/images/logo-full.png" alt="Amoora">
-      </a>
-      <div class="who" id="who" hidden>
-        <span class="email" id="whoEmail"></span>
-        <button type="button" class="btn btn-outline" id="signOutBtn">Logga ut</button>
-      </div>
-    </div>
-  </header>
+<body class="admin-body">
 
-  <main class="admin-main">
-    <div class="container">
+  <!-- Mobile top bar -->
+  <div class="mobile-topbar">
+    <button type="button" class="hamburger" id="navToggle" aria-label="Öppna meny" aria-expanded="false" aria-controls="sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <img src="assets/images/logo-full.png" alt="Amoora">
+  </div>
+
+  <div class="sidebar-backdrop" id="navBackdrop"></div>
+
+  <div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <a href="index.html" aria-label="Amoora — startsida">
+          <img src="assets/images/logo-full.png" alt="Amoora">
+        </a>
+      </div>
+
+      <nav class="sidebar-nav" role="tablist" aria-label="Adminvyer">
+        <button class="tab is-active" data-view="leads" role="tab">
+          <span>Bokningar / Leads</span><span class="count" id="leadsCount" hidden></span>
+        </button>
+        <button class="tab" data-view="onboarding" role="tab">
+          <span>Onboardade kunder</span><span class="count" id="onboardingCount" hidden></span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer who" id="who" hidden>
+        <span class="who-label">Inloggad som</span>
+        <span class="email" id="whoEmail"></span>
+        <button type="button" class="btn-outline" id="signOutBtn">Logga ut</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="app-main">
 
       <!-- Loading / auth gate -->
       <div class="admin-state" id="loadingState">
@@ -310,17 +450,13 @@
 
       <!-- Dashboard -->
       <div id="dashboard" hidden>
-        <div class="tabs" role="tablist">
-          <button class="tab is-active" data-view="leads" role="tab">
-            Bokningar / Leads<span class="count" id="leadsCount" hidden></span>
-          </button>
-          <button class="tab" data-view="onboarding" role="tab">
-            Onboardade kunder<span class="count" id="onboardingCount" hidden></span>
-          </button>
-        </div>
 
         <!-- LEADS VIEW -->
         <section class="view is-active" id="view-leads">
+          <div class="view-head">
+            <h1>Bokningar / Leads</h1>
+            <p>Inkommande förfrågningar och bokningar.</p>
+          </div>
           <div class="filters">
             <div class="filter-group">
               <label for="leadStatusFilter">Status</label>
@@ -349,6 +485,10 @@
 
         <!-- ONBOARDING VIEW -->
         <section class="view" id="view-onboarding">
+          <div class="view-head">
+            <h1>Onboardade kunder</h1>
+            <p>Inskickade onboarding-formulär och deras status.</p>
+          </div>
           <div class="filters">
             <div class="filter-group">
               <label for="obStatusFilter">Status</label>
@@ -364,8 +504,9 @@
         </section>
       </div>
 
-    </div>
-  </main>
+    </main>
+
+  </div>
 
   <script type="module">
     import { supabase, STORAGE_BUCKET } from "./js/supabase-client.js";
@@ -437,6 +578,16 @@
     document.getElementById("signOutBtn").addEventListener("click", signOut);
     document.getElementById("deniedSignOut").addEventListener("click", signOut);
 
+    /* Mobile sidebar drawer toggle */
+    const navToggle = document.getElementById("navToggle");
+    const navBackdrop = document.getElementById("navBackdrop");
+    function setNav(open) {
+      document.body.classList.toggle("nav-open", open);
+      if (navToggle) navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    if (navToggle) navToggle.addEventListener("click", () => setNav(!document.body.classList.contains("nav-open")));
+    if (navBackdrop) navBackdrop.addEventListener("click", () => setNav(false));
+
     // NOTE: boot() is a hoisted declaration but is only CALLED at the very end
     // of this module — after every const/let below is initialized. Calling it
     // inline here (mid-module, during the top-level await continuation) would
@@ -487,6 +638,7 @@
           tab.classList.add("is-active");
           document.querySelectorAll(".view").forEach((v) => v.classList.remove("is-active"));
           document.getElementById("view-" + tab.dataset.view).classList.add("is-active");
+          setNav(false); // close mobile drawer after navigating
         });
       });
 
