@@ -255,6 +255,9 @@
     }
     .ob-nav .ob-nav-spacer { flex: 1; }
     .ob-nav .btn { min-width: 9rem; }
+    /* .btn sets display:inline-flex, which would override the [hidden] attribute
+       the nav JS toggles — force hidden nav buttons to actually hide. */
+    .ob-nav .btn[hidden] { display: none !important; }
 
     /* Granska-vy (steg 8) */
     .ob-review-group { margin-bottom: 1.5rem; }
