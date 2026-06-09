@@ -12,7 +12,7 @@ window.AMOORA_CONFIG = {
 
   PHONE: "+46 10 185 00 01",
   PHONE_TEL: "+46101850001",
-  TEAM_EMAIL: "info@amoora.se",
+  TEAM_EMAIL: "info@lynkrr.se",
   WHATSAPP_URL: "https://wa.me/46101850001", // placeholder number per brief
 
   // Live ordering site of our first reference restaurant. Opens in a new tab.
@@ -37,8 +37,8 @@ window.AMOORA_CONFIG = {
   // The three product-surface cards under "Allt din restaurang behöver".
   // Until a URL is set, each card shows its poster + "Video kommer snart".
   CARD_VIDEOS: {
-    ordering: "", // Kundupplevelse & beställning
-    admin: "",    // Admin-panel
-    kitchen: ""   // Köks-app på terminalen
+    ordering: "assets/UserOrder.mp4", // Kundupplevelse & beställning
+    admin: "",                        // Admin-panel (placeholder until supplied)
+    kitchen: "assets/Kitchen.mp4"     // Köks-app på terminalen
   }
 };

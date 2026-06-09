@@ -240,9 +240,9 @@ const I18N = {
     "contact.form.revenue.help": "Hjälper oss förbereda en relevant ROI-beräkning till samtalet.",
     "contact.form.plan": "Vilken plan är du intresserad av?",
     "contact.form.plan.system": "Amoora Basic",
-    "contact.form.plan.plus": "Amoora Growth (mest populär)",
+    "contact.form.plan.plus": "Amoora Growth",
     "contact.form.plan.pro": "Amoora Premium",
-    "contact.form.plan.unsure": "Inte säker än",
+    "contact.form.plan.unsure": "Vet ej ännu",
     "contact.form.message": "Meddelande",
     "contact.form.messagePlaceholder": "Berätta gärna lite om din restaurang eller vad du är nyfiken på.",
     "contact.form.privacy": "Jag godkänner att Amoora kontaktar mig och behandlar mina uppgifter enligt integritetspolicyn.",
@@ -250,8 +250,8 @@ const I18N = {
     "contact.form.successTitle": "Tack! Vi hör av oss inom 24 timmar.",
     "contact.form.successBody": "Vi skickar tre föreslagna tider och en kort bekräftelse till den e-postadress du angav.",
     "contact.form.successButton": "Tillbaka till hem",
-    "contact.faq.title": "VANLIGA FRÅGOR INFÖR DEMOT",
-    "contact.faq.sub": "Vad vi ofta får höra",
+    "contact.faq.title": "Vanliga frågor",
+    "contact.faq.sub": "Svaren du letar efter finns ofta redan här.",
     "contact.faq.q1": "Är demot verkligen gratis?",
     "contact.faq.a1": "Ja, helt gratis och utan förpliktelser. Vi tar 20 minuter av din tid och visar systemet — du bestämmer själv om det är intressant. Cirka 30% av de vi pratar med blir kunder; 70% säger nej och vi har inga hårda känslor.",
     "contact.faq.q2": "Måste jag förbereda något inför samtalet?",
@@ -260,9 +260,9 @@ const I18N = {
     "contact.faq.a3": "Vi har börjat med pizzerior men systemet fungerar för alla typer av restauranger — sushi, kebab, asiatiskt, fine dining. Boka demo så går vi igenom om Amoora passar dig.",
     "contact.faq.link": "Se alla vanliga frågor →",
     "contact.ready.title": "Eller ring oss direkt",
-    "contact.ready.sub": "Om du föredrar ett spontant samtal — ring eller mejla, vi svarar i samma stund.",
+    "contact.ready.sub": "Föredrar du ett spontant samtal? Slå oss en signal så svarar vi direkt.",
     "contact.ready.call": "Ring +46 10 185 00 01",
-    "contact.ready.email": "Mejla info@amoora.se",
+    "contact.ready.email": "Mejla info@lynkrr.se",
     "contact.hero.label": "KONTAKT",
     "contact.hero.trust.1": "Inga förpliktelser",
     "contact.hero.trust.2": "Svar inom 24 timmar",
@@ -272,7 +272,7 @@ const I18N = {
     "contact.card.phone.detail": "+46 10 185 00 01",
     "contact.card.phone.hours": "Mån–Fre 09–17",
     "contact.card.email.title": "E-post",
-    "contact.card.email.detail": "info@amoora.se",
+    "contact.card.email.detail": "info@lynkrr.se",
     "contact.card.email.response": "Svar inom 24 timmar",
     "contact.card.social.title": "Sociala medier",
     "contact.what.title": "Vad händer efter du bokat?",
@@ -281,12 +281,9 @@ const I18N = {
     "contact.what.3": "Vi visar Capri Blue live och hur ditt system skulle se ut.",
     "contact.what.4": "Du får en konkret offert och ROI-beräkning. Inga förpliktelser.",
     "contact.trust.title": "Du är i gott sällskap",
-    "contact.trust.1.name": "Capri Blue",
-    "contact.trust.1.detail": "Första kunden, live nu",
-    "contact.trust.2.name": "Lynkrr AB",
-    "contact.trust.2.detail": "Etablerat svenskt bolag",
-    "contact.trust.3.name": "Klarna-fakturering",
-    "contact.trust.3.detail": "Tillgängligt på alla planer",
+    "contact.trust.company.name": "Lynkrr AB",
+    "contact.trust.company.org": "Org.nr 559270-8639",
+    "contact.trust.company.tax": "Godkänd för F-skatt och moms",
 
     /* Så fungerar det */
     "sa_fungerar.hero.eyebrow": "SÅ FUNGERAR DET",
@@ -936,13 +933,13 @@ const I18N = {
     "contact.form.revenue.help": "Helps us prepare a relevant ROI calculation for the call.",
     "contact.form.plan": "Which plan are you interested in?",
     "contact.form.plan.system": "Amoora Basic",
-    "contact.form.plan.plus": "Amoora Growth (most popular)",
+    "contact.form.plan.plus": "Amoora Growth",
     "contact.form.plan.pro": "Amoora Premium",
     "contact.form.plan.unsure": "Not sure yet",
     "contact.form.message": "Message",
     "contact.form.messagePlaceholder": "Tell us what you'd like to know...",
     "contact.form.privacy": "I agree that Amoora can save my information to respond to my request.",
-    "contact.form.submit": "Send message",
+    "contact.form.submit": "Book demo →",
     "contact.faq.title": "Frequently asked questions",
     "contact.faq.sub": "The answers you're looking for are often already here.",
     "contact.faq.q1": "Is the demo really free?",
@@ -953,9 +950,9 @@ const I18N = {
     "contact.faq.a3": "We started with pizzerias but the system works for all kinds of restaurants — sushi, kebab, Asian, fine dining. Book a demo and we'll go through whether Amoora suits you.",
     "contact.faq.link": "See all frequently asked questions →",
     "contact.ready.title": "Or call us directly",
-    "contact.ready.sub": "If you prefer a spontaneous call — ring or email, we answer right away.",
+    "contact.ready.sub": "Prefer a spontaneous call? Give us a ring and we'll answer right away.",
     "contact.ready.call": "Call +46 10 185 00 01",
-    "contact.ready.email": "Email info@amoora.se",
+    "contact.ready.email": "Email info@lynkrr.se",
     "contact.form.successTitle": "Thank you! We'll get back to you within 24 hours.",
     "contact.form.successBody": "We will send three suggested times and a short confirmation to the email address you provided.",
     "contact.form.successButton": "Back to home",
@@ -968,7 +965,7 @@ const I18N = {
     "contact.card.phone.detail": "+46 10 185 00 01",
     "contact.card.phone.hours": "Mon–Fri 09–17",
     "contact.card.email.title": "Email",
-    "contact.card.email.detail": "info@amoora.se",
+    "contact.card.email.detail": "info@lynkrr.se",
     "contact.card.email.response": "Reply within 24 hours",
     "contact.card.social.title": "Social media",
     "contact.what.title": "What happens after you book?",
@@ -977,12 +974,9 @@ const I18N = {
     "contact.what.3": "We show Capri Blue live and how your system would look.",
     "contact.what.4": "You receive a concrete offer and ROI calculation. No obligations.",
     "contact.trust.title": "You're in good company",
-    "contact.trust.1.name": "Capri Blue",
-    "contact.trust.1.detail": "First customer, live now",
-    "contact.trust.2.name": "Lynkrr AB",
-    "contact.trust.2.detail": "Established Swedish company",
-    "contact.trust.3.name": "Klarna invoicing",
-    "contact.trust.3.detail": "Available on all plans",
+    "contact.trust.company.name": "Lynkrr AB",
+    "contact.trust.company.org": "Reg. no. 559270-8639",
+    "contact.trust.company.tax": "Approved for F-tax and VAT",
 
     /* How it works */
     "sa_fungerar.hero.eyebrow": "HOW IT WORKS",
@@ -2152,7 +2146,10 @@ function initCardVideos() {
   document.querySelectorAll("[data-card-video]").forEach((wrap) => {
     const key = wrap.getAttribute("data-card-video");
     const video = wrap.querySelector("video");
-    if (attachVideo(video, map[key])) wrap.classList.add("has-video");
+    if (attachVideo(video, map[key])) {
+      video.controls = true; // let visitors play/pause + unmute the demo
+      wrap.classList.add("has-video");
+    }
     // else: keep the poster + "Video kommer snart" badge.
   });
 }
