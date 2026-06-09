@@ -24,7 +24,7 @@ window.AMOORA_CONFIG = {
   // broken player. Autoplay requires the file to be muted + web-optimised.
   //
   // Full-bleed hero background video:
-  HERO_VIDEO_URL: "",
+  HERO_VIDEO_URL: "assets/WebHero.mp4",
   // The three product-surface cards under "Allt din restaurang behöver".
   // Until a URL is set, each card shows its poster + "Video kommer snart".
   CARD_VIDEOS: {
