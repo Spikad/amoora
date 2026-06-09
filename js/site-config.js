@@ -23,8 +23,12 @@ window.AMOORA_CONFIG = {
   // While empty, the homepage shows a tasteful branded fallback — never a
   // broken player. Autoplay requires the file to be muted + web-optimised.
   //
-  // Full-bleed hero background video:
+  // Full-bleed hero background video (homepage):
   HERO_VIDEO_URL: "assets/WebHero.mp4",
+  // "Så fungerar det" hero background image (restaurant vibe). Paste the path
+  // once the file is in assets/ (e.g. "assets/images/sa-fungerar-hero.jpg").
+  // While empty, a branded ink+coral gradient fallback is shown.
+  HERO_IMAGE: "",
   // The three product-surface cards under "Allt din restaurang behöver".
   // Until a URL is set, each card shows its poster + "Video kommer snart".
   CARD_VIDEOS: {

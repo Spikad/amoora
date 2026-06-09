@@ -640,6 +640,40 @@ h2.section-title {
   color: rgba(255, 255, 255, 0.92);
 }
 
+/* ---- "Så fungerar det": hero with a restaurant background image --------- */
+.hero--image {
+  isolation: isolate;
+  /* Branded fallback shown until HERO_IMAGE is set (and behind any photo). */
+  background: linear-gradient(140deg, var(--ink) 0%, #2c1d18 48%, var(--coral-dark) 130%);
+}
+.hero--image .hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.hero--image .hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* Dark, slightly warm wash so the copy stays readable on any frame. */
+  background:
+    linear-gradient(180deg, rgba(28,27,26,0.62) 0%, rgba(28,27,26,0.50) 45%, rgba(28,27,26,0.78) 100%),
+    radial-gradient(120% 95% at 50% 0%, rgba(234,112,86,0.26) 0%, rgba(234,112,86,0) 62%);
+}
+/* Copy + promise cards read on the dark hero */
+.hero--image .hero-copy { color: var(--white); }
+.hero--image .hero-copy h1 { color: var(--white); }
+.hero--image .hero-copy .hero-sub { color: rgba(255, 255, 255, 0.88); }
+.hero--image .eyebrow {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
 /* Hero device mockup */
 .hero-visual {
   position: relative;
@@ -2577,6 +2611,11 @@ h2.section-title {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   margin-top: clamp(2.5rem, 5vw, 4rem);
 }
+/* 3-stage onboarding: three equal columns, stacking on small screens. */
+.timeline--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 760px) {
+  .timeline--3 { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
+}
 .timeline-step {
   background: var(--white);
   border: 1px solid var(--border);
@@ -2776,24 +2815,25 @@ h2.section-title {
   border-radius: 50%;
   background: var(--coral);
 }
-.hardware-visual { display: grid; place-items: center; }
-.terminal-illustration {
-  width: 100%;
-  max-width: 280px;
-  aspect-ratio: 3 / 4;
-  border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.6), transparent 40%),
-    linear-gradient(135deg, var(--coral), var(--coral-dark));
-  box-shadow: var(--shadow-lift);
-  position: relative;
+.hardware-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0;
 }
-.terminal-illustration::after {
-  content: "";
-  position: absolute;
-  inset: 18% 16% 30%;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.85);
+.hardware-photo {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 22px;
+  background: var(--cream);
+  box-shadow: var(--shadow-lift);
+}
+.hardware-credit {
+  font-size: 0.8125rem;
+  color: var(--gray);
+  text-align: center;
 }
 
 /* --- Support band --------------------------------------------------------- */

@@ -91,9 +91,13 @@
   </aside>
 
   <main>
-    <section class="hero" id="top">
-      <span class="hero-blob hero-blob--1" aria-hidden="true"></span>
-      <span class="hero-blob hero-blob--2" aria-hidden="true"></span>
+    <!-- Hero with a restaurant-vibe background image, wired from
+         AMOORA_CONFIG.HERO_IMAGE (see inline script below). Until the file is
+         set, a branded ink+coral gradient fallback carries the look. A dark
+         overlay keeps the copy readable on any photo. -->
+    <section class="hero hero--image" id="top">
+      <div class="hero-bg" data-hero-image aria-hidden="true"></div>
+      <span class="hero-overlay" aria-hidden="true"></span>
 
       <div class="container">
         <div class="hero-copy fade-up">
@@ -111,7 +115,7 @@
             <span class="promise-icon" aria-hidden="true">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
             </span>
-            <div class="promise-number" data-i18n="sa_fungerar.promise.1.value">5</div>
+            <div class="promise-number" data-i18n="sa_fungerar.promise.1.value">7</div>
             <p class="promise-title" data-i18n="sa_fungerar.promise.1.title">Dagar</p>
             <p class="promise-sub" data-i18n="sa_fungerar.promise.1.text">till din restaurang är live</p>
           </article>
@@ -139,58 +143,35 @@
       <div class="container">
         <div class="section-head fade-up">
           <span class="eyebrow" data-i18n="sa_fungerar.onboarding.eyebrow">ONBOARDING</span>
-          <h2 class="section-title" data-i18n="sa_fungerar.onboarding.h2">Från första samtal till live — i 5 steg</h2>
+          <h2 class="section-title" data-i18n="sa_fungerar.onboarding.h2">Från första samtal till live — i 3 steg</h2>
           <p class="section-sub" data-i18n="sa_fungerar.onboarding.sub">En genomgång av exakt vad som händer mellan att du skriver på och att din första order trillar in.</p>
         </div>
 
-        <div class="timeline">
+        <div class="timeline timeline--3">
           <article class="timeline-step fade-up" data-delay="1">
             <div class="timeline-number">01</div>
             <div class="timeline-content">
-              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step1.badge">Detta gör vi</span>
-              <h3 data-i18n="sa_fungerar.onboarding.step1.title">Vi bygger ditt system</h3>
-              <p data-i18n="sa_fungerar.onboarding.step1.body">Vi bygger ett komplett beställningssystem för din restaurang — med ditt namn, din adress, dina färger och din logotyp. Inom kort står din egen sida redo att fyllas med innehåll.</p>
-              <div class="video-embed" data-step-video="step1"><div class="video-embed-ph" data-i18n="sa_fungerar.video.soon">Video kommer snart</div></div>
+              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step1.badge">Du</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step1.title">Du delar din identitet</h3>
+              <p data-i18n="sa_fungerar.onboarding.step1.body">Du ger oss din varumärkesidentitet, din meny och dina önskemål.</p>
             </div>
           </article>
 
-          <article class="timeline-step timeline-step--reverse fade-up" data-delay="2">
+          <article class="timeline-step fade-up" data-delay="2">
             <div class="timeline-number">02</div>
             <div class="timeline-content">
-              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step2.badge">Detta gör vi</span>
-              <h3 data-i18n="sa_fungerar.onboarding.step2.title">Vi sätter upp din databas</h3>
-              <p data-i18n="sa_fungerar.onboarding.step2.body">Vi bygger en säker databas där all din kunddata, dina menyer och dina ordrar bor — i ett system du själv äger. Allt körs på beprövad molninfrastruktur (Vercel och Supabase) med hög drifttid. Inga mellanhänder.</p>
-              <div class="video-embed" data-step-video="step2"><div class="video-embed-ph" data-i18n="sa_fungerar.video.soon">Video kommer snart</div></div>
+              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step2.badge">Vi</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step2.title">Vi bygger ditt system</h3>
+              <p data-i18n="sa_fungerar.onboarding.step2.body">Vi sätter upp ditt system med din meny, dina erbjudanden och dina krav.</p>
             </div>
           </article>
 
           <article class="timeline-step fade-up" data-delay="3">
             <div class="timeline-number">03</div>
             <div class="timeline-content">
-              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step3.badge">Detta gör vi</span>
-              <h3 data-i18n="sa_fungerar.onboarding.step3.title">Vi designar din beställningssida</h3>
-              <p data-i18n="sa_fungerar.onboarding.step3.body">Vi laddar in hela din meny, kategoriserar rätterna, sätter priser, lägger in bilder och beskrivningar. Resultat: en proffsig beställningssida som speglar din restaurang — inte en anonym plattformssida.</p>
-              <div class="video-embed" data-step-video="step3"><div class="video-embed-ph" data-i18n="sa_fungerar.video.soon">Video kommer snart</div></div>
-            </div>
-          </article>
-
-          <article class="timeline-step timeline-step--reverse fade-up" data-delay="4">
-            <div class="timeline-number">04</div>
-            <div class="timeline-content">
-              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step4.badge">Detta gör vi</span>
-              <h3 data-i18n="sa_fungerar.onboarding.step4.title">Vi levererar din terminal</h3>
-              <p data-i18n="sa_fungerar.onboarding.step4.body">En färdigkonfigurerad Sunmi V2 S-terminal med inbyggd kvittoskrivare ingår och skickas till dig. Vi guidar uppsättningen på distans. När den är ansluten skrivs varje ny order ut automatiskt i ditt kök — precis som du är van vid.</p>
-              <div class="video-embed" data-step-video="step4"><div class="video-embed-ph" data-i18n="sa_fungerar.video.soon">Video kommer snart</div></div>
-            </div>
-          </article>
-
-          <article class="timeline-step fade-up" data-delay="5">
-            <div class="timeline-number">05</div>
-            <div class="timeline-content">
-              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step5.badge">Tillsammans</span>
-              <h3 data-i18n="sa_fungerar.onboarding.step5.title">Test, lansering och överlämning</h3>
-              <p data-i18n="sa_fungerar.onboarding.step5.body">Vi gör en testbeställning från start till kvittoutskrift tillsammans. När allt rullar smidigt — du är live. Vi finns kvar för support, men systemet är ditt att driva.</p>
-              <div class="video-embed" data-step-video="step5"><div class="video-embed-ph" data-i18n="sa_fungerar.video.soon">Video kommer snart</div></div>
+              <span class="timeline-badge timeline-badge--coral" data-i18n="sa_fungerar.onboarding.step3.badge">Vi</span>
+              <h3 data-i18n="sa_fungerar.onboarding.step3.title">Vi levererar</h3>
+              <p data-i18n="sa_fungerar.onboarding.step3.body">Du får terminalen och systemet färdigt och redo för din personal och dina kunder.</p>
             </div>
           </article>
         </div>
@@ -288,7 +269,7 @@
           </div>
           <div class="flow-step">
             <span class="flow-step-number">3</span>
-            <p data-i18n="sa_fungerar.customer.step3">Betalar med kort, Apple Pay eller Google Pay</p>
+            <p data-i18n="sa_fungerar.customer.step3">Betalar enkelt med Klarna, Swish och kort (även Apple Pay & Google Pay)</p>
           </div>
           <div class="flow-arrow" aria-hidden="true">
             <svg width="32" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -320,34 +301,21 @@
       </div>
     </section>
 
-    <section class="section" style="background:var(--cream);">
-      <div class="container">
-        <div class="section-head fade-up">
-          <h2 class="section-title" data-i18n="sa_fungerar.viral.h2">Och varje order blir en säljare</h2>
-          <p class="section-sub" data-i18n="sa_fungerar.viral.body">Varje orderbekräftelse och varje sidfot bär 'Drivs av Amoora'. Restaurangägare beställer mat hela tiden — och varje gång de ser en proffsig Amoora-upplevelse vill de också ha det. Din kundanskaffning växer av sig själv.</p>
-        </div>
-
-        <div class="mini-viral-card fade-up" data-delay="1">
-          <span class="viral-badge" aria-hidden="true">Drivs av Amoora ↗</span>
-          <p class="viral-note" data-i18n="sa_fungerar.viral.link">Läs mer om tillväxtmotorn →</p>
-        </div>
-      </div>
-    </section>
-
     <section class="section">
       <div class="container hardware-grid">
         <div class="hardware-copy fade-up">
           <h3 data-i18n="sa_fungerar.hardware.h3">Hårdvaran som ingår</h3>
-          <p data-i18n="sa_fungerar.hardware.body">En färdigkonfigurerad Sunmi V2 S-terminal med inbyggd kvittoskrivare ingår i alla planer. Vi skickar den till dig och guidar uppsättningen på distans via video — du behöver inte köpa eller konfigurera något själv.</p>
+          <p data-i18n="sa_fungerar.hardware.body">SUNMI V3H — en professionell handhållen Android-terminal byggd för restaurang och delivery. 6,75-tums HD+-pekskärm (420 nits) och en kraftfull Qualcomm octa-core-processor med 4 GB RAM och 64 GB lagring. Inbyggd höghastighets-termoskrivare (58 mm) för kvitton, NFC och SoftPOS för kontaktlösa betalningar, QR-betalningar, Wi-Fi, 4G, Bluetooth 5.0, fingeravtrycksläsare och GPS. Bland det senaste inom mobil POS-teknik.</p>
           <ul class="hardware-list">
-            <li data-i18n="sa_fungerar.hardware.bullet1">Allt-i-ett terminal med skrivare</li>
-            <li data-i18n="sa_fungerar.hardware.bullet2">WiFi och 4G — fungerar var som helst</li>
-            <li data-i18n="sa_fungerar.hardware.bullet3">Vi guidar installationen på distans</li>
+            <li data-i18n="sa_fungerar.hardware.bullet1">6,75-tums HD+-pekskärm & inbyggd termoskrivare (58 mm)</li>
+            <li data-i18n="sa_fungerar.hardware.bullet2">NFC, SoftPOS & QR-betalningar — kontaktlöst</li>
+            <li data-i18n="sa_fungerar.hardware.bullet3">Wi-Fi, 4G, Bluetooth 5.0, fingeravtrycksläsare & GPS</li>
           </ul>
         </div>
-        <div class="hardware-visual fade-up" data-delay="2" aria-hidden="true">
-          <div class="terminal-illustration"></div>
-        </div>
+        <figure class="hardware-visual fade-up" data-delay="2">
+          <img src="assets/images/sunmi-v3h.jpg" alt="SUNMI V3H — handhållen Android-terminal med kvittoskrivare" class="hardware-photo" loading="lazy" decoding="async" width="520" height="520">
+          <figcaption class="hardware-credit" data-i18n="sa_fungerar.hardware.credit">Bild från SUNMIs officiella webbplats.</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -464,28 +432,14 @@
   <script src="js/site-config.js"></script>
   <script src="js/main.js"></script>
   <script>
-    /* Step-by-step videos. Paste YouTube/Vimeo/MP4 embed URLs here when ready.
-       Empty string -> a tasteful "Video kommer snart" placeholder is shown. */
-    const STEP_VIDEOS = {
-      step1: "", // Vi bygger ditt system
-      step2: "", // Vi sätter upp din databas
-      step3: "", // Vi designar din beställningssida
-      step4: "", // Vi levererar din terminal
-      step5: ""  // Test, lansering och överlämning
-    };
+    /* Hero background image — wired from AMOORA_CONFIG.HERO_IMAGE. While empty,
+       the branded ink+coral gradient fallback (CSS) carries the look; the dark
+       overlay keeps the hero copy readable on any photo. */
     document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll("[data-step-video]").forEach((slot) => {
-        const url = STEP_VIDEOS[slot.getAttribute("data-step-video")];
-        if (!url) return; // keep placeholder
-        const iframe = document.createElement("iframe");
-        iframe.src = url;
-        iframe.loading = "lazy";
-        iframe.title = "Amoora — instruktionsvideo";
-        iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
-        iframe.setAttribute("allowfullscreen", "");
-        slot.innerHTML = "";
-        slot.appendChild(iframe);
-      });
+      const url = (window.AMOORA_CONFIG && window.AMOORA_CONFIG.HERO_IMAGE) || "";
+      if (!url) return;
+      const bg = document.querySelector("[data-hero-image]");
+      if (bg) bg.style.backgroundImage = "url('" + url + "')";
     });
   </script>
 </body>
