@@ -29,7 +29,7 @@ window.AMOORA_CONFIG = {
   // broken player. Autoplay requires the file to be muted + web-optimised.
   //
   // Full-bleed hero background video (homepage):
-  HERO_VIDEO_URL: "assets/WebHero.mp4",
+  HERO_VIDEO_URL: "assets/WebHero2.mp4",
   // "Så fungerar det" hero background image (restaurant vibe). Paste the path
   // once the file is in assets/ (e.g. "assets/images/sa-fungerar-hero.jpg").
   // While empty, a branded ink+coral gradient fallback is shown.
