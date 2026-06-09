@@ -38,7 +38,7 @@ window.AMOORA_CONFIG = {
   // Until a URL is set, each card shows its poster + "Video kommer snart".
   CARD_VIDEOS: {
     ordering: "assets/UserOrder.mp4", // Kundupplevelse & beställning
-    admin: "",                        // Admin-panel (placeholder until supplied)
+    admin: "assets/Admin.mp4",        // Admin-panel
     kitchen: "assets/Kitchen.mp4"     // Köks-app på terminalen
   }
 };
