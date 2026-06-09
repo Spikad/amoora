@@ -21,8 +21,9 @@ const I18N = {
     /* Hero */
     "hero.eyebrow": "Beställningssystem för restauranger",
     "hero.h1": "Noll provision.<br><span class=\"hl\">Äg ditt eget</span> system.",
-    "hero.sub": "En pizzeria som säljer för 100 000 kr/mån via Foodora betalar 360 000 kr om året i provision. Med Amoora äger du systemet och behåller varje krona på dina direktbeställningar.",
+    "hero.sub": "Foodora tar provision på varje order — från 15 % och uppåt. Med Amoora äger du systemet och behåller varje krona på dina direktbeställningar.",
     "hero.ctaPrimary": "Boka gratis demo",
+    "hero.ctaDemo": "Se live-demo",
     "hero.ctaSecondary": "Se Capri Blue live",
     "hero.trust1": "Engångskostnad",
     "hero.trust2": "Noll provision",
@@ -33,11 +34,11 @@ const I18N = {
 
     /* Problem / Solution */
     "ps.eyebrow": "Jämförelse",
-    "ps.h2": "Foodora tar 30%. Amoora tar 0%.",
+    "ps.h2": "Foodora tar minst 15 %. Amoora tar 0 %.",
     "ps.sub": "Se skillnaden mellan att hyra en plattform och att äga ditt eget system.",
     "ps.foodoraTitle": "Med Foodora",
     "ps.amooraTitle": "Med Amoora",
-    "ps.f1": "30% provision på varje order",
+    "ps.f1": "Från 15 % provision på varje order",
     "ps.f2": "Beroende av plattformen",
     "ps.f3": "Ingen tillgång till kunddata",
     "ps.f4": "Löpande månadskostnader",
@@ -45,7 +46,7 @@ const I18N = {
     "ps.a2": "Ditt eget system",
     "ps.a3": "Äg all din kunddata",
     "ps.a4": "En engångskostnad",
-    "ps.stat": "Spara upp till 30% på varje order",
+    "ps.stat": "Spara från 15 % på varje order",
 
     /* Calculator */
     "calculator.label": "LIVE-RÄKNARE",
@@ -65,7 +66,7 @@ const I18N = {
     "calculator.advanced.title": "Plattformens provision %",
     "calculator.controls.heading": "Din situation",
     "calculator.controls.hint": "Välj en startpunkt eller dra i reglagen.",
-    "calculator.commission.note": "Foodora tar oftast runt 30 %. Dra mellan 10–30 %.",
+    "calculator.commission.note": "Foodora tar från 15 % och uppåt. Dra reglaget till din nivå.",
     "calculator.results.lostLabel": "DU FÖRLORAR JUST NU",
     "calculator.results.lostSub": "kronor per år till Foodora",
     "calculator.tickerText": "Sedan du öppnade den här sidan har du förlorat {amount} kr till Foodora...",
@@ -96,7 +97,7 @@ const I18N = {
     "calculator.inputs.foodora.note": "Justera om du har förhandlat ett annat avtal",
     "calculator.inputs.wolt": "Wolt-provision %",
     "calculator.inputs.wolt.note": "Justera om du har förhandlat ett annat avtal",
-    "calculator.trust.1": "Räknaren bygger på riktiga marknadssiffror — justerbar provision 10–30 %",
+    "calculator.trust.1": "Räknaren bygger på riktiga marknadssiffror — justerbar provision 15–35 %",
     "calculator.trust.2": "Resultaten är genomsnitt — din situation kan variera",
     "calculator.trust.3": "Boka en demo så gör vi en exakt beräkning för din restaurang",
     "calculator.cta.bottom.h2": "Övertygad? Nästa steg är 20 minuter.",
@@ -104,10 +105,17 @@ const I18N = {
     "calculator.cta.bottom.btn": "Boka demo →",
     "calculator.share.summary": "Provisioner: Foodora {foodora}% · Wolt {wolt}%",
 
-    /* Features */
+    /* Features — three product surfaces (video cards) */
     "feat.eyebrow": "Funktioner",
     "feat.h2": "Allt din restaurang behöver",
-    "feat.sub": "Ett komplett system byggt för restauranger och pizzerior — från beställning till leverans.",
+    "feat.sub": "Tre delar, ett system — kundens beställning, din admin-panel och köks-appen på terminalen.",
+    "feat.soon": "Video kommer snart",
+    "feat.card1.t": "Kundupplevelse & beställning",
+    "feat.card1.d": "Kunderna bläddrar i menyn, använder rabattkoder och väljer leverans, ta med eller äta här — och betalar med Klarna, Swish och kort via Stripe.",
+    "feat.card2.t": "Admin-panel",
+    "feat.card2.d": "Se försäljningsstatistik, ordrar och kunder. Hantera meny, erbjudanden (6 färdiga typer, helt anpassningsbara), omdömen, leveranskostnad och radie, öppettider och kontaktuppgifter.",
+    "feat.card3.t": "Köks-app på terminalen",
+    "feat.card3.d": "Hantera och acceptera ordrar, markera kökstryck och förseningar och sätt rätter som slut med ett klick. Vid leverans skrivs ett kvitto med QR-kod som föraren skannar för vägbeskrivning i Google Maps.",
     "feat.1.t": "Egen beställningssida",
     "feat.1.d": "Dina kunder beställer direkt från dig — utan mellanhänder och utan provision.",
     "feat.1.note": "Inkl. kökssystem med automatisk kvittoutskrift (Sunmi-terminal).",
@@ -123,6 +131,12 @@ const I18N = {
     "feat.6.d": "Full koll på försäljningen.",
     "feat.7.t": "Egen app",
     "feat.7.d": "Din restaurang i kundens ficka — alltid ett knapptryck bort.",
+
+    /* Live-demo band */
+    "demo.eyebrow": "Live-demo",
+    "demo.h2": "Se Amoora i verkligheten",
+    "demo.sub": "Utforska ett riktigt Amoora-system — meny, beställning och kassa, precis som dina kunder skulle uppleva det.",
+    "demo.cta": "Öppna live-demo",
 
     /* How it works */
     "how.eyebrow": "Så fungerar det",
@@ -497,11 +511,11 @@ const I18N = {
     "priser.notIncluded.1.title": "Annonsbudget (Growth & Premium)",
     "priser.notIncluded.1.body": "Om du kör Google Ads betalar du annonsbudgeten direkt till Google. Vi sätter upp och optimerar kampanjen — du bestämmer själv hur mycket du vill lägga.",
     "priser.notIncluded.2.title": "Stripes transaktionsavgifter",
-    "priser.notIncluded.2.body": "Stripes vanliga avgifter per kortbetalning (cirka 1,5 % + 1,80 kr). Detta är Stripes avgift, inte Amooras — och det är ändå mycket mindre än Foodoras 30 %.",
+    "priser.notIncluded.2.body": "Stripes vanliga avgifter per kortbetalning (cirka 1,5 % + 1,80 kr). Detta är Stripes avgift, inte Amooras — och det är ändå mycket mindre än Foodoras provision (från 15 % och uppåt).",
 
     "priser.faq.h2": "Allt du vill veta innan du bestämmer dig",
     "priser.faq.q1": "Hur skiljer sig Amoora från Foodora?",
-    "priser.faq.a1": "Foodora är en plattform där du listar din restaurang bland tusentals andra och betalar 25–35 % provision per order. Amoora är ditt eget system — din egen sida, dina egna kunder, ditt eget varumärke — och du betalar noll provision. Du kan köra båda parallellt, men varje order via Amoora är 100 % din intäkt.",
+    "priser.faq.a1": "Foodora är en plattform där du listar din restaurang bland tusentals andra och betalar provision på varje order — från 15 % och uppåt. Amoora är ditt eget system — din egen sida, dina egna kunder, ditt eget varumärke — och du betalar noll provision. Du kan köra båda parallellt, men varje order via Amoora är 100 % din intäkt.",
     "priser.faq.q2": "Vad betyder 'engångskostnad'?",
     "priser.faq.a2": "Du betalar uppsättningskostnaden en gång när vi installerar och designar ditt system. Sedan betalar du bara en låg fast månadsavgift för drift och support. Inga dolda kostnader. Ingen procent per order. Klarna-fakturering tillgänglig om du vill dela upp engångskostnaden.",
     "priser.faq.q3": "Vad ingår i månadsavgiften?",
@@ -706,8 +720,9 @@ const I18N = {
     /* Hero */
     "hero.eyebrow": "Ordering system for restaurants",
     "hero.h1": "Zero commission.<br><span class=\"hl\">Own your own</span> system.",
-    "hero.sub": "A pizzeria selling for 100,000 kr/month via Foodora pays 360,000 kr a year in commission. With Amoora you own the system and keep every krona on your direct orders.",
+    "hero.sub": "Foodora takes commission on every order — from 15% and up. With Amoora you own the system and keep every krona on your direct orders.",
     "hero.ctaPrimary": "Book a free demo",
+    "hero.ctaDemo": "See live demo",
     "hero.ctaSecondary": "See Capri Blue live",
     "hero.trust1": "One-time cost",
     "hero.trust2": "Zero commission",
@@ -718,11 +733,11 @@ const I18N = {
 
     /* Problem / Solution */
     "ps.eyebrow": "Comparison",
-    "ps.h2": "Foodora takes 30%. Amoora takes 0%.",
+    "ps.h2": "Foodora takes at least 15%. Amoora takes 0%.",
     "ps.sub": "See the difference between renting a platform and owning your own system.",
     "ps.foodoraTitle": "With Foodora",
     "ps.amooraTitle": "With Amoora",
-    "ps.f1": "30% commission on every order",
+    "ps.f1": "From 15% commission on every order",
     "ps.f2": "Dependent on the platform",
     "ps.f3": "No access to customer data",
     "ps.f4": "Ongoing monthly fees",
@@ -730,7 +745,7 @@ const I18N = {
     "ps.a2": "Your own system",
     "ps.a3": "Own all your customer data",
     "ps.a4": "One single one-time cost",
-    "ps.stat": "Save up to 30% on every order",
+    "ps.stat": "Save 15% and up on every order",
 
     /* Calculator */
     "calculator.label": "LIVE CALCULATOR",
@@ -750,7 +765,7 @@ const I18N = {
     "calculator.advanced.title": "Platform commission %",
     "calculator.controls.heading": "Your situation",
     "calculator.controls.hint": "Pick a starting point or drag the sliders.",
-    "calculator.commission.note": "Foodora typically takes around 30%. Drag between 10–30%.",
+    "calculator.commission.note": "Foodora takes 15% and up. Drag the slider to your level.",
     "calculator.results.lostLabel": "YOU'RE LOSING RIGHT NOW",
     "calculator.results.lostSub": "SEK per year to Foodora",
     "calculator.tickerText": "Since you opened this page, you've lost {amount} to Foodora...",
@@ -781,7 +796,7 @@ const I18N = {
     "calculator.inputs.foodora.note": "Adjust if you have negotiated a different deal",
     "calculator.inputs.wolt": "Wolt commission %",
     "calculator.inputs.wolt.note": "Adjust if you have negotiated a different deal",
-    "calculator.trust.1": "Calculator based on real market figures — adjustable commission 10–30%",
+    "calculator.trust.1": "Calculator based on real market figures — adjustable commission 15–35%",
     "calculator.trust.2": "Results are averages — your situation may vary",
     "calculator.trust.3": "Book a demo and we'll do an exact calculation for your restaurant",
     "calculator.cta.bottom.h2": "Convinced? Next step is 20 minutes.",
@@ -789,10 +804,17 @@ const I18N = {
     "calculator.cta.bottom.btn": "Book demo →",
     "calculator.share.summary": "Commissions: Foodora {foodora}% · Wolt {wolt}%",
 
-    /* Features */
+    /* Features — three product surfaces (video cards) */
     "feat.eyebrow": "Features",
     "feat.h2": "Everything your restaurant needs",
-    "feat.sub": "A complete system built for restaurants and pizzerias — from order to delivery.",
+    "feat.sub": "Three parts, one system — the customer's ordering, your admin panel and the kitchen app on the terminal.",
+    "feat.soon": "Video coming soon",
+    "feat.card1.t": "Customer experience & ordering",
+    "feat.card1.d": "Customers browse the menu, apply discount codes and choose delivery, takeaway or dine-in — paying with Klarna, Swish and card via Stripe.",
+    "feat.card2.t": "Admin panel",
+    "feat.card2.d": "See sales statistics, orders and customers. Manage your menu, offers (6 ready-made types, fully customisable), reviews, delivery cost and radius, opening hours and contact details.",
+    "feat.card3.t": "Kitchen app on the terminal",
+    "feat.card3.d": "Manage and accept orders, flag kitchen pressure and delays, and mark dishes as sold out with one click. For delivery, a receipt prints with a QR code the driver scans for directions in Google Maps.",
     "feat.1.t": "Your own ordering page",
     "feat.1.d": "Your customers order directly from you — no middlemen, no commission.",
     "feat.1.note": "Incl. kitchen system with automatic receipt printing (Sunmi terminal).",
@@ -808,6 +830,12 @@ const I18N = {
     "feat.6.d": "Full control of your sales.",
     "feat.7.t": "Your own app",
     "feat.7.d": "Your restaurant in your customer's pocket — always one tap away.",
+
+    /* Live demo band */
+    "demo.eyebrow": "Live demo",
+    "demo.h2": "See Amoora in action",
+    "demo.sub": "Explore a real Amoora system — menu, ordering and checkout, exactly as your customers would experience it.",
+    "demo.cta": "Open live demo",
 
     /* How it works */
     "how.eyebrow": "How it works",
@@ -1181,11 +1209,11 @@ const I18N = {
     "priser.notIncluded.1.title": "Ad budget (Growth & Premium)",
     "priser.notIncluded.1.body": "If you run Google Ads, you pay the ad budget directly to Google. We set up and optimize the campaign — you decide how much to spend.",
     "priser.notIncluded.2.title": "Stripe transaction fees",
-    "priser.notIncluded.2.body": "Stripe's standard fees per card payment (about 1.5% + 1.80 kr). This is Stripe's fee, not Amoora's — and it is still much lower than Foodora's 30%.",
+    "priser.notIncluded.2.body": "Stripe's standard fees per card payment (about 1.5% + 1.80 kr). This is Stripe's fee, not Amoora's — and it is still much lower than Foodora's commission (from 15% and up).",
 
     "priser.faq.h2": "Everything you want to know before deciding",
     "priser.faq.q1": "How is Amoora different from Foodora?",
-    "priser.faq.a1": "Foodora is a platform where you list your restaurant among thousands of others and pay 25–35% commission per order. Amoora is your own system — your own page, your own customers, your own brand — and you pay zero commission. You can run both in parallel, but every order via Amoora is 100% yours.",
+    "priser.faq.a1": "Foodora is a platform where you list your restaurant among thousands of others and pay commission on every order — from 15% and up. Amoora is your own system — your own page, your own customers, your own brand — and you pay zero commission. You can run both in parallel, but every order via Amoora is 100% yours.",
     "priser.faq.q2": "What does 'one-time cost' mean?",
     "priser.faq.a2": "You pay the setup cost once when we install and design your system. After that, you only pay a low fixed monthly fee for hosting and support. No hidden costs. No percentage per order. Klarna invoicing is available if you want to split the one-time cost.",
     "priser.faq.q3": "What is included in the monthly fee?",
@@ -1626,8 +1654,8 @@ function initCalculator() {
   const amooraFirstYear = 46587; // Growth setup 39 999 + 12 × 549 kr/mån
   const amooraAnnual = 6588;     // 12 × 549 kr/mån
   const WOLT_PCT = 25;           // Wolt comparison commission (fixed reference)
-  const COMMISSION_MIN = 10;     // slider bounds (kept in sync with raknare.html)
-  const COMMISSION_MAX = 30;
+  const COMMISSION_MIN = 15;     // slider bounds (kept in sync with raknare.html) — "15 % och uppåt"
+  const COMMISSION_MAX = 35;
   let tickerStart = performance.now();
   let tickerInterval = null;
 
@@ -1660,7 +1688,7 @@ function initCalculator() {
   const updateMetrics = () => {
     const orders = parseInt(ordersInput.value, 10) || 0;
     const avg = parseInt(avgInput.value, 10) || 0;
-    // Clamp commission to the supported 10–30% band so the math can't run on
+    // Clamp commission to the supported 15–35% band so the math can't run on
     // an out-of-range value (e.g. a stale URL/preset or manual input).
     const commission = Math.min(
       COMMISSION_MAX,
@@ -1730,9 +1758,9 @@ function initCalculator() {
 
   const setPreset = (preset) => {
     const presets = {
-      small: { orders: 50, avg: 130, commission: 30 },
-      medium: { orders: 150, avg: 150, commission: 30 },
-      large: { orders: 350, avg: 170, commission: 30 },
+      small: { orders: 50, avg: 130, commission: 15 },
+      medium: { orders: 150, avg: 150, commission: 15 },
+      large: { orders: 350, avg: 170, commission: 15 },
     };
     if (!presets[preset]) return;
     const values = presets[preset];
@@ -1805,7 +1833,7 @@ function initSavingsCalculator() {
 
   const AMOORA_FIRST_YEAR = 46587; // Growth setup 39 999 + 12 × 549 kr/mån
   const AMOORA_ANNUAL = 6588;      // 12 × 549 kr/mån
-  const COMMISSION = 0.30;
+  const COMMISSION = 0.15; // Foodora baseline — "från 15 %"
   const min = parseInt(range.min, 10) || 0;
   const max = parseInt(range.max, 10) || 500000;
 
@@ -2069,14 +2097,15 @@ function initLangToggle() {
 
 /* --------------------------------------------------------------------------
    7b. LOSS TICKER — live "lost to Foodora since you landed" counter (homepage)
-   Rate derived from the same example as the hero: 360 000 kr/year commission.
+   Rate derived from the same example as the hero: 100 000 kr/mån × 15 % × 12
+   = 180 000 kr/year commission.
    No-ops on pages without #lossSince; respects prefers-reduced-motion.
    -------------------------------------------------------------------------- */
 function initLossTicker() {
   const el = document.getElementById("lossSince");
   if (!el) return;
 
-  const perYear = parseFloat(el.getAttribute("data-loss-year")) || 360000;
+  const perYear = parseFloat(el.getAttribute("data-loss-year")) || 180000;
   const perSecond = perYear / (365 * 24 * 60 * 60);
   const fmt = (n) =>
     n.toLocaleString("sv-SE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
@@ -2093,6 +2122,56 @@ function initLossTicker() {
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
+}
+
+/* --------------------------------------------------------------------------
+   7c. HOMEPAGE VIDEO — hero background + the three product-surface cards.
+   Driven entirely by AMOORA_CONFIG (HERO_VIDEO_URL + CARD_VIDEOS). Until a
+   URL is set we keep the branded gradient/poster fallback — never a broken
+   player. Autoplay is suppressed under prefers-reduced-motion.
+   -------------------------------------------------------------------------- */
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function attachVideo(video, url) {
+  // Wire a config URL onto a <video>, play it, and flag the wrapper. Returns
+  // true when a source was attached so callers can hide their placeholder.
+  if (!video || !url) return false;
+  const source = document.createElement("source");
+  source.src = url;
+  video.appendChild(source);
+  video.load();
+  if (!prefersReducedMotion()) {
+    const play = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+    if (video.readyState >= 2) play();
+    else video.addEventListener("canplay", play, { once: true });
+  }
+  return true;
+}
+
+function initHeroVideo() {
+  const video = document.getElementById("heroVideo");
+  if (!video) return;
+  const url = (window.AMOORA_CONFIG && window.AMOORA_CONFIG.HERO_VIDEO_URL) || "";
+  if (attachVideo(video, url)) {
+    const hero = video.closest(".hero");
+    if (hero) hero.classList.add("has-video");
+  } else {
+    // No URL yet — drop the empty element so no browser renders a broken
+    // player. The .hero-media gradient (+ optional poster) carries the look.
+    video.remove();
+  }
+}
+
+function initCardVideos() {
+  const map = (window.AMOORA_CONFIG && window.AMOORA_CONFIG.CARD_VIDEOS) || {};
+  document.querySelectorAll("[data-card-video]").forEach((wrap) => {
+    const key = wrap.getAttribute("data-card-video");
+    const video = wrap.querySelector("video");
+    if (attachVideo(video, map[key])) wrap.classList.add("has-video");
+    // else: keep the poster + "Video kommer snart" badge.
+  });
 }
 
 /* --------------------------------------------------------------------------
@@ -2117,4 +2196,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initSavingsCalculator();
   initCapriLinks();
   initLossTicker();
+  initHeroVideo();
+  initCardVideos();
 });

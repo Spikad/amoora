@@ -15,7 +15,21 @@ window.AMOORA_CONFIG = {
   TEAM_EMAIL: "info@amoora.se",
   WHATSAPP_URL: "https://wa.me/46101850001", // placeholder number per brief
 
-  // TODO: set to the real public Capri Blue ordering URL once live.
-  // While empty, "Se Capri Blue live" links fall back to the contact page.
-  CAPRI_BLUE_URL: ""
+  // Live ordering site of our first reference restaurant. Opens in a new tab.
+  CAPRI_BLUE_URL: "https://www.capribluepizzeria.se/",
+
+  // ---- HOMEPAGE MEDIA ---------------------------------------------------
+  // Paste the final hosted URLs here when ready (MP4/WebM, ideally a CDN).
+  // While empty, the homepage shows a tasteful branded fallback — never a
+  // broken player. Autoplay requires the file to be muted + web-optimised.
+  //
+  // Full-bleed hero background video:
+  HERO_VIDEO_URL: "",
+  // The three product-surface cards under "Allt din restaurang behöver".
+  // Until a URL is set, each card shows its poster + "Video kommer snart".
+  CARD_VIDEOS: {
+    ordering: "", // Kundupplevelse & beställning
+    admin: "",    // Admin-panel
+    kitchen: ""   // Köks-app på terminalen
+  }
 };

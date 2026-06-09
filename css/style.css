@@ -292,6 +292,24 @@ h2.section-title {
 .btn-ghost-light:active { transform: translateY(0) scale(0.985); }
 
 .btn-sm { padding: 11px 20px; font-size: 0.9375rem; }
+.btn-lg { padding: 16px 30px; font-size: 1.0625rem; }
+
+/* Glass button — for use over the hero video / dark imagery */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.btn-glass:hover {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+.btn-glass:active { transform: translateY(0) scale(0.985); }
 
 .btn-block { width: 100%; }
 
@@ -475,6 +493,8 @@ h2.section-title {
 
 /* --------------------------------------------------------------------------
    6. HERO
+   Generic hero (priser, så-fungerar): light, two-up grid via .hero-grid /
+   .hero-copy. The homepage uses .hero--home for the full-bleed video variant.
    -------------------------------------------------------------------------- */
 .hero {
   position: relative;
@@ -525,7 +545,7 @@ h2.section-title {
 }
 .trust-line svg { color: var(--coral); flex-shrink: 0; }
 
-/* Animated background blobs */
+/* Animated background blobs (light hero) */
 .hero-blob {
   position: absolute;
   border-radius: 50%;
@@ -547,6 +567,78 @@ h2.section-title {
   animation: float 18s var(--ease) infinite reverse;
 }
 .hero > .container { position: relative; z-index: 1; }
+
+/* ---- Homepage: full-bleed video hero, centered copy over an overlay ------ */
+.hero--home {
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: clamp(560px, 86vh, 880px);
+  padding-block: clamp(4.5rem, 11vh, 8rem);
+  /* Branded fallback shown whenever the video has no source yet / buffers.
+     Ink → warm → coral, so it always reads as Amoora, never "broken". */
+  background: linear-gradient(140deg, var(--ink) 0%, #2c1d18 48%, var(--coral-dark) 125%);
+}
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.hero-media-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(28,27,26,0.55) 0%, rgba(28,27,26,0.42) 42%, rgba(28,27,26,0.80) 100%),
+    radial-gradient(120% 95% at 50% 0%, rgba(234,112,86,0.30) 0%, rgba(234,112,86,0) 62%);
+}
+.hero-content {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+  color: var(--white);
+}
+.hero-content h1 {
+  font-size: var(--hero-h1);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin-top: 1.25rem;
+  color: var(--white);
+  text-wrap: balance;
+}
+.hero-content h1 .hl { color: var(--coral); }
+.hero-content .hero-sub {
+  font-size: var(--body-lg);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.86);
+  margin: 1.5rem auto 0;
+  max-width: 600px;
+}
+.hero--home .hero-ctas {
+  margin-top: 2.25rem;
+  justify-content: center;
+}
+
+/* Eyebrow + trust row variants for dark / over-video placement */
+.eyebrow--ondark {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.trust-line--ondark {
+  justify-content: center;
+  margin-top: 2.25rem;
+  color: rgba(255, 255, 255, 0.92);
+}
 
 /* Hero device mockup */
 .hero-visual {
@@ -1201,6 +1293,114 @@ h2.section-title {
 .bento-card.feature-hl:hover { border-color: var(--coral); }
 
 /* --------------------------------------------------------------------------
+   8b. PRODUCT VIDEO CARDS — three surfaces (ordering / admin / kitchen)
+   Each card fronts a 16:9 video. Until a source is wired from
+   AMOORA_CONFIG.CARD_VIDEOS, the poster + "Video kommer snart" badge shows.
+   -------------------------------------------------------------------------- */
+.vcards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--bento-gap);
+}
+.vcard {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+}
+.vcard:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--coral);
+}
+.vcard-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background:
+    linear-gradient(135deg, rgba(28,27,26,0.18), rgba(234,112,86,0.18)),
+    var(--coral-soft);
+  overflow: hidden;
+}
+.vcard-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* "Coming soon" badge — hidden once a real video source is attached. */
+.vcard-badge {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--white);
+  background: rgba(28, 27, 26, 0.62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-pill);
+}
+.vcard-badge svg { color: var(--coral); }
+.vcard-media.has-video .vcard-badge { display: none; }
+.vcard-body {
+  padding: clamp(1.35rem, 2.2vw, 1.75rem);
+}
+.vcard-body h3 {
+  font-size: var(--card-h3);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.vcard-body p {
+  color: var(--gray-strong);
+  margin-top: 0.6rem;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   8c. LIVE-DEMO BAND — secondary CTA toward the hosted demo
+   -------------------------------------------------------------------------- */
+.demo-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.75rem, 3.5vw, 3rem);
+  border-radius: var(--radius-card);
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(234,112,86,0.16) 0%, rgba(234,112,86,0) 55%),
+    var(--cream-deep);
+  border: 1px solid var(--border);
+}
+.demo-band-text { max-width: 560px; }
+.demo-band-text h3 {
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 0.85rem;
+}
+.demo-band-text p {
+  color: var(--gray-strong);
+  line-height: 1.6;
+  margin-top: 0.6rem;
+}
+.demo-band-cta { flex-shrink: 0; }
+.demo-band-cta svg { margin-left: 0.15rem; }
+
+/* --------------------------------------------------------------------------
    9. HOW IT WORKS
    -------------------------------------------------------------------------- */
 .steps {
@@ -1456,21 +1656,49 @@ h2.section-title {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--bento-gap);
-  text-align: center;
 }
-.stat-item { padding: 1rem; }
+/* Premium stat cards — subtle glass on the dark band, coral top-accent. */
+.stat-card {
+  position: relative;
+  padding: clamp(1.75rem, 2.6vw, 2.25rem) 1.5rem;
+  text-align: center;
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              background var(--dur) var(--ease);
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(234, 112, 86, 0.55);
+}
+.stat-accent {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 4px;
+  border-radius: 0 0 var(--radius-pill) var(--radius-pill);
+  background: var(--coral);
+}
 .stat-num {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(2.4rem, 4.6vw, 3.25rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--coral);
+  font-variant-numeric: tabular-nums;
 }
 .stat-label {
   margin-top: 0.85rem;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 /* --------------------------------------------------------------------------
@@ -1849,6 +2077,7 @@ h2.section-title {
   .bento-card.col-2,
   .bento-card.col-2.large { grid-column: span 2; }
   .bento-card.row-2 { grid-row: span 1; }
+  .vcards { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
   .steps { grid-template-columns: repeat(2, 1fr); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
@@ -2236,6 +2465,8 @@ h2.section-title {
   .viral-visual { order: -1; }
   .ref-card { grid-template-columns: 1fr; }
   .ref-visual { order: -1; }
+  .demo-band { flex-direction: column; align-items: flex-start; text-align: left; }
+  .demo-band-cta { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 640px) {
@@ -2244,7 +2475,7 @@ h2.section-title {
   .bento-card.col-2,
   .bento-card.col-2.large { grid-column: span 1; }
   .steps { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .stats-grid { grid-template-columns: 1fr; gap: 1.25rem; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .hero-ctas .btn { flex: 1; }
