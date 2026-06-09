@@ -17,6 +17,11 @@ window.AMOORA_CONFIG = {
 
   // Live ordering site of our first reference restaurant. Opens in a new tab.
   CAPRI_BLUE_URL: "https://www.capribluepizzeria.se/",
+  // Screenshot of Capri Blue's real homepage, shown in the reference card on
+  // the homepage. Paste the path once the file is in assets/ (e.g.
+  // "assets/images/capri-blue-screenshot.png"). While empty, a tasteful
+  // branded placeholder is shown inside the browser frame.
+  CAPRI_BLUE_SCREENSHOT: "assets/images/capri-blue-screenshot.png",
 
   // ---- HOMEPAGE MEDIA ---------------------------------------------------
   // Paste the final hosted URLs here when ready (MP4/WebM, ideally a CDN).

@@ -1123,6 +1123,12 @@ h2.section-title {
   gap: 1rem;
   margin-top: 1.5rem;
 }
+/* Two-item variant (after removing "heltidsanställda") — centered pair */
+.calc-equivalents-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 460px;
+  margin-inline: auto;
+}
 .calc-eq-value {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.6rem);
@@ -2049,26 +2055,81 @@ h2.section-title {
 .ref-card .btn { margin-top: 1.75rem; }
 
 .ref-browser {
+  display: block;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow-lift);
   overflow: hidden;
+  color: inherit;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+a.ref-browser:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-deep);
 }
 .ref-browser-bar {
   display: flex;
+  align-items: center;
   gap: 6px;
   padding: 12px 14px;
   background: var(--cream);
   border-bottom: 1px solid var(--border);
 }
-.ref-browser-bar span {
+.ref-browser-bar > span:not(.ref-browser-url) {
   width: 10px; height: 10px;
   border-radius: 50%;
   background: var(--border);
+  flex-shrink: 0;
 }
-.ref-browser-bar span:first-child { background: var(--coral); }
-.ref-browser-body { padding: 16px; }
+.ref-browser-bar > span:first-child { background: var(--coral); }
+.ref-browser-url {
+  margin-left: 10px;
+  flex: 1;
+  min-width: 0;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Screenshot area — fills the frame below the chrome bar */
+.ref-browser-shot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(234,112,86,0.16), rgba(234,112,86,0) 60%),
+    linear-gradient(135deg, var(--coral-soft), var(--cream-deep));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.ref-shot-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: none;
+}
+.ref-browser-shot.has-shot .ref-shot-img { display: block; }
+.ref-browser-shot.has-shot .ref-shot-ph { display: none; }
+.ref-shot-ph {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--coral);
+}
+.ref-shot-live {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 1;
+}
 
 /* --------------------------------------------------------------------------
    15. SCROLL ANIMATIONS

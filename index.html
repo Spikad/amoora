@@ -434,29 +434,22 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
           </div>
-          <div class="ref-visual" aria-hidden="true">
-            <div class="ref-browser">
-              <div class="ref-browser-bar"><span></span><span></span><span></span></div>
-              <div class="ref-browser-body">
-                <div class="mock-bar w-40 coral"></div>
-                <div class="mock-bar w-60"></div>
-                <div class="mock-card">
-                  <span class="mock-thumb"></span>
-                  <span class="mock-lines">
-                    <span class="mock-bar w-60" style="margin:0 0 6px"></span>
-                    <span class="mock-bar w-40" style="margin:0"></span>
-                  </span>
-                  <span class="mock-pill">LIVE</span>
-                </div>
-                <div class="mock-card">
-                  <span class="mock-thumb"></span>
-                  <span class="mock-lines">
-                    <span class="mock-bar w-60" style="margin:0 0 6px"></span>
-                    <span class="mock-bar w-40" style="margin:0"></span>
-                  </span>
-                </div>
+          <div class="ref-visual">
+            <!-- Real Capri Blue homepage screenshot in a browser frame. The
+                 image src is injected from AMOORA_CONFIG.CAPRI_BLUE_SCREENSHOT;
+                 until set, a branded placeholder shows. The frame links to the
+                 live site (new tab) via data-capri-blue. -->
+            <a class="ref-browser" data-capri-blue href="https://www.capribluepizzeria.se/" aria-label="Öppna Capri Blue Pizzerias sajt i ny flik">
+              <div class="ref-browser-bar">
+                <span></span><span></span><span></span>
+                <span class="ref-browser-url">capribluepizzeria.se</span>
               </div>
-            </div>
+              <div class="ref-browser-shot" data-capri-shot>
+                <img class="ref-shot-img" alt="Skärmdump av Capri Blue Pizzerias startsida" loading="lazy" decoding="async">
+                <span class="ref-shot-ph" data-i18n="ref.shotSoon">Skärmdump kommer snart</span>
+                <span class="mock-pill ref-shot-live">LIVE</span>
+              </div>
+            </a>
           </div>
         </article>
 

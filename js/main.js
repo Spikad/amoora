@@ -97,7 +97,7 @@ const I18N = {
     "calculator.inputs.foodora.note": "Justera om du har förhandlat ett annat avtal",
     "calculator.inputs.wolt": "Wolt-provision %",
     "calculator.inputs.wolt.note": "Justera om du har förhandlat ett annat avtal",
-    "calculator.trust.1": "Räknaren bygger på riktiga marknadssiffror — justerbar provision 15–35 %",
+    "calculator.trust.1": "Räknaren bygger på riktiga marknadssiffror — justerbar provision 13–35 %",
     "calculator.trust.2": "Resultaten är genomsnitt — din situation kan variera",
     "calculator.trust.3": "Boka en demo så gör vi en exakt beräkning för din restaurang",
     "calculator.cta.bottom.h2": "Övertygad? Nästa steg är 20 minuter.",
@@ -536,6 +536,7 @@ const I18N = {
     "ref.title": "Capri Blue Pizzeria är live på Amoora",
     "ref.body": "Vår första kund är redan igång med sitt egna provisionsfria system — komplett med beställningssida, onlinebetalning och automatisk kvittoutskrift i köket. Se det live.",
     "ref.btn": "Se Capri Blue live",
+    "ref.shotSoon": "Skärmdump kommer snart",
 
     /* Social proof */
     "proof.eyebrow": "Kunder",
@@ -791,7 +792,7 @@ const I18N = {
     "calculator.inputs.foodora.note": "Adjust if you have negotiated a different deal",
     "calculator.inputs.wolt": "Wolt commission %",
     "calculator.inputs.wolt.note": "Adjust if you have negotiated a different deal",
-    "calculator.trust.1": "Calculator based on real market figures — adjustable commission 15–35%",
+    "calculator.trust.1": "Calculator based on real market figures — adjustable commission 13–35%",
     "calculator.trust.2": "Results are averages — your situation may vary",
     "calculator.trust.3": "Book a demo and we'll do an exact calculation for your restaurant",
     "calculator.cta.bottom.h2": "Convinced? Next step is 20 minutes.",
@@ -1232,6 +1233,7 @@ const I18N = {
     "ref.title": "Capri Blue Pizzeria is live on Amoora",
     "ref.body": "Our first customer is already up and running with their own commission-free system — complete with an ordering page, online payments and automatic kitchen receipt printing. See it live.",
     "ref.btn": "See Capri Blue live",
+    "ref.shotSoon": "Screenshot coming soon",
 
     /* Social proof */
     "proof.eyebrow": "Customers",
@@ -1625,7 +1627,6 @@ function initCalculator() {
   const paybackDays = document.getElementById("calcPaybackDays");
   const freedomDate = document.getElementById("calcFreedomDate");
   const ovens = document.getElementById("calcOvens");
-  const employees = document.getElementById("calcEmployees");
   const vacations = document.getElementById("calcVacations");
   const barFoodora = document.getElementById("barFoodora");
   const barWolt = document.getElementById("barWolt");
@@ -1638,13 +1639,10 @@ function initCalculator() {
   const presetButtons = document.querySelectorAll(".calculator-scenario");
   const advancedToggle = document.getElementById("calcAdvancedToggle");
   const advancedPanel = document.getElementById("calcAdvancedPanel");
-  const shareForm = document.getElementById("calcShareForm");
-  const emailInput = shareForm ? shareForm.querySelector("input[type='email']") : null;
-  const toast = document.getElementById("calcToast");
   const amooraFirstYear = 46587; // Growth setup 39 999 + 12 × 549 kr/mån
   const amooraAnnual = 6588;     // 12 × 549 kr/mån
-  const WOLT_PCT = 25;           // Wolt comparison commission (fixed reference)
-  const COMMISSION_MIN = 15;     // slider bounds (kept in sync with raknare.html) — "15 % och uppåt"
+  const WOLT_PCT = 15;           // Wolt comparison commission (fixed reference)
+  const COMMISSION_MIN = 13;     // slider bounds (kept in sync with raknare.html)
   const COMMISSION_MAX = 35;
   let tickerStart = performance.now();
   let tickerInterval = null;
@@ -1678,7 +1676,7 @@ function initCalculator() {
   const updateMetrics = () => {
     const orders = parseInt(ordersInput.value, 10) || 0;
     const avg = parseInt(avgInput.value, 10) || 0;
-    // Clamp commission to the supported 15–35% band so the math can't run on
+    // Clamp commission to the supported 13–35% band so the math can't run on
     // an out-of-range value (e.g. a stale URL/preset or manual input).
     const commission = Math.min(
       COMMISSION_MAX,
@@ -1695,7 +1693,6 @@ function initCalculator() {
     const payback = daily > 0 ? Math.round(amooraFirstYear / daily) : 0;
     const breakEvenDate = payback > 0 ? new Date(Date.now() + payback * 24 * 60 * 60 * 1000) : null;
     const ovensCount = Math.max(0, Math.round(foodoraAnnual / 28000));
-    const employeeCount = Math.max(0, Math.round(foodoraAnnual / 390000));
     const vacationCount = Math.max(0, Math.round(foodoraAnnual / 54000));
     const maxValue = Math.max(foodoraAnnual, woltAnnual, amooraFirstYear);
     const foodoraWidth = maxValue ? Math.round((foodoraAnnual / maxValue) * 100) : 0;
@@ -1716,7 +1713,6 @@ function initCalculator() {
     paybackDays.textContent = payback > 0 ? String(payback) : "—";
     freedomDate.textContent = breakEvenDate ? new Intl.DateTimeFormat("sv-SE", { day: "numeric", month: "long", year: "numeric" }).format(breakEvenDate) : "—";
     ovens.textContent = String(ovensCount);
-    employees.textContent = String(employeeCount);
     vacations.textContent = String(vacationCount);
 
     // Chart labels follow the actual commissions (Foodora = slider, Wolt = fixed).
@@ -1782,24 +1778,6 @@ function initCalculator() {
     advancedToggle.addEventListener("click", () => {
       const isOpen = advancedPanel.classList.toggle("is-open");
       advancedToggle.setAttribute("aria-expanded", String(isOpen));
-    });
-  }
-
-  if (shareForm && emailInput && toast) {
-    shareForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const email = emailInput.value.trim();
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        toast.textContent = I18N[currentLang]["calculator.share.error"];
-        return;
-      }
-      // Record the calculator lead (best-effort), then confirm to the user.
-      const summary = `Räknare: ${ordersInput.value} ordrar/v · ${avgInput.value} kr snitt · ${commissionInput.value}% provision · ${yearlyValue.textContent}/år`;
-      if (typeof window.AmooraLead === "function") {
-        window.AmooraLead({ source: "calculator", email, message: summary });
-      }
-      toast.textContent = I18N[currentLang]["calculator.share.success"];
-      emailInput.value = "";
     });
   }
 
@@ -2076,6 +2054,19 @@ function initCapriLinks() {
   });
 }
 
+/* Inject the Capri Blue homepage screenshot from config into the reference
+   card. While CAPRI_BLUE_SCREENSHOT is empty, the branded placeholder stays. */
+function initCapriScreenshot() {
+  const url = (window.AMOORA_CONFIG && window.AMOORA_CONFIG.CAPRI_BLUE_SCREENSHOT) || "";
+  if (!url) return;
+  document.querySelectorAll("[data-capri-shot]").forEach((wrap) => {
+    const img = wrap.querySelector("img");
+    if (!img) return;
+    img.src = url;
+    wrap.classList.add("has-shot");
+  });
+}
+
 /* --------------------------------------------------------------------------
    7. LANGUAGE TOGGLE WIRING
    -------------------------------------------------------------------------- */
@@ -2185,6 +2176,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCalculator();
   initSavingsCalculator();
   initCapriLinks();
+  initCapriScreenshot();
   initLossTicker();
   initHeroVideo();
   initCardVideos();
