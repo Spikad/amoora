@@ -80,11 +80,11 @@ Deno.serve(async (req) => {
     const confirmHtml = `
       <h2>Tack för din förfrågan!</h2>
       <p>Hej ${esc(row.name) || "där"},</p>
-      <p>Vi har tagit emot din förfrågan och återkommer inom 24 timmar med
+      <p>Vi har tagit emot din förfrågan och hör av oss inom 1 arbetsdag med
       förslag på tider för en kort demo. Under tiden får du gärna räkna på din
       besparing på <a href="https://amoora.se/raknare.html">amoora.se/raknare</a>.</p>
       <p>Vänliga hälsningar,<br>Amoora — en produkt av Lynkrr AB</p>`;
-    await sendEmail(email, "Tack — vi hör av oss inom 24 timmar", confirmHtml);
+    await sendEmail(email, "Tack — vi hör av oss inom 1 arbetsdag", confirmHtml);
   }
 
   return json({ ok: true, id: data.id });

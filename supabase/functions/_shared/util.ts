@@ -34,7 +34,8 @@ export function esc(v: unknown): string {
 }
 
 const FROM = "Amoora <noreply@amoora.se>";
-const TEAM = "info@amoora.se";
+// Team notification recipients — every lead/onboarding alert goes to all three.
+const TEAM = ["omar@lynkrr.se", "aliaa@lynkrr.se", "nidal@lynkrr.se"];
 
 /**
  * Sends an email via Resend. Fails GRACEFULLY: if RESEND_API_KEY is missing
