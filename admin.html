@@ -1368,6 +1368,7 @@
           row("Skickat", esc(fmtDate(c.sent_at))) +
           row("Visat", c.viewed_at ? esc(fmtDate(c.viewed_at)) : "—") +
           row("Signerat", c.signed_at ? esc(fmtDate(c.signed_at)) + (c.signer_name ? " · " + esc(c.signer_name) : "") : "—") +
+          (c.signer_personnummer ? row("Personnummer", esc(c.signer_personnummer)) : "") +
           row("Signeringslänk", `<a class="maillink" href="${esc(signUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Öppna</a>`) +
           '<div style="margin-top:0.6rem;">' + (actions || '<span class="muted" style="font-size:0.82rem;">—</span>') + '</div>' +
         '</div>' +
