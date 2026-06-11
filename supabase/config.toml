@@ -5,3 +5,16 @@ verify_jwt = false
 
 [functions.notify-onboarding]
 verify_jwt = false
+
+# Admin-only functions enforce admin auth in-code via requireAdmin().
+[functions.send-contract]
+verify_jwt = false
+
+[functions.get-contract]
+verify_jwt = false
+
+[functions.sign-contract]
+verify_jwt = false
+
+[functions.send-onboarding-link]
+verify_jwt = false

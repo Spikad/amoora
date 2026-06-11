@@ -2,9 +2,12 @@
 // Inserts a row into `leads` (service role) and sends Resend notifications.
 import {
   corsHeaders,
+  detailTable,
   esc,
   isEmail,
   json,
+  mailLink,
+  renderEmail,
   sendEmail,
   serviceClient,
   TEAM_EMAIL,
@@ -62,28 +65,37 @@ Deno.serve(async (req) => {
     calculator: "Räknare",
     newsletter: "Nyhetsbrev",
   };
-  const teamHtml = `
-    <h2>Ny lead (${esc(labels[source] ?? source)})</h2>
-    <ul>
-      <li><strong>Namn:</strong> ${esc(row.name)}</li>
-      <li><strong>E-post:</strong> ${esc(row.email)}</li>
-      <li><strong>Telefon:</strong> ${esc(row.phone)}</li>
-      <li><strong>Restaurang:</strong> ${esc(row.restaurant_name)}</li>
-      <li><strong>Stad:</strong> ${esc(row.city)}</li>
-      <li><strong>Plan:</strong> ${esc(row.plan_interest)}</li>
-      <li><strong>Meddelande:</strong> ${esc(row.message)}</li>
-    </ul>
-    <p>Lead-ID: ${esc(data.id)}</p>`;
-  await sendEmail(TEAM_EMAIL, `Ny lead: ${labels[source] ?? source}`, teamHtml);
+  const label = labels[source] ?? source;
+  const teamHtml = renderEmail({
+    preheader: `Ny lead: ${row.restaurant_name ?? row.email} (${label})`,
+    badge: label,
+    title: "Ny lead har kommit in 🎉",
+    intro: "En ny förfrågan väntar på uppföljning. Detaljerna finns nedan.",
+    bodyHtml: detailTable([
+      ["Namn", esc(row.name)],
+      ["E-post", mailLink(row.email)],
+      ["Telefon", esc(row.phone)],
+      ["Restaurang", esc(row.restaurant_name)],
+      ["Stad", esc(row.city)],
+      ["Plan", esc(row.plan_interest)],
+      ["Meddelande", esc(row.message)],
+    ]),
+    cta: { label: "Svara på leadet", url: `mailto:${row.email}` },
+    footnote: `Lead-ID: ${esc(data.id)}`,
+  });
+  await sendEmail(TEAM_EMAIL, `Ny lead: ${label}`, teamHtml);
 
   if (source === "contact_form" || source === "email_cta") {
-    const confirmHtml = `
-      <h2>Tack för din förfrågan!</h2>
-      <p>Hej ${esc(row.name) || "där"},</p>
-      <p>Vi har tagit emot din förfrågan och hör av oss inom 1 arbetsdag med
-      förslag på tider för en kort demo. Under tiden får du gärna räkna på din
-      besparing på <a href="https://amoora.se/raknare.html">amoora.se/raknare</a>.</p>
-      <p>Vänliga hälsningar,<br>Amoora — en produkt av Lynkrr AB</p>`;
+    const confirmHtml = renderEmail({
+      preheader: "Tack för din förfrågan — vi hör av oss inom 1 arbetsdag.",
+      title: "Tack för din förfrågan!",
+      intro: `Hej ${esc(row.name) || "där"},<br>vi har tagit emot din förfrågan och återkommer inom <strong>1 arbetsdag</strong> med förslag på tider för en kort demo.`,
+      bodyHtml:
+        `<p style="margin:0;text-align:center;font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.65;color:#4A4744;">Under tiden — räkna på hur mycket din restaurang kan spara med Amoora jämfört med matjättarnas avgifter.</p>`,
+      cta: { label: "Räkna på din besparing", url: "https://amoora.se/raknare.html" },
+      secondaryCta: { label: "Se hur Amoora fungerar →", url: "https://amoora.se/sa-fungerar-det.html" },
+      footnote: "Du får detta mejl eftersom du fyllde i ett formulär på amoora.se. Har du frågor? Svara bara på det här mejlet.",
+    });
     await sendEmail(email, "Tack — vi hör av oss inom 1 arbetsdag", confirmHtml);
   }
 

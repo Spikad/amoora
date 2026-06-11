@@ -4,9 +4,12 @@
 // function receives the resulting storage paths/URLs as plain fields.
 import {
   corsHeaders,
+  detailTable,
   esc,
   isEmail,
   json,
+  mailLink,
+  renderEmail,
   sendEmail,
   serviceClient,
   TEAM_EMAIL,
@@ -75,33 +78,43 @@ Deno.serve(async (req) => {
     return json({ error: "db_error" }, 500);
   }
 
-  const teamHtml = `
-    <h2>Ny onboarding-inlämning</h2>
-    <ul>
-      <li><strong>Restaurang:</strong> ${esc(row.restaurant_name)} (${esc(row.org_nr)})</li>
-      <li><strong>Kontakt:</strong> ${esc(row.contact_person)} — ${esc(row.contact_role)}</li>
-      <li><strong>E-post:</strong> ${esc(row.email)} · <strong>Tel:</strong> ${esc(row.phone)}</li>
-      <li><strong>Adress:</strong> ${esc(row.address)}, ${esc(row.postal_code)} ${esc(row.city)}</li>
-      <li><strong>Plan:</strong> ${esc(row.plan)} · <strong>Add-ons:</strong> ${esc(JSON.stringify(row.addons))}</li>
-      <li><strong>Domän:</strong> ${esc(row.domain_choice)} — ${esc(row.domain_value)}</li>
-      <li><strong>Meny:</strong> ${esc(row.menu_link)} (${esc((row.menu_urls as unknown[]).length)} filer)</li>
-      <li><strong>Upphämtning:</strong> ${row.offer_pickup ? "ja" : "nej"} · <strong>Leverans:</strong> ${row.offer_delivery ? "ja" : "nej"}</li>
-      <li><strong>Moms:</strong> ${esc(row.vat_handling)}</li>
-      <li><strong>Stripe:</strong> ${esc(row.has_stripe)} · <strong>Klarna:</strong> ${row.klarna_interest ? "ja" : "nej"}</li>
-      <li><strong>Övrigt:</strong> ${esc(row.other)}</li>
-    </ul>
-    <p>Logga + meny + foton finns i Supabase Storage (bucket <code>onboarding</code>) — öppna i adminpanelen.</p>
-    <p>Inlämnings-ID: ${esc(data.id)}</p>`;
+  const menuFiles = (row.menu_urls as unknown[]).length;
+  const teamHtml = renderEmail({
+    preheader: `Ny onboarding: ${row.restaurant_name}`,
+    badge: "Onboarding",
+    title: "Ny onboarding-inlämning 🚀",
+    intro: `<strong>${esc(row.restaurant_name)}</strong> har skickat in sina uppgifter. Dags att börja bygga.`,
+    bodyHtml: detailTable([
+      ["Restaurang", `${esc(row.restaurant_name)} (${esc(row.org_nr)})`],
+      ["Kontakt", `${esc(row.contact_person)} — ${esc(row.contact_role)}`],
+      ["E-post", mailLink(row.email as string)],
+      ["Telefon", esc(row.phone)],
+      ["Adress", `${esc(row.address)}, ${esc(row.postal_code)} ${esc(row.city)}`],
+      ["Plan", esc(row.plan)],
+      ["Add-ons", esc(JSON.stringify(row.addons))],
+      ["Domän", `${esc(row.domain_choice)} — ${esc(row.domain_value)}`],
+      ["Meny", `${esc(row.menu_link)} (${esc(menuFiles)} filer)`],
+      ["Upphämtning", row.offer_pickup ? "Ja" : "Nej"],
+      ["Leverans", row.offer_delivery ? "Ja" : "Nej"],
+      ["Moms", esc(row.vat_handling)],
+      ["Stripe", esc(row.has_stripe)],
+      ["Klarna", row.klarna_interest ? "Ja" : "Nej"],
+      ["Övrigt", esc(row.other)],
+    ]) +
+      `<p style="margin:20px 0 0;text-align:center;font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:13px;line-height:1.6;color:#6B6764;">📎 Logga, meny och foton finns i Supabase Storage (bucket <code style="background:#FFF9F6;padding:2px 6px;border-radius:5px;">onboarding</code>) — öppna i adminpanelen.</p>`,
+    footnote: `Inlämnings-ID: ${esc(data.id)}`,
+  });
   await sendEmail(TEAM_EMAIL, `Ny onboarding: ${row.restaurant_name}`, teamHtml);
 
-  const confirmHtml = `
-    <h2>Tack — vi har tagit emot dina uppgifter!</h2>
-    <p>Hej ${esc(row.contact_person) || "där"},</p>
-    <p>Vi har fått allt vi behöver för att börja bygga ditt system för
-    <strong>${esc(row.restaurant_name)}</strong>. Vårt team går igenom uppgifterna
-    och hör av sig inom kort med nästa steg. Har du frågor under tiden når du oss
-    på <a href="mailto:info@amoora.se">info@amoora.se</a>.</p>
-    <p>Vänliga hälsningar,<br>Amoora — en produkt av Lynkrr AB</p>`;
+  const confirmHtml = renderEmail({
+    preheader: "Tack — vi har tagit emot dina uppgifter och börjar bygga.",
+    title: "Vi börjar bygga ditt system! 🛠️",
+    intro: `Hej ${esc(row.contact_person) || "där"},<br>vi har fått allt vi behöver för att börja bygga systemet för <strong>${esc(row.restaurant_name)}</strong>.`,
+    bodyHtml:
+      `<p style="margin:0;text-align:center;font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.65;color:#4A4744;">Vårt team går nu igenom dina uppgifter och hör av sig inom kort med nästa steg. Har du frågor under tiden når du oss direkt på <a href="mailto:info@amoora.se" style="color:#D85B40;text-decoration:none;">info@amoora.se</a>.</p>`,
+    cta: { label: "Se hur det fungerar", url: "https://amoora.se/sa-fungerar-det.html" },
+    footnote: "Tack för att du valde Amoora — en produkt av Lynkrr AB.",
+  });
   await sendEmail(row.email as string, "Vi bygger ditt Amoora-system", confirmHtml);
 
   return json({ ok: true, id: data.id });

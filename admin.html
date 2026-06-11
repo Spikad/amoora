@@ -393,6 +393,55 @@
       .data-table th, .data-table td { padding: 0.6rem 0.6rem; }
       .col-optional { display: none; }
     }
+
+    /* ---------- Contracts / actions / modals (added) ---------- */
+    .head-row { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .btn-coral {
+      background: var(--coral); color:#fff; border:none; border-radius: var(--radius-btn);
+      padding:0.6rem 1.1rem; font-family:'Poppins',sans-serif; font-weight:600; font-size:0.9rem;
+      cursor:pointer; transition: background var(--dur) var(--ease);
+    }
+    .btn-coral:hover { background: var(--coral-dark); }
+    .btn-coral:disabled { opacity:.6; cursor:not-allowed; }
+    .btn-mini {
+      background: var(--white); color: var(--coral-dark); border:1px solid var(--border);
+      border-radius:999px; padding:0.35rem 0.85rem; font-family:'Poppins',sans-serif;
+      font-weight:600; font-size:0.82rem; cursor:pointer;
+    }
+    .btn-mini:hover { border-color: var(--coral); }
+    .btn-mini:disabled { opacity:.6; cursor:not-allowed; }
+
+    .av-status { display:inline-block; font-size:0.78rem; font-weight:700; border-radius:999px; padding:0.2rem 0.7rem; white-space:nowrap; }
+    .av-sent { background:#FBE4DD; color:#B83A2E; }
+    .av-viewed { background:#FFF1CC; color:#9A6700; }
+    .av-signed { background:#D8F0DC; color:#1E7A33; }
+    .av-cancelled { background:#EFE9E5; color:#6B6764; }
+
+    .comment-list { display:flex; flex-direction:column; gap:0.6rem; margin:0.25rem 0 0.85rem; }
+    .comment { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.6rem 0.8rem; font-size:0.88rem; }
+    .comment .c-meta { font-size:0.72rem; color:var(--gray); margin-bottom:0.25rem; }
+    .comment-add { display:flex; gap:0.5rem; }
+    .comment-add textarea { flex:1; border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.5rem 0.7rem; font-family:inherit; font-size:0.88rem; resize:vertical; min-height:42px; }
+    .comment-add textarea:focus { outline:none; border-color:var(--coral); }
+
+    .adm-modal-backdrop { position:fixed; inset:0; background:rgba(28,27,26,.55); display:none; align-items:center; justify-content:center; padding:18px; z-index:400; }
+    .adm-modal-backdrop.open { display:flex; }
+    .adm-modal { background:#fff; border-radius:var(--radius-card); max-width:560px; width:100%; padding:1.9rem 1.8rem; box-shadow:var(--shadow-deep); max-height:92vh; overflow:auto; }
+    .adm-modal h2 { font-family:'Poppins',sans-serif; font-size:1.3rem; margin:0 0 0.3rem; }
+    .adm-modal .sub { color:var(--gray); font-size:0.9rem; margin:0 0 1.2rem; }
+    .adm-fld { margin:0 0 1rem; }
+    .adm-fld label { display:block; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--gray); margin:0 0 0.35rem; }
+    .adm-fld input, .adm-fld select { width:100%; box-sizing:border-box; border:1px solid var(--border); border-radius:var(--radius-btn); padding:0.6rem 0.8rem; font-family:inherit; font-size:0.95rem; background:var(--white); }
+    .adm-fld input:focus, .adm-fld select:focus { outline:none; border-color:var(--coral); }
+    .adm-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:0.9rem; }
+    .check-list { display:flex; flex-direction:column; gap:0.4rem; }
+    .check-list label { display:flex; align-items:center; gap:0.55rem; font-size:0.9rem; font-weight:500; color:var(--ink); text-transform:none; letter-spacing:0; }
+    .schedule-box { background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.85rem 1rem; font-size:0.88rem; margin:0 0 1rem; }
+    .schedule-box .sline { display:flex; justify-content:space-between; padding:0.18rem 0; }
+    .schedule-box .stotal { border-top:1px solid var(--border); margin-top:0.35rem; padding-top:0.4rem; font-weight:700; }
+    .modal-actions { display:flex; gap:0.75rem; justify-content:flex-end; margin-top:0.5rem; }
+    .modal-err { color:#B83A2E; font-size:0.85rem; min-height:1rem; margin:0 0 0.5rem; }
+    @media (max-width:560px){ .adm-grid2 { grid-template-columns:1fr; } }
   </style>
 </head>
 
@@ -425,6 +474,9 @@
         <button class="tab" data-view="onboarding" role="tab">
           <span>Onboardade kunder</span><span class="count" id="onboardingCount" hidden></span>
         </button>
+        <button class="tab" data-view="avtal" role="tab">
+          <span>Avtal</span><span class="count" id="avtalCount" hidden></span>
+        </button>
       </nav>
 
       <div class="sidebar-footer who" id="who" hidden>
@@ -454,9 +506,12 @@
 
         <!-- LEADS VIEW -->
         <section class="view is-active" id="view-leads">
-          <div class="view-head">
-            <h1>Bokningar / Leads</h1>
-            <p>Inkommande förfrågningar och bokningar.</p>
+          <div class="view-head head-row">
+            <div>
+              <h1>Bokningar / Leads</h1>
+              <p>Inkommande förfrågningar och bokningar.</p>
+            </div>
+            <button type="button" class="btn-coral" id="newLeadBtn">+ Ny lead</button>
           </div>
           <div class="filters">
             <div class="filter-group">
@@ -503,14 +558,118 @@
           </div>
           <div id="onboardingContainer"></div>
         </section>
+
+        <!-- AVTAL VIEW -->
+        <section class="view" id="view-avtal">
+          <div class="view-head">
+            <h1>Avtal</h1>
+            <p>Skickade avtal och deras status. Skicka nya avtal från en lead.</p>
+          </div>
+          <div class="filters">
+            <div class="filter-group">
+              <label for="avStatusFilter">Status</label>
+              <select class="select-control" id="avStatusFilter">
+                <option value="">Alla</option>
+                <option value="sent">Skickat</option>
+                <option value="viewed">Visat</option>
+                <option value="signed">Signerat</option>
+                <option value="cancelled">Avbrutet</option>
+              </select>
+            </div>
+          </div>
+          <div id="avtalContainer"></div>
+        </section>
       </div>
 
     </main>
 
   </div>
 
+  <!-- Send-contract modal -->
+  <div id="contractModal" class="adm-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="adm-modal">
+      <h2>Skicka avtal</h2>
+      <p class="sub" id="cmSub"></p>
+      <p class="modal-err" id="cmErr"></p>
+      <div class="adm-grid2">
+        <div class="adm-fld"><label for="cmContactName">Kontaktperson</label><input id="cmContactName" type="text"></div>
+        <div class="adm-fld"><label for="cmEmail">E-post</label><input id="cmEmail" type="email"></div>
+      </div>
+      <div class="adm-grid2">
+        <div class="adm-fld"><label for="cmRestaurant">Restaurang</label><input id="cmRestaurant" type="text"></div>
+        <div class="adm-fld"><label for="cmOrgNr">Org.nr</label><input id="cmOrgNr" type="text" placeholder="556677-8899"></div>
+      </div>
+      <div class="adm-fld">
+        <label for="cmPlan">Plan</label>
+        <select id="cmPlan">
+          <option value="basic">Amoora Basic — 24 999 kr</option>
+          <option value="growth">Amoora Growth — 39 999 kr</option>
+          <option value="premium">Amoora Premium — 64 999 kr</option>
+        </select>
+      </div>
+      <div class="adm-fld">
+        <label>Tillägg (engångskostnader)</label>
+        <div class="check-list" id="cmAddons">
+          <label><input type="checkbox" value="extra_terminal"> Extra SUNMI V3H-terminal — 3 999 kr</label>
+          <label><input type="checkbox" value="hosting_prepaid"> 12 mån hosting förbetalt — 5 490 kr</label>
+          <label><input type="checkbox" value="custom_integration"> Anpassad integration — från 9 999 kr</label>
+          <label><input type="checkbox" value="menu_migration"> Menymigrering — 4 999 kr</label>
+          <label><input type="checkbox" value="training"> Utbildningssession på plats (2h) — 2 999 kr</label>
+        </div>
+      </div>
+      <div class="adm-grid2">
+        <div class="adm-fld">
+          <label for="cmInstallments">Betalningsupplägg</label>
+          <select id="cmInstallments">
+            <option value="1">1 betalning</option>
+            <option value="2">2 månader (+1 000 kr/delbet.)</option>
+            <option value="3">3 månader (+1 000 kr/delbet.)</option>
+          </select>
+        </div>
+        <div class="adm-fld">
+          <label for="cmTerms">Betalningsvillkor</label>
+          <select id="cmTerms">
+            <option value="bankgiro_14">Bankgiro 14 dagar</option>
+            <option value="bankgiro_7">Bankgiro 7 dagar</option>
+            <option value="klarna_7">Klarna (+7 dagar frist)</option>
+          </select>
+        </div>
+      </div>
+      <div class="schedule-box" id="cmSchedule"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-outline" id="cmCancel">Avbryt</button>
+        <button type="button" class="btn-coral" id="cmSubmit">Skicka avtal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual lead modal -->
+  <div id="leadModal" class="adm-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="adm-modal">
+      <h2>Ny lead</h2>
+      <p class="sub">Lägg till en lead manuellt.</p>
+      <p class="modal-err" id="lmErr"></p>
+      <div class="adm-grid2">
+        <div class="adm-fld"><label for="lmName">Namn</label><input id="lmName" type="text"></div>
+        <div class="adm-fld"><label for="lmPhone">Telefon</label><input id="lmPhone" type="text"></div>
+      </div>
+      <div class="adm-grid2">
+        <div class="adm-fld"><label for="lmEmail">E-post</label><input id="lmEmail" type="email"></div>
+        <div class="adm-fld"><label for="lmRestaurant">Restaurang</label><input id="lmRestaurant" type="text"></div>
+      </div>
+      <div class="adm-grid2">
+        <div class="adm-fld"><label for="lmCity">Stad</label><input id="lmCity" type="text"></div>
+        <div class="adm-fld"><label for="lmPlan">Plan-intresse</label><input id="lmPlan" type="text" placeholder="Basic / Growth / Premium"></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-outline" id="lmCancel">Avbryt</button>
+        <button type="button" class="btn-coral" id="lmSubmit">Lägg till lead</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
-    import { supabase, STORAGE_BUCKET } from "./js/supabase-client.js";
+    import { supabase, STORAGE_BUCKET, FUNCTIONS_BASE, SUPABASE_ANON_KEY } from "./js/supabase-client.js";
 
     /* ----------------------------------------------------------------------
        Label maps (Swedish)
@@ -520,9 +679,23 @@
     };
     const LEAD_SOURCE = {
       contact_form: "Kontaktformulär", email_cta: "E-post-CTA",
-      calculator: "Räknare", newsletter: "Nyhetsbrev"
+      calculator: "Räknare", newsletter: "Nyhetsbrev", manual: "Manuell"
     };
     const OB_STATUS = { received: "Mottagen", in_progress: "Pågående", live: "Live" };
+    const CONTRACT_STATUS = { sent: "Skickat", viewed: "Visat", signed: "Signerat", cancelled: "Avbrutet" };
+
+    // Admin identity + contract pricing (mirrors supabase/functions/_shared/contract.ts).
+    let myEmail = null;
+    const PLAN_PRICE = { basic: 24999, growth: 39999, premium: 64999 };
+    const PLAN_NAME = { basic: "Amoora Basic", growth: "Amoora Growth", premium: "Amoora Premium" };
+    const ADDON_INFO = {
+      extra_terminal: { label: "Extra SUNMI V3H-terminal", price: 3999 },
+      hosting_prepaid: { label: "12 mån hosting förbetalt", price: 5490 },
+      custom_integration: { label: "Anpassad integration", price: 9999 },
+      menu_migration: { label: "Menymigrering", price: 4999 },
+      training: { label: "Utbildningssession på plats (2h)", price: 2999 },
+    };
+    const kr = (n) => new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 2 }).format(Math.round(n * 100) / 100) + " kr";
 
     /* ----------------------------------------------------------------------
        Helpers
@@ -606,6 +779,7 @@
       }
 
       whoEmail.textContent = session.user.email || "";
+      myEmail = session.user.email || null;
 
       // Verify admin membership.
       let me = null;
@@ -647,9 +821,34 @@
       document.getElementById("leadStatusFilter").addEventListener("change", renderLeads);
       document.getElementById("leadSourceFilter").addEventListener("change", renderLeads);
       document.getElementById("obStatusFilter").addEventListener("change", renderOnboarding);
+      document.getElementById("avStatusFilter").addEventListener("change", renderAvtal);
+
+      // Modals
+      document.getElementById("newLeadBtn").addEventListener("click", openLeadModal);
+      wireModals();
 
       loadLeads();
       loadOnboarding();
+      loadAvtal();
+      setupRealtime();
+    }
+
+    /* ----------------------------------------------------------------------
+       Edge function calls (admin — fresh access token per call)
+       ---------------------------------------------------------------------- */
+    async function callFn(fn, body) {
+      let token = SUPABASE_ANON_KEY;
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (data.session && data.session.access_token) token = data.session.access_token;
+      } catch (_) {}
+      const res = await fetch(FUNCTIONS_BASE + "/" + fn, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token, "apikey": SUPABASE_ANON_KEY },
+        body: JSON.stringify(body || {}),
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok, status: res.status, data };
     }
 
     /* ----------------------------------------------------------------------
@@ -724,6 +923,14 @@
                 `<div class="detail-row"><dt>Telefon</dt><dd>${esc(dash(l.phone))}</dd></div>` +
                 `<div class="detail-row"><dt>Plan</dt><dd>${esc(dash(l.plan_interest))}</dd></div>` +
               `</div>` +
+              `<div class="detail-block"><h4>Avtal &amp; kommentarer</h4>` +
+                `<button type="button" class="btn-mini" data-send-contract="${esc(l.id)}" style="margin-bottom:0.85rem;">Skicka avtal</button>` +
+                `<div class="comment-list" data-comments="${esc(l.id)}"><p class="muted" style="font-size:0.82rem;">Laddar kommentarer…</p></div>` +
+                `<div class="comment-add">` +
+                  `<textarea data-comment-input="${esc(l.id)}" placeholder="Skriv en kommentar…"></textarea>` +
+                  `<button type="button" class="btn-mini" data-comment-add="${esc(l.id)}">Spara</button>` +
+                `</div>` +
+              `</div>` +
             `</div>` +
           `</td></tr>`;
       });
@@ -738,7 +945,23 @@
           if (!detail) return;
           detail.hidden = !detail.hidden;
           tr.classList.toggle("is-open", !detail.hidden);
+          if (!detail.hidden) loadComments(id);
         });
+      });
+
+      // Send-contract buttons
+      leadsContainer.querySelectorAll("button[data-send-contract]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const lead = leadsData.find((l) => String(l.id) === String(btn.dataset.sendContract));
+          if (lead) openContractModal(lead);
+        });
+      });
+      // Comment input + add
+      leadsContainer.querySelectorAll("textarea[data-comment-input]").forEach((t) =>
+        t.addEventListener("click", (e) => e.stopPropagation()));
+      leadsContainer.querySelectorAll("button[data-comment-add]").forEach((btn) => {
+        btn.addEventListener("click", (e) => { e.stopPropagation(); addComment(btn.dataset.commentAdd); });
       });
 
       // Status change
@@ -1000,6 +1223,326 @@
           row("Övrigt", txt(o.other)) +
         '</div>' +
       '</div>';
+    }
+
+    /* ----------------------------------------------------------------------
+       LEAD COMMENTS
+       ---------------------------------------------------------------------- */
+    const commentsCache = {};
+    async function loadComments(leadId) {
+      const box = leadsContainer.querySelector(`[data-comments="${CSS.escape(leadId)}"]`);
+      if (!box) return;
+      try {
+        const { data, error } = await supabase.from("lead_comments")
+          .select("*").eq("lead_id", leadId).order("created_at", { ascending: false });
+        if (error) throw error;
+        commentsCache[leadId] = data || [];
+        renderComments(leadId);
+      } catch (err) {
+        box.innerHTML = '<p class="table-error">Kunde inte hämta kommentarer.</p>';
+      }
+    }
+    function renderComments(leadId) {
+      const box = leadsContainer.querySelector(`[data-comments="${CSS.escape(leadId)}"]`);
+      if (!box) return;
+      const list = commentsCache[leadId] || [];
+      if (!list.length) { box.innerHTML = '<p class="muted" style="font-size:0.82rem;">Inga kommentarer än.</p>'; return; }
+      box.innerHTML = list.map((c) =>
+        `<div class="comment"><div class="c-meta">${esc(c.author_email || "—")} · ${esc(fmtDate(c.created_at))}</div>${esc(c.body)}</div>`).join("");
+    }
+    async function addComment(leadId) {
+      const ta = leadsContainer.querySelector(`textarea[data-comment-input="${CSS.escape(leadId)}"]`);
+      if (!ta) return;
+      const body = ta.value.trim();
+      if (!body) return;
+      ta.disabled = true;
+      try {
+        const { error } = await supabase.from("lead_comments").insert({ lead_id: leadId, author_email: myEmail, body });
+        if (error) throw error;
+        ta.value = "";
+        await loadComments(leadId);
+      } catch (err) {
+        alert("Kunde inte spara kommentar: " + (err.message || "okänt fel"));
+      } finally { ta.disabled = false; }
+    }
+
+    /* ----------------------------------------------------------------------
+       AVTAL (contracts)
+       ---------------------------------------------------------------------- */
+    let avtalData = [];
+    const avtalContainer = document.getElementById("avtalContainer");
+    const avtalCount = document.getElementById("avtalCount");
+
+    async function loadAvtal() {
+      avtalContainer.innerHTML = '<p class="muted">Laddar avtal…</p>';
+      try {
+        const { data, error } = await supabase.from("contracts").select("*").order("created_at", { ascending: false });
+        if (error) throw error;
+        avtalData = data || [];
+        avtalCount.textContent = String(avtalData.length);
+        avtalCount.hidden = false;
+        renderAvtal();
+      } catch (err) {
+        avtalContainer.innerHTML = '<div class="table-error">Kunde inte hämta avtal. ' + esc(err.message || "") + '</div>';
+      }
+    }
+
+    function renderAvtal() {
+      const statusF = document.getElementById("avStatusFilter").value;
+      const rows = avtalData.filter((c) => !statusF || c.status === statusF);
+      if (!avtalData.length) { avtalContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga avtal än</div></div>'; return; }
+      if (!rows.length) { avtalContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga avtal matchar filtret</div></div>'; return; }
+
+      let html = '<div class="table-wrap"><table class="data-table"><thead><tr>' +
+        '<th>Datum</th><th>Restaurang</th><th>Kontakt</th><th>Plan</th>' +
+        '<th class="col-optional">Belopp</th><th class="col-optional">Upplägg</th><th>Status</th></tr></thead><tbody>';
+      rows.forEach((c) => {
+        const t = c.totals || {};
+        const upp = c.installments > 1 ? c.installments + " betalningar" : "1 betalning";
+        html +=
+          `<tr class="row-main" data-av="${esc(c.id)}">` +
+            `<td>${esc(fmtDate(c.created_at))}</td>` +
+            `<td>${esc(dash(c.restaurant_name))}</td>` +
+            `<td>${esc(dash(c.contact_name))}</td>` +
+            `<td>${esc(PLAN_NAME[c.plan] || c.plan || "—")}</td>` +
+            `<td class="col-optional">${t.setup_ex != null ? esc(kr(t.setup_ex)) + " ex moms" : "—"}</td>` +
+            `<td class="col-optional">${esc(upp)}</td>` +
+            `<td><span class="av-status av-${esc(c.status)}">${esc(CONTRACT_STATUS[c.status] || c.status)}</span></td>` +
+          `</tr>` +
+          `<tr class="row-detail" data-av-detail="${esc(c.id)}" hidden><td colspan="7">${avDetailHtml(c)}</td></tr>`;
+      });
+      html += "</tbody></table></div>";
+      avtalContainer.innerHTML = html;
+
+      avtalContainer.querySelectorAll("tr.row-main").forEach((tr) => {
+        tr.addEventListener("click", () => {
+          const id = tr.dataset.av;
+          const detail = avtalContainer.querySelector(`tr.row-detail[data-av-detail="${CSS.escape(id)}"]`);
+          if (!detail) return;
+          detail.hidden = !detail.hidden;
+          tr.classList.toggle("is-open", !detail.hidden);
+        });
+      });
+      avtalContainer.querySelectorAll("[data-av-pdf]").forEach((btn) =>
+        btn.addEventListener("click", (e) => { e.stopPropagation(); openPdf(btn.dataset.avPdf); }));
+      avtalContainer.querySelectorAll("[data-av-resend]").forEach((btn) =>
+        btn.addEventListener("click", (e) => { e.stopPropagation(); resendContract(btn.dataset.avResend, btn); }));
+      avtalContainer.querySelectorAll("[data-av-onboarding]").forEach((btn) =>
+        btn.addEventListener("click", (e) => { e.stopPropagation(); sendOnboardingLink(btn.dataset.avOnboarding, btn); }));
+    }
+
+    function avDetailHtml(c) {
+      const t = c.totals || {};
+      const row = (l, v) => `<div class="detail-row"><dt>${esc(l)}</dt><dd>${v}</dd></div>`;
+      const TERMS = { bankgiro_14: "Bankgiro 14 dagar", bankgiro_7: "Bankgiro 7 dagar", klarna_7: "Klarna (+7 dagar frist)" };
+      const addons = (c.addons || []).map((k) => (ADDON_INFO[k] ? ADDON_INFO[k].label : k));
+      const addonsHtml = addons.length ? `<ul class="tag-list">${addons.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>` : '<span class="muted">—</span>';
+      const signUrl = "signera.html?token=" + encodeURIComponent(c.sign_token || "");
+      let actions = "";
+      if (c.status !== "cancelled" && c.status !== "signed") {
+        actions += `<button type="button" class="btn-mini" data-av-resend="${esc(c.id)}" style="margin:0.2rem 0.4rem 0.2rem 0;">Skicka igen</button>`;
+      }
+      if (c.status === "signed") {
+        if (c.signed_pdf_url) actions += `<button type="button" class="btn-mini" data-av-pdf="${esc(c.signed_pdf_url)}" style="margin:0.2rem 0.4rem 0.2rem 0;">Öppna signerad PDF</button>`;
+        actions += `<button type="button" class="btn-mini" data-av-onboarding="${esc(c.id)}" style="margin:0.2rem 0.4rem 0.2rem 0;">Skicka onboarding-länk${c.onboarding_link_sent_at ? " (skickad)" : ""}</button>`;
+      }
+      return '<div class="detail-grid">' +
+        '<div class="detail-block"><h4>Avtal</h4>' +
+          row("Restaurang", esc(dash(c.restaurant_name))) +
+          row("Kontakt", esc(dash(c.contact_name))) +
+          row("E-post", c.contact_email ? `<a class="maillink" href="mailto:${esc(c.contact_email)}" onclick="event.stopPropagation()">${esc(c.contact_email)}</a>` : "—") +
+          row("Org.nr", esc(dash(c.org_nr))) +
+          row("Plan", esc(PLAN_NAME[c.plan] || c.plan)) +
+          row("Tillägg", addonsHtml) +
+          row("Skapad av", esc(dash(c.created_by))) +
+        '</div>' +
+        '<div class="detail-block"><h4>Belopp &amp; upplägg</h4>' +
+          row("Engångskostnad", t.setup_ex != null ? esc(kr(t.setup_ex)) + " ex moms" : "—") +
+          row("Inkl. moms", t.setup_inc != null ? esc(kr(t.setup_inc)) : "—") +
+          row("Upplägg", c.installments > 1 ? esc(c.installments + " delbetalningar (+1 000 kr/delbet.)") : "1 betalning") +
+          row("Villkor", esc(TERMS[c.payment_terms] || c.payment_terms || "—")) +
+          row("Månadsavgift", "549 kr/mån ex moms") +
+        '</div>' +
+        '<div class="detail-block"><h4>Status &amp; åtgärder</h4>' +
+          row("Status", `<span class="av-status av-${esc(c.status)}">${esc(CONTRACT_STATUS[c.status] || c.status)}</span>`) +
+          row("Skickat", esc(fmtDate(c.sent_at))) +
+          row("Visat", c.viewed_at ? esc(fmtDate(c.viewed_at)) : "—") +
+          row("Signerat", c.signed_at ? esc(fmtDate(c.signed_at)) + (c.signer_name ? " · " + esc(c.signer_name) : "") : "—") +
+          row("Signeringslänk", `<a class="maillink" href="${esc(signUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Öppna</a>`) +
+          '<div style="margin-top:0.6rem;">' + (actions || '<span class="muted" style="font-size:0.82rem;">—</span>') + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    async function openPdf(path) {
+      try {
+        const { data, error } = await supabase.storage.from("contracts").createSignedUrl(path, 3600);
+        if (error || !data || !data.signedUrl) throw (error || new Error("Ingen URL"));
+        window.open(data.signedUrl, "_blank", "noopener");
+      } catch (err) { alert("Kunde inte öppna PDF: " + (err.message || "okänt fel")); }
+    }
+    function contractPayloadFrom(c) {
+      return { lead_id: c.lead_id, restaurant_name: c.restaurant_name, contact_name: c.contact_name,
+        contact_email: c.contact_email, org_nr: c.org_nr, plan: c.plan, addons: c.addons || [],
+        installments: c.installments, payment_terms: c.payment_terms };
+    }
+    async function resendContract(id, btn) {
+      const c = avtalData.find((x) => String(x.id) === String(id));
+      if (!c) return;
+      if (!confirm("Skicka avtalet igen till " + (c.contact_email || "kunden") + "? (En ny signeringslänk skapas.)")) return;
+      btn.disabled = true; const o = btn.textContent; btn.textContent = "Skickar…";
+      const { ok } = await callFn("send-contract", contractPayloadFrom(c));
+      btn.disabled = false; btn.textContent = o;
+      if (ok) loadAvtal();
+      alert(ok ? "Avtalet har skickats igen." : "Kunde inte skicka avtalet.");
+    }
+    async function sendOnboardingLink(id, btn) {
+      const c = avtalData.find((x) => String(x.id) === String(id));
+      if (!c) return;
+      if (!confirm("Skicka onboarding-länken till " + (c.contact_email || "kunden") + "?")) return;
+      btn.disabled = true; const o = btn.textContent; btn.textContent = "Skickar…";
+      const { ok } = await callFn("send-onboarding-link", { contract_id: id });
+      btn.disabled = false; btn.textContent = o;
+      if (ok) { const item = avtalData.find((x) => String(x.id) === String(id)); if (item) item.onboarding_link_sent_at = new Date().toISOString(); }
+      alert(ok ? "Onboarding-länken har skickats." : "Kunde inte skicka länken.");
+    }
+
+    /* ----------------------------------------------------------------------
+       MODALS
+       ---------------------------------------------------------------------- */
+    let contractLead = null;
+    function wireModals() {
+      const cm = document.getElementById("contractModal");
+      document.getElementById("cmCancel").addEventListener("click", () => cm.classList.remove("open"));
+      cm.addEventListener("click", (e) => { if (e.target === cm) cm.classList.remove("open"); });
+      ["cmPlan", "cmInstallments"].forEach((id) => document.getElementById(id).addEventListener("change", renderSchedule));
+      document.querySelectorAll("#cmAddons input").forEach((c) => c.addEventListener("change", renderSchedule));
+      document.getElementById("cmSubmit").addEventListener("click", submitContract);
+      const lm = document.getElementById("leadModal");
+      document.getElementById("lmCancel").addEventListener("click", () => lm.classList.remove("open"));
+      lm.addEventListener("click", (e) => { if (e.target === lm) lm.classList.remove("open"); });
+      document.getElementById("lmSubmit").addEventListener("click", submitManualLead);
+    }
+
+    function openContractModal(lead) {
+      contractLead = lead;
+      document.getElementById("cmSub").textContent = lead.restaurant_name || lead.email || "Ny lead";
+      document.getElementById("cmErr").textContent = "";
+      document.getElementById("cmContactName").value = lead.name || "";
+      document.getElementById("cmEmail").value = lead.email || "";
+      document.getElementById("cmRestaurant").value = lead.restaurant_name || "";
+      document.getElementById("cmOrgNr").value = "";
+      const planGuess = (lead.plan_interest || "").toLowerCase();
+      document.getElementById("cmPlan").value = ["basic", "growth", "premium"].includes(planGuess) ? planGuess : "basic";
+      document.getElementById("cmInstallments").value = "1";
+      document.getElementById("cmTerms").value = "bankgiro_14";
+      document.querySelectorAll("#cmAddons input").forEach((c) => { c.checked = false; });
+      renderSchedule();
+      document.getElementById("contractModal").classList.add("open");
+    }
+
+    function selectedAddons() {
+      return Array.from(document.querySelectorAll("#cmAddons input:checked")).map((c) => c.value);
+    }
+    function computeTotals(plan, addonKeys, installments) {
+      const setupEx = (PLAN_PRICE[plan] || 0) + addonKeys.reduce((s, k) => s + (ADDON_INFO[k] ? ADDON_INFO[k].price : 0), 0);
+      const n = [2, 3].includes(Number(installments)) ? Number(installments) : 1;
+      const adminFee = n > 1 ? 1000 : 0;
+      const schedule = [];
+      for (let i = 1; i <= n; i++) { const ex = setupEx / n + adminFee; schedule.push({ ex: ex, inc: ex * 1.25 }); }
+      const totalEx = setupEx + adminFee * n;
+      return { setupEx: setupEx, setupInc: setupEx * 1.25, n: n, schedule: schedule, totalEx: totalEx, totalInc: totalEx * 1.25 };
+    }
+    function renderSchedule() {
+      const plan = document.getElementById("cmPlan").value;
+      const t = computeTotals(plan, selectedAddons(), document.getElementById("cmInstallments").value);
+      let h = `<div class="sline"><span>Engångskostnad</span><span>${kr(t.setupEx)} ex moms</span></div>`;
+      h += `<div class="sline"><span>Moms (25 %)</span><span>${kr(t.setupEx * 0.25)}</span></div>`;
+      if (t.n > 1) {
+        t.schedule.forEach((s, i) => { h += `<div class="sline"><span>Delbetalning ${i + 1} (inkl. adm.avgift)</span><span>${kr(s.ex)} ex moms</span></div>`; });
+        h += `<div class="sline stotal"><span>Totalt inkl. moms</span><span>${kr(t.totalInc)}</span></div>`;
+      } else {
+        h += `<div class="sline stotal"><span>Totalt inkl. moms</span><span>${kr(t.setupInc)}</span></div>`;
+      }
+      h += `<div class="sline"><span>Månadsavgift</span><span>549 kr/mån ex moms</span></div>`;
+      document.getElementById("cmSchedule").innerHTML = h;
+    }
+
+    async function submitContract() {
+      const err = document.getElementById("cmErr");
+      err.textContent = "";
+      const email = document.getElementById("cmEmail").value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = "Ange en giltig e-postadress."; return; }
+      const btn = document.getElementById("cmSubmit");
+      btn.disabled = true; const o = btn.textContent; btn.textContent = "Skickar…";
+      const payload = {
+        lead_id: contractLead ? contractLead.id : null,
+        restaurant_name: document.getElementById("cmRestaurant").value.trim() || null,
+        contact_name: document.getElementById("cmContactName").value.trim() || null,
+        contact_email: email,
+        org_nr: document.getElementById("cmOrgNr").value.trim() || null,
+        plan: document.getElementById("cmPlan").value,
+        addons: selectedAddons(),
+        installments: Number(document.getElementById("cmInstallments").value),
+        payment_terms: document.getElementById("cmTerms").value,
+      };
+      const { ok, data } = await callFn("send-contract", payload);
+      btn.disabled = false; btn.textContent = o;
+      if (ok) {
+        document.getElementById("contractModal").classList.remove("open");
+        loadAvtal();
+        alert("Avtalet har skickats till " + email + ".");
+      } else {
+        err.textContent = "Kunde inte skicka avtalet" + (data.error ? " (" + data.error + ")" : "") + ".";
+      }
+    }
+
+    function openLeadModal() {
+      ["lmName", "lmPhone", "lmEmail", "lmRestaurant", "lmCity", "lmPlan"].forEach((id) => { document.getElementById(id).value = ""; });
+      document.getElementById("lmErr").textContent = "";
+      document.getElementById("leadModal").classList.add("open");
+    }
+    async function submitManualLead() {
+      const err = document.getElementById("lmErr");
+      err.textContent = "";
+      const email = document.getElementById("lmEmail").value.trim();
+      const name = document.getElementById("lmName").value.trim();
+      if (!name && !email) { err.textContent = "Ange minst namn eller e-post."; return; }
+      const btn = document.getElementById("lmSubmit");
+      btn.disabled = true; const o = btn.textContent; btn.textContent = "Sparar…";
+      try {
+        const { error } = await supabase.from("leads").insert({
+          source: "manual",
+          name: name || null,
+          phone: document.getElementById("lmPhone").value.trim() || null,
+          email: email || null,
+          restaurant_name: document.getElementById("lmRestaurant").value.trim() || null,
+          city: document.getElementById("lmCity").value.trim() || null,
+          plan_interest: document.getElementById("lmPlan").value.trim() || null,
+        });
+        if (error) throw error;
+        document.getElementById("leadModal").classList.remove("open");
+        loadLeads();
+      } catch (e2) {
+        err.textContent = "Kunde inte spara lead: " + (e2.message || "okänt fel");
+      } finally { btn.disabled = false; btn.textContent = o; }
+    }
+
+    /* ----------------------------------------------------------------------
+       REALTIME (leads + contracts) — live updates without refresh
+       ---------------------------------------------------------------------- */
+    function debounce(fn, ms) { let t; return () => { clearTimeout(t); t = setTimeout(fn, ms); }; }
+    function setupRealtime() {
+      const reloadLeads = debounce(loadLeads, 500);
+      const reloadAvtal = debounce(loadAvtal, 500);
+      try {
+        supabase.channel("admin-leads")
+          .on("postgres_changes", { event: "*", schema: "public", table: "leads" }, reloadLeads)
+          .subscribe();
+        supabase.channel("admin-contracts")
+          .on("postgres_changes", { event: "*", schema: "public", table: "contracts" }, reloadAvtal)
+          .subscribe();
+      } catch (_) { /* realtime optional; data still loads on navigation */ }
     }
 
     // Start the app — now that all state/consts above are initialized.

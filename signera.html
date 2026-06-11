@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signera avtal — Amoora</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="assets/images/amoora-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/site-config.js"></script>
+  <style>
+    body.sign-body { background:#FFF9F6; margin:0; font-family:'Poppins',sans-serif; color:#1C1B1A; }
+    .sign-top { background:#fff; border-bottom:1px solid #EFE9E5; padding:16px 20px; text-align:center; position:sticky; top:0; z-index:5; }
+    .sign-top img { height:30px; }
+    .sign-wrap { max-width:760px; margin:0 auto; padding:28px 18px 160px; }
+    .sign-state { text-align:center; padding:80px 20px; }
+    .sign-summary { background:#fff; border:1px solid #EFE9E5; border-left:5px solid #EA7056; border-radius:16px; padding:18px 22px; margin:0 0 22px; }
+    .sign-summary h1 { margin:0 0 4px; font-size:20px; }
+    .sign-summary p { margin:0; color:#6B6764; font-size:14px; }
+    .contract-card { background:#fff; border:1px solid #EFE9E5; border-radius:18px; padding:34px 32px; box-shadow:0 10px 34px rgba(28,27,26,0.06); }
+    @media (max-width:560px){ .contract-card { padding:24px 18px; } }
+    .scroll-hint { text-align:center; color:#6B6764; font-size:13px; margin:18px 0 0; }
+    .sign-bar { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid #EFE9E5; box-shadow:0 -6px 24px rgba(28,27,26,0.07); padding:16px; z-index:6; }
+    .sign-bar-inner { max-width:760px; margin:0 auto; display:flex; align-items:center; gap:14px; justify-content:space-between; flex-wrap:wrap; }
+    .sign-bar p { margin:0; font-size:13px; color:#6B6764; flex:1; min-width:180px; }
+    .btn-sign { background:#EA7056; color:#fff; border:none; border-radius:999px; padding:14px 34px; font-family:'Poppins',sans-serif; font-weight:600; font-size:15px; cursor:pointer; transition:.2s; }
+    .btn-sign:disabled { background:#E7Cabf; cursor:not-allowed; opacity:.7; }
+    .btn-sign:not(:disabled):hover { background:#D85B40; }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(28,27,26,.55); display:none; align-items:center; justify-content:center; padding:18px; z-index:20; }
+    .modal-backdrop.open { display:flex; }
+    .modal { background:#fff; border-radius:20px; max-width:480px; width:100%; padding:30px 28px; box-shadow:0 24px 60px rgba(28,27,26,.25); max-height:92vh; overflow:auto; }
+    .modal h2 { margin:0 0 6px; font-size:21px; }
+    .modal .sub { margin:0 0 20px; color:#6B6764; font-size:14px; }
+    .fld { margin:0 0 16px; }
+    .fld label { display:block; font-size:13px; font-weight:600; margin:0 0 6px; }
+    .fld input { width:100%; box-sizing:border-box; border:1px solid #EFE9E5; border-radius:12px; padding:12px 14px; font-family:'Poppins',sans-serif; font-size:15px; }
+    .fld input:focus { outline:none; border-color:#EA7056; }
+    .sig-preview { border:1px dashed #E0D7D1; border-radius:12px; background:#FFF9F6; min-height:74px; display:flex; align-items:center; justify-content:center; margin:0 0 16px; }
+    .sig-preview span { font-family:'Dancing Script',cursive; font-size:38px; color:#1C1B1A; line-height:1; padding:6px 10px; }
+    .sig-preview .ph { font-family:'Poppins',sans-serif; font-size:13px; color:#b8afaa; }
+    .consent { display:flex; gap:10px; align-items:flex-start; margin:0 0 18px; font-size:13px; color:#4A4744; }
+    .consent input { margin-top:3px; }
+    .modal-actions { display:flex; gap:12px; }
+    .btn-ghost { background:#fff; border:1px solid #EFE9E5; border-radius:999px; padding:13px 22px; font-family:'Poppins',sans-serif; font-weight:600; cursor:pointer; }
+    .err-msg { color:#C0392B; font-size:13px; margin:0 0 12px; min-height:16px; }
+    .ok-check { width:64px; height:64px; border-radius:50%; background:#EA7056; color:#fff; font-size:34px; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
+    .spinner { width:34px; height:34px; border:3px solid #EFE9E5; border-top-color:#EA7056; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+  </style>
+</head>
+<body class="sign-body">
+  <div class="sign-top"><img src="assets/images/logo-full.png" alt="Amoora"></div>
+
+  <div id="loading" class="sign-state"><div class="spinner"></div><p style="color:#6B6764;margin-top:16px;">Laddar avtal…</p></div>
+
+  <div id="errorState" class="sign-state" hidden>
+    <h1 style="font-size:22px;">Avtalet kunde inte öppnas</h1>
+    <p id="errorText" style="color:#6B6764;">Länken är ogiltig eller har upphört att gälla.</p>
+    <p style="color:#6B6764;">Kontakta oss på <a href="mailto:info@lynkrr.se" style="color:#D85B40;">info@lynkrr.se</a> så hjälper vi dig.</p>
+  </div>
+
+  <div id="signedState" class="sign-state" hidden>
+    <div class="ok-check">✓</div>
+    <h1 style="font-size:22px;">Avtalet är redan signerat</h1>
+    <p style="color:#6B6764;">Detta avtal signerades <span id="signedWhen"></span>. En kopia har skickats till din e-post.</p>
+  </div>
+
+  <main id="main" class="sign-wrap" hidden>
+    <div class="sign-summary">
+      <h1 id="sumTitle">Avtal</h1>
+      <p id="sumSub"></p>
+    </div>
+    <div class="contract-card"><div id="contractBody"></div><div id="endSentinel"></div></div>
+    <p class="scroll-hint" id="scrollHint">Bläddra igenom hela avtalet för att kunna signera ↓</p>
+  </main>
+
+  <div id="signBar" class="sign-bar" hidden>
+    <div class="sign-bar-inner">
+      <p id="barHint">Läs hela avtalet innan du signerar.</p>
+      <button id="openSign" class="btn-sign" disabled>Signera avtal</button>
+    </div>
+  </div>
+
+  <!-- Sign modal -->
+  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+      <h2>Signera elektroniskt</h2>
+      <p class="sub">Ange ditt fullständiga namn och personnummer. Din signatur appliceras på avtalet.</p>
+      <p class="err-msg" id="modalErr"></p>
+      <div class="fld">
+        <label for="fName">Fullständigt namn</label>
+        <input id="fName" type="text" autocomplete="name" placeholder="För- och efternamn">
+      </div>
+      <div class="sig-preview"><span id="sigPreview" class="ph">Din signatur visas här</span></div>
+      <div class="fld">
+        <label for="fPnr">Personnummer</label>
+        <input id="fPnr" type="text" inputmode="numeric" autocomplete="off" placeholder="ÅÅÅÅMMDD-XXXX">
+      </div>
+      <label class="consent"><input id="fConsent" type="checkbox"> Jag har läst och godkänner avtalet och signerar det elektroniskt som juridiskt bindande.</label>
+      <div class="modal-actions">
+        <button id="cancelSign" class="btn-ghost" type="button">Avbryt</button>
+        <button id="confirmSign" class="btn-sign" type="button" style="flex:1;" disabled>Signera avtal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div id="successState" class="sign-state" hidden>
+    <div class="ok-check">✓</div>
+    <h1 style="font-size:23px;">Tack — avtalet är signerat!</h1>
+    <p style="color:#6B6764;max-width:440px;margin:8px auto 0;">En kopia av det signerade avtalet har skickats till din e-post som PDF. Vi hör av oss inom kort med nästa steg.</p>
+  </div>
+
+  <script type="module">
+    const cfg = window.AMOORA_CONFIG || {};
+    const FN = cfg.FUNCTIONS_BASE, KEY = cfg.SUPABASE_ANON_KEY;
+    const PNR_RE = /^(\d{6}|\d{8})[-+]?\d{4}$/;
+    const token = new URLSearchParams(location.search).get("token") || "";
+    const $ = (id) => document.getElementById(id);
+
+    async function call(fn, body) {
+      const res = await fetch(FN + "/" + fn, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + KEY, "apikey": KEY },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok, status: res.status, data };
+    }
+    function fail(msg) { $("loading").hidden = true; $("main").hidden = true; $("signBar").hidden = true; if (msg) $("errorText").textContent = msg; $("errorState").hidden = false; }
+
+    async function init() {
+      if (!token) return fail("Länken saknar en giltig token.");
+      const { ok, status, data } = await call("get-contract", { token });
+      if (!ok) {
+        if (status === 410) return fail("Avtalet har avbrutits.");
+        if (status === 404) return fail("Avtalet kunde inte hittas.");
+        return fail();
+      }
+      if (data.status === "signed") {
+        $("loading").hidden = true;
+        $("signedWhen").textContent = (data.signed_at || "").slice(0, 16).replace("T", " ");
+        $("signedState").hidden = false;
+        return;
+      }
+      $("contractBody").innerHTML = data.html;
+      $("sumTitle").textContent = data.plan_name || "Avtal";
+      $("sumSub").textContent = (data.restaurant_name || "") + (data.contact_name ? " · " + data.contact_name : "");
+      $("loading").hidden = true;
+      $("main").hidden = false;
+      $("signBar").hidden = false;
+      watchScroll();
+    }
+
+    function watchScroll() {
+      const obs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          $("openSign").disabled = false;
+          $("barHint").textContent = "Du har läst avtalet — du kan nu signera.";
+          $("scrollHint").style.display = "none";
+          obs.disconnect();
+        }
+      }, { threshold: 0.1 });
+      obs.observe($("endSentinel"));
+    }
+
+    // Modal
+    const modal = $("modal");
+    const openModal = () => { modal.classList.add("open"); $("fName").focus(); };
+    const closeModal = () => { modal.classList.remove("open"); };
+    $("openSign").addEventListener("click", openModal);
+    $("cancelSign").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+    function validate() {
+      const name = $("fName").value.trim();
+      const pnr = $("fPnr").value.trim();
+      const ok = name.length >= 2 && PNR_RE.test(pnr) && $("fConsent").checked;
+      $("confirmSign").disabled = !ok;
+      const prev = $("sigPreview");
+      if (name) { prev.textContent = name; prev.className = ""; } else { prev.textContent = "Din signatur visas här"; prev.className = "ph"; }
+    }
+    ["input", "change"].forEach((ev) => { $("fName").addEventListener(ev, validate); $("fPnr").addEventListener(ev, validate); $("fConsent").addEventListener(ev, validate); });
+
+    $("confirmSign").addEventListener("click", async () => {
+      $("modalErr").textContent = "";
+      $("confirmSign").disabled = true;
+      $("confirmSign").textContent = "Signerar…";
+      const { ok, status, data } = await call("sign-contract", {
+        token,
+        signer_name: $("fName").value.trim(),
+        signer_personnummer: $("fPnr").value.trim(),
+      });
+      if (ok) {
+        closeModal();
+        $("main").hidden = true; $("signBar").hidden = true;
+        $("successState").hidden = false;
+        window.scrollTo(0, 0);
+        return;
+      }
+      $("confirmSign").textContent = "Signera avtal";
+      validate();
+      if (status === 409) { $("modalErr").textContent = "Avtalet är redan signerat."; }
+      else if (data.error === "invalid_personnummer") { $("modalErr").textContent = "Kontrollera personnumret (ÅÅÅÅMMDD-XXXX)."; }
+      else { $("modalErr").textContent = "Något gick fel. Försök igen om en stund."; }
+    });
+
+    init().catch(() => fail());
+  </script>
+</body>
+</html>
