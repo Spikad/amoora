@@ -96,15 +96,26 @@ export async function generateContractPdf(c: ContractInput, sign: SignData): Pro
           y -= 14.5;
         }
         y -= 5;
-      } else { // kv
+      } else { // kv — two-column table; BOTH columns wrap within their own
+        // width so label and value can never overlap. Hairline row separators.
+        const colGap = 18;
+        const keyW = maxW * 0.46;
+        const valX = M + keyW + colGap;
+        const valW = maxW - keyW - colGap;
+        const lh = 13.5, padV = 5;
         for (const [k, v] of b.rows) {
-          const vLines = wrap(plain(v), font, 10.5, maxW * 0.55);
-          need(vLines.length * 14 + 4);
-          draw(plain(k), M, 10, bold, INK);
-          vLines.forEach((ln, i) => { page.drawText(ln, { x: M + maxW * 0.42, y, size: 10.5, font, color: GRAY }); if (i < vLines.length - 1) y -= 14; });
-          y -= 16;
+          const kLines = wrap(plain(k), font, 9.5, keyW);
+          const vLines = wrap(plain(v), font, 10.5, valW);
+          const rowLines = Math.max(kLines.length, vLines.length);
+          const rowH = rowLines * lh + padV * 2;
+          need(rowH);
+          const base = y - padV - 9;
+          kLines.forEach((ln, i) => page.drawText(ln, { x: M, y: base - i * lh, size: 9.5, font, color: GRAY }));
+          vLines.forEach((ln, i) => page.drawText(ln, { x: valX, y: base - i * lh, size: 10.5, font, color: INK }));
+          y -= rowH;
+          page.drawLine({ start: { x: M, y: y + 3 }, end: { x: M + maxW, y: y + 3 }, thickness: 0.5, color: LINE });
         }
-        y -= 6;
+        y -= 10;
       }
     }
     y -= 6;
