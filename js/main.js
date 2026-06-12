@@ -922,7 +922,7 @@ const I18N = {
     "contact.form.namePlaceholder": "Your name",
     "contact.form.email": "Email address",
     "contact.form.emailPlaceholder": "your@email.com",
-    "contact.form.phone": "Phone (optional)",
+    "contact.form.phone": "Phone",
     "contact.form.phonePlaceholder": "+46 (0)8 000 00 00",
     "contact.form.restaurant": "Restaurant name",
     "contact.form.restaurantPlaceholder": "Your restaurant",

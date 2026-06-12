@@ -92,8 +92,8 @@
                 <input type="email" id="contactEmail" name="email" required class="form-control" data-i18n-placeholder="contact.form.emailPlaceholder">
               </div>
               <div class="field">
-                <label for="contactPhone" class="form-label" data-i18n="contact.form.phone">Telefon (valfritt)</label>
-                <input type="tel" id="contactPhone" name="phone" class="form-control" data-i18n-placeholder="contact.form.phonePlaceholder">
+                <label for="contactPhone" class="form-label" data-i18n="contact.form.phone">Telefon</label>
+                <input type="tel" id="contactPhone" name="phone" required class="form-control" data-i18n-placeholder="contact.form.phonePlaceholder">
               </div>
               <div class="field">
                 <label for="contactPlan" class="form-label" data-i18n="contact.form.plan">Vilken plan är du intresserad av?</label>
@@ -289,6 +289,10 @@
 
         if (!name || !emailRe.test(email)) {
           alert("Fyll i namn och en giltig e-postadress.");
+          return;
+        }
+        if (!phone) {
+          alert("Ange ditt telefonnummer så vi kan nå dig.");
           return;
         }
         if (!consent) {
