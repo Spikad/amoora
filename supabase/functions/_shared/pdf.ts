@@ -2,7 +2,7 @@
 // the signing page, so the executed PDF and the on-screen contract are identical.
 import { PDFDocument, rgb, StandardFonts } from "https://esm.sh/pdf-lib@1.17.1";
 import fontkit from "https://esm.sh/@pdf-lib/fontkit@1.1.1";
-import { buildSections, type ContractInput, SELLER } from "./contract.ts";
+import { buildSections, contractSender, type ContractInput, SELLER } from "./contract.ts";
 
 const CORAL = rgb(0.918, 0.439, 0.337); // #EA7056
 const INK = rgb(0.110, 0.106, 0.102); // #1C1B1A
@@ -81,7 +81,9 @@ export async function generateContractPdf(c: ContractInput, sign: SignData): Pro
   y -= 22;
 
   // ── Sections ────────────────────────────────────────────────────────────────
-  for (const s of buildSections(c)) {
+  const sections = buildSections(c);
+  const sender = contractSender(c);
+  for (const s of sections) {
     need(40);
     draw(s.title, M, 12.5, bold, INK); y -= 18;
     for (const b of s.blocks) {
@@ -126,13 +128,13 @@ export async function generateContractPdf(c: ContractInput, sign: SignData): Pro
   y -= 8;
   page.drawLine({ start: { x: M, y }, end: { x: A4.w - M, y }, thickness: 1, color: LINE });
   y -= 22;
-  draw("12. Underskrifter", M, 12.5, bold, INK); y -= 30;
+  draw(`${sections.length + 1}. Underskrifter`, M, 12.5, bold, INK); y -= 30;
 
   const colW = (maxW - 24) / 2;
   const leftX = M, rightX = M + colW + 24;
   const sigY = y;
-  // Lynkrr (pre-signed)
-  page.drawText(SELLER.rep, { x: leftX, y: sigY, size: 22, font: script, color: INK });
+  // Lynkrr (signed by the sender)
+  page.drawText(sender.name, { x: leftX, y: sigY, size: 22, font: script, color: INK });
   // Client (executed signature)
   page.drawText(sign.signerName, { x: rightX, y: sigY, size: 22, font: script, color: INK });
   y = sigY - 8;
@@ -142,7 +144,7 @@ export async function generateContractPdf(c: ContractInput, sign: SignData): Pro
   page.drawText(`${SELLER.name}`, { x: leftX, y, size: 9.5, font: bold, color: INK });
   page.drawText(`Kund`, { x: rightX, y, size: 9.5, font: bold, color: INK });
   y -= 13;
-  page.drawText(`${SELLER.rep}, ${SELLER.repRole}`, { x: leftX, y, size: 9, font, color: GRAY });
+  page.drawText(`${sender.name}, ${sender.title}`, { x: leftX, y, size: 9, font, color: GRAY });
   page.drawText(plain(sign.signerName), { x: rightX, y, size: 9, font, color: GRAY });
   y -= 12;
   page.drawText(`Org.nr ${SELLER.orgNr}`, { x: leftX, y, size: 9, font, color: GRAY });

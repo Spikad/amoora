@@ -28,6 +28,28 @@ export const SELLER = {
   termsUrl: "https://amoora.se/villkor.html",
 };
 
+// ── Sender registry — the contract's "Er kontakt" + signatory follow whoever
+// sends it (derived from the logged-in admin email, never client input). ──────
+export interface Sender { name: string; title: string }
+export const SENDERS: Record<string, Sender> = {
+  "omar@lynkrr.se": { name: "Omar Alzokani", title: "VD" },
+  "nidal@lynkrr.se": { name: "Nidal Darwiche", title: "Sales Manager & IT Support" },
+  "aliaa@lynkrr.se": { name: "Aliaa Abbas", title: "Sales Manager" },
+};
+export const DEFAULT_SENDER: Sender = { name: "Omar Alzokani", title: "VD" };
+
+// Resolve a sender from an admin email (fallback: Omar Alzokani, VD).
+export function senderFor(email?: string | null): Sender {
+  return SENDERS[(email || "").toLowerCase().trim()] ?? DEFAULT_SENDER;
+}
+// Resolve the sender already stored on a contract (old rows fall back cleanly).
+export function contractSender(c: ContractInput): Sender {
+  return {
+    name: c.sender_name || DEFAULT_SENDER.name,
+    title: c.sender_title || DEFAULT_SENDER.title,
+  };
+}
+
 // ── Plans ──────────────────────────────────────────────────────────────────
 type Plan = "basic" | "growth" | "premium";
 
@@ -121,6 +143,8 @@ export interface ContractInput {
   payment_terms?: string;
   monthly_fee_ex_moms?: number;
   admin_fee_per_installment_ex_moms?: number;
+  sender_name?: string | null;
+  sender_title?: string | null;
 }
 
 export interface Totals {
@@ -198,6 +222,7 @@ export function buildSections(c: ContractInput): Section[] {
   const t = computeTotals(c);
   const date = fmtDate(c.created_at);
   const isMarketing = c.plan === "growth" || c.plan === "premium";
+  const sender = contractSender(c);
 
   const sections: Section[] = [];
 
@@ -211,6 +236,7 @@ export function buildSections(c: ContractInput): Section[] {
         rows: [
           ["Leverantör", `${SELLER.name}, org.nr ${SELLER.orgNr}${SELLER.fskatt ? " (godkänd för F-skatt)" : ""}`],
           ["Företrädare", `${SELLER.rep}, ${SELLER.repRole}`],
+          ["Er kontakt", `${esc(sender.name)} — ${esc(sender.title)}`],
           ["Kontakt", `${SELLER.email} · ${SELLER.phone}`],
           ["Kund", esc(c.restaurant_name ?? "—")],
           ["Org.nr", esc(c.org_nr ?? "—")],
@@ -276,69 +302,118 @@ export function buildSections(c: ContractInput): Section[] {
   });
   sections.push({ title: "3. Pris och betalning", blocks: payBlocks });
 
-  // 4. Delivery
+  // 4. Late payment (NEW)
   sections.push({
-    title: "4. Leverans",
+    title: "4. Dröjsmål med betalning",
+    blocks: [
+      { type: "p", text: "Vid försenad betalning utgår dröjsmålsränta enligt räntelagen (1975:635) samt lagstadgad påminnelseavgift och eventuella inkassokostnader." },
+      { type: "p", text: "Om en betalning (delbetalning eller månadsavgift) är försenad med mer än 14 dagar efter skriftlig påminnelse har Lynkrr AB rätt att tillfälligt stänga av tjänsten till dess att full betalning erlagts. En sådan avstängning befriar inte kunden från betalningsskyldighet." },
+      { type: "p", text: "Vid utebliven delbetalning förfaller samtliga återstående delbetalningar till omedelbar betalning." },
+    ],
+  });
+
+  // 5. Delivery
+  sections.push({
+    title: "5. Leverans",
     blocks: [{
       type: "p",
       text: "Systemet levereras live inom 7 dagar från det att Lynkrr AB mottagit komplett underlag (varumärke, meny och nödvändig information). Förseningar som beror på att underlag saknas eller är ofullständigt förlänger leveranstiden i motsvarande mån.",
     }],
   });
 
-  // 5. Hardware
+  // 6. Hardware
   sections.push({
-    title: "5. Hårdvara",
+    title: "6. Hårdvara",
     blocks: [{
       type: "p",
       text: "1 st SUNMI V3H-terminal ingår, färdigkonfigurerad. Ytterligare terminaler kan beställas som tillval för 3 999 kr/st ex moms.",
     }],
   });
 
-  // 6. Changes / scope creep
+  // 7. Changes / scope creep
   sections.push({
-    title: "6. Ändringar och tillägg",
+    title: "7. Ändringar och tillägg",
     blocks: [{
       type: "p",
       text: "Ändringar, tillägg eller funktioner utöver det som uttryckligen ingår enligt punkt 2 offereras och debiteras separat. Inget arbete utöver den valda planen och valda tillägg utförs utan kundens godkännande.",
     }],
   });
 
-  // 7. Binding agreement — custom service delivery, no refund concept.
+  // 8. Intellectual property & licence of use (NEW — critical)
   sections.push({
-    title: "7. Bindande avtal",
+    title: "8. Immateriella rättigheter och nyttjanderätt",
+    blocks: [
+      { type: "p", text: "Plattformen, källkoden, programvaran och designen samt alla immateriella rättigheter till dessa tillhör och förblir Lynkrr AB:s egendom. Källkoden överlämnas aldrig till kunden — varken under avtalstiden eller efter dess upphörande." },
+      { type: "p", text: "Kunden erhåller en icke-exklusiv och icke överlåtbar nyttjanderätt till systemet så länge abonnemanget löper och betalningarna fullgörs." },
+      { type: "p", text: "Kundens eget innehåll tillhör kunden: varumärke, logotyp, menyinnehåll samt kund- och orderdata. Kunden äger fullt ut sin beställningskanal, sina kundrelationer och sin data — helt utan provision. Det är den underliggande programvaran som upplåts med nyttjanderätt, inte säljs." },
+      { type: "p", text: "Vid avtalets upphörande upphör nyttjanderätten till programvaran. Kundens data exporteras enligt §10." },
+    ],
+  });
+
+  // 9. Binding agreement — custom service delivery, no refund concept.
+  sections.push({
+    title: "9. Bindande avtal",
     blocks: [{
       type: "p",
       text: "Engångskostnaden avser uppsättningsarbete som påbörjas efter signering och utförs specifikt för kunden. Avtalet är bindande vid signering och engångskostnaden är inte återbetalningsbar.",
     }],
   });
 
-  // 8. Subscription & termination
+  // 10. Subscription & termination (updated)
   sections.push({
-    title: "8. Abonnemang och uppsägning",
+    title: "10. Abonnemang och uppsägning",
     blocks: [{
       type: "p",
-      text: "Månadsavgiften löper tills vidare och kan sägas upp av endera parten med 30 dagars varsel. När uppsägningen träder i kraft stängs beställningssidan ner. Kunden äger sin data och kan exportera den i samband med avslut.",
+      text: "Månadsavgiften löper tills vidare och kan sägas upp av endera parten med 30 dagars varsel. Uppsägning medför inte återbetalning av engångskostnaden. När uppsägningen träder i kraft stängs beställningssidan ner. Kunden äger sin data och kan exportera den inom 30 dagar från avtalets upphörande; därefter kan uppgifterna komma att raderas.",
     }],
   });
 
-  // 9. Support
+  // 11. Price adjustment (NEW)
   sections.push({
-    title: "9. Support",
+    title: "11. Prisjustering",
+    blocks: [{
+      type: "p",
+      text: "Lynkrr AB får justera månadsavgiften med 60 dagars skriftligt varsel. Vid en höjning har kunden rätt att säga upp abonnemanget till den dag höjningen träder i kraft. Engångskostnaden återbetalas aldrig vid uppsägning (jfr §9).",
+    }],
+  });
+
+  // 12. Support
+  sections.push({
+    title: "12. Support",
     blocks: [{ type: "p", text: plan.support }],
   });
 
-  // 10. Client responsibilities
+  // 13. Client responsibilities
   sections.push({
-    title: "10. Kundens ansvar",
+    title: "13. Kundens ansvar",
     blocks: [{
       type: "p",
       text: "Kunden ansvarar för att i tid tillhandahålla nödvändigt underlag (varumärke, meny, bilder och information) samt för att inneha ett eget Stripe-konto för att ta emot betalningar. Kunden äger sin data (kundregister, ordrar och statistik).",
     }],
   });
 
-  // 11. General terms
+  // 14. Personal data / GDPR (NEW)
   sections.push({
-    title: "11. Övrigt",
+    title: "14. Personuppgifter (GDPR)",
+    blocks: [
+      { type: "p", text: "Lynkrr AB behandlar personuppgifter (bl.a. slutkunders ordrar och kontaktuppgifter) för kundens räkning och är personuppgiftsbiträde enligt dataskyddsförordningen (GDPR). Kunden är personuppgiftsansvarig för sina slutkunders personuppgifter." },
+      { type: "p", text: "Behandlingen sker endast för att tillhandahålla tjänsten och med lämpliga tekniska och organisatoriska skyddsåtgärder. Anlitade underbiträden (t.ex. hosting och betalningar) finns inom EU/EES eller omfattas av en giltig överföringsmekanism." },
+      { type: "p", text: "Vid avtalets upphörande raderas eller återlämnas personuppgifterna enligt §10. Behandlingen beskrivs närmare i Lynkrr AB:s integritetspolicy (amoora.se/integritetspolicy.html)." },
+    ],
+  });
+
+  // 15. Limitation of liability (NEW)
+  sections.push({
+    title: "15. Ansvarsbegränsning",
+    blocks: [
+      { type: "p", text: "Lynkrr AB ansvarar inte för indirekt skada, följdskada, utebliven vinst, förlorad omsättning eller förlust av data, utöver vad som följer av tvingande lag. Lynkrr AB:s sammanlagda ansvar är begränsat till de avgifter som kunden erlagt under de senaste tolv (12) månaderna." },
+      { type: "p", text: "Lynkrr AB ansvarar inte för avbrott eller fel som orsakas av tredjepartstjänster (t.ex. Stripe, hosting eller betalmetoder) eller av omständigheter utanför Lynkrr AB:s kontroll (force majeure)." },
+    ],
+  });
+
+  // 16. General terms
+  sections.push({
+    title: "16. Övrigt",
     blocks: [{
       type: "p",
       text: `I övrigt gäller Lynkrr AB:s allmänna villkor (${SELLER.termsUrl}). På detta avtal tillämpas svensk rätt och eventuella tvister prövas av svensk allmän domstol.`,
@@ -377,21 +452,23 @@ export function renderContractHtml(c: ContractInput, opts?: {
   signedAt?: string;
 }): string {
   const sections = buildSections(c);
+  const sender = contractSender(c);
+  const sigNum = sections.length + 1;
   const body = sections.map((s) => `
     <section style="margin:0 0 26px;">
       <h2 style="margin:0 0 12px;font-family:${FONT};font-size:17px;font-weight:700;color:${C.ink};border-bottom:2px solid ${C.coralSoft};padding-bottom:6px;">${esc(s.title)}</h2>
       ${s.blocks.map(renderBlock).join("")}
     </section>`).join("");
 
-  // Signature block — Lynkrr pre-signed; client side filled on sign.
+  // Signature block — Lynkrr side signed by the sender; client side filled on sign.
   const sig = `
     <section style="margin:34px 0 0;padding-top:22px;border-top:2px solid ${C.border};">
-      <h2 style="margin:0 0 18px;font-family:${FONT};font-size:17px;font-weight:700;color:${C.ink};">12. Underskrifter</h2>
+      <h2 style="margin:0 0 18px;font-family:${FONT};font-size:17px;font-weight:700;color:${C.ink};">${sigNum}. Underskrifter</h2>
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
         <td width="50%" style="vertical-align:bottom;padding-right:14px;">
-          <div style="font-family:'Dancing Script','Caveat',cursive;font-size:30px;color:${C.ink};line-height:1;">${esc(SELLER.rep)}</div>
+          <div style="font-family:'Dancing Script','Caveat',cursive;font-size:30px;color:${C.ink};line-height:1;">${esc(sender.name)}</div>
           <div style="border-top:1px solid ${C.ink};margin-top:6px;padding-top:6px;font-family:${FONT};font-size:12px;color:${C.gray};">
-            ${esc(SELLER.name)}<br>${esc(SELLER.rep)}, ${esc(SELLER.repRole)}<br>Org.nr ${esc(SELLER.orgNr)}
+            ${esc(SELLER.name)}<br>${esc(sender.name)}, ${esc(sender.title)}<br>Org.nr ${esc(SELLER.orgNr)}
           </div>
         </td>
         <td width="50%" style="vertical-align:bottom;padding-left:14px;">

@@ -4,7 +4,7 @@
 import {
   corsHeaders, esc, json, renderEmail, sendEmail, serviceClient,
 } from "../_shared/util.ts";
-import { PLANS, type ContractInput } from "../_shared/contract.ts";
+import { contractSender, PLANS, type ContractInput } from "../_shared/contract.ts";
 import { generateContractPdf } from "../_shared/pdf.ts";
 
 const TEAM_NOTIFY = "info@lynkrr.se";
@@ -33,6 +33,8 @@ function toInput(row: Record<string, unknown>): ContractInput {
     payment_terms: (row.payment_terms as string) ?? undefined,
     monthly_fee_ex_moms: (row.monthly_fee_ex_moms as number) ?? 549,
     admin_fee_per_installment_ex_moms: (row.admin_fee_per_installment_ex_moms as number) ?? 1000,
+    sender_name: (row.sender_name as string) ?? null,
+    sender_title: (row.sender_title as string) ?? null,
   };
 }
 
@@ -90,6 +92,7 @@ Deno.serve(async (req) => {
   // Emails — best-effort. Attach the PDF when available.
   const attach = pdfBytes ? [{ filename: `Amoora-avtal-${claimed.id}.pdf`, content: toBase64(pdfBytes) }] : undefined;
   const planName = PLANS[input.plan]?.name ?? input.plan;
+  const sender = contractSender(input);
 
   const clientHtml = renderEmail({
     preheader: "Tack — ditt avtal är signerat. Din kopia är bifogad.",
@@ -97,7 +100,7 @@ Deno.serve(async (req) => {
     title: "Tack — ditt avtal är signerat! ✍️",
     intro: `Hej ${esc(input.contact_name) || "där"},<br>vi har tagit emot din signering av avtalet för <strong>${esc(planName)}</strong>.`,
     bodyHtml: `<p style="margin:0;text-align:center;font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.65;color:#4A4744;">En kopia av det signerade avtalet finns bifogat som PDF. Vi hör av oss inom kort med nästa steg.</p>`,
-    footnote: `Avtals-ID: ${esc(claimed.id)} · Signerat ${esc(signed_at.slice(0, 16).replace("T", " "))}`,
+    footnote: `Avtals-ID: ${esc(claimed.id)} · Signerat ${esc(signed_at.slice(0, 16).replace("T", " "))}<br><br>Vänliga hälsningar,<br>${esc(sender.name)} — ${esc(sender.title)}, Lynkrr AB (Amoora)`,
   });
   await sendEmail(input.contact_email as string, "Ditt signerade Amoora-avtal", clientHtml, attach);
 

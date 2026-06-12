@@ -17,6 +17,8 @@ function toInput(row: Record<string, unknown>): ContractInput {
     payment_terms: (row.payment_terms as string) ?? undefined,
     monthly_fee_ex_moms: (row.monthly_fee_ex_moms as number) ?? 549,
     admin_fee_per_installment_ex_moms: (row.admin_fee_per_installment_ex_moms as number) ?? 1000,
+    sender_name: (row.sender_name as string) ?? null,
+    sender_title: (row.sender_title as string) ?? null,
   };
 }
 

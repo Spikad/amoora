@@ -1395,7 +1395,8 @@
           row("Org.nr", esc(dash(c.org_nr))) +
           row("Plan", esc(PLAN_NAME[c.plan] || c.plan)) +
           row("Tillägg", addonsHtml) +
-          row("Skapad av", esc(dash(c.created_by))) +
+          row("Skickad av", c.sender_name ? esc(c.sender_name) + (c.sender_title ? " — " + esc(c.sender_title) : "") : esc(dash(c.created_by))) +
+          row("Konto", esc(dash(c.created_by))) +
         '</div>' +
         '<div class="detail-block"><h4>Belopp &amp; upplägg</h4>' +
           row("Engångskostnad", t.setup_ex != null ? esc(kr(t.setup_ex)) + " ex moms" : "—") +

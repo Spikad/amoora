@@ -4,7 +4,7 @@ import {
   corsHeaders, isEmail, json, randomToken, renderEmail, requireAdmin,
   sendEmail, serviceClient,
 } from "../_shared/util.ts";
-import { computeTotals, PLANS, type ContractInput } from "../_shared/contract.ts";
+import { computeTotals, PLANS, senderFor, type ContractInput } from "../_shared/contract.ts";
 
 const SITE = "https://amoora.se";
 const PLANS_OK = ["basic", "growth", "premium"];
@@ -40,12 +40,19 @@ Deno.serve(async (req) => {
     monthly_fee_ex_moms: 549,
     admin_fee_per_installment_ex_moms: 1000,
   };
+  // Sender follows the logged-in admin — never client input.
+  const sender = senderFor(admin.email);
+  input.sender_name = sender.name;
+  input.sender_title = sender.title;
+
   const totals = computeTotals(input);
   const sign_token = randomToken(32);
 
   const row = {
     lead_id: (b.lead_id as string) ?? null,
     created_by: admin.email,
+    sender_name: sender.name,
+    sender_title: sender.title,
     restaurant_name: input.restaurant_name,
     contact_name: input.contact_name,
     contact_email: input.contact_email,
@@ -79,7 +86,7 @@ Deno.serve(async (req) => {
     bodyHtml:
       `<p style="margin:0;text-align:center;font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.65;color:#4A4744;">Engångskostnad ${kr(totals.setup_ex)} ex moms (${kr(totals.setup_inc)} inkl. moms) + 549 kr/mån ex moms.</p>`,
     cta: { label: "Granska och signera avtal", url: sign_url },
-    footnote: "Länken är personlig — dela den inte. Har du frågor? Svara på det här mejlet.",
+    footnote: `Länken är personlig — dela den inte. Har du frågor? Svara på det här mejlet.<br><br>Vänliga hälsningar,<br>${sender.name} — ${sender.title}, Lynkrr AB (Amoora)`,
   });
   await sendEmail(input.contact_email, "Ditt Amoora-avtal är redo att signeras", html);
 
