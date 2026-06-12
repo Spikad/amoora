@@ -471,6 +471,9 @@
         <button class="tab is-active" data-view="leads" role="tab">
           <span>Bokningar / Leads</span><span class="count" id="leadsCount" hidden></span>
         </button>
+        <button class="tab" data-view="lost" role="tab">
+          <span>Förlorade leads</span><span class="count" id="lostCount" hidden></span>
+        </button>
         <button class="tab" data-view="onboarding" role="tab">
           <span>Onboardade kunder</span><span class="count" id="onboardingCount" hidden></span>
         </button>
@@ -522,7 +525,6 @@
                 <option value="contacted">Kontaktad</option>
                 <option value="booked">Bokad</option>
                 <option value="won">Vunnen</option>
-                <option value="lost">Förlorad</option>
               </select>
             </div>
             <div class="filter-group">
@@ -537,6 +539,15 @@
             </div>
           </div>
           <div id="leadsContainer"></div>
+        </section>
+
+        <!-- LOST LEADS VIEW -->
+        <section class="view" id="view-lost">
+          <div class="view-head">
+            <h1>Förlorade leads</h1>
+            <p>Leads som markerats som förlorade. Ändra status för att flytta tillbaka dem.</p>
+          </div>
+          <div id="lostContainer"></div>
         </section>
 
         <!-- ONBOARDING VIEW -->
@@ -857,133 +868,163 @@
     let leadsData = [];
     const leadsContainer = document.getElementById("leadsContainer");
     const leadsCount = document.getElementById("leadsCount");
+    const lostContainer = document.getElementById("lostContainer");
+    const lostCount = document.getElementById("lostCount");
 
     async function loadLeads() {
-      leadsContainer.innerHTML = '<p class="muted">Laddar leads…</p>';
+      if (!leadsContainer.querySelector("table")) leadsContainer.innerHTML = '<p class="muted">Laddar leads…</p>';
       try {
         const { data, error } = await supabase
           .from("leads").select("*").order("created_at", { ascending: false });
         if (error) throw error;
         leadsData = data || [];
-        leadsCount.textContent = String(leadsData.length);
-        leadsCount.hidden = false;
         renderLeads();
+        renderLost();
       } catch (err) {
         leadsContainer.innerHTML =
           '<div class="table-error">Kunde inte hämta leads. ' + esc(err.message || "") + '</div>';
       }
     }
 
-    function renderLeads() {
-      const statusF = document.getElementById("leadStatusFilter").value;
-      const sourceF = document.getElementById("leadSourceFilter").value;
-      const rows = leadsData.filter((l) =>
-        (!statusF || l.status === statusF) && (!sourceF || l.source === sourceF));
+    // Lead rows that are currently expanded — preserved across re-renders so the
+    // 5s auto-refresh / realtime never collapses a row you're reading.
+    const openLeadRows = new Set();
 
-      if (!leadsData.length) {
-        leadsContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga leads än</div></div>';
-        return;
-      }
-      if (!rows.length) {
-        leadsContainer.innerHTML =
-          '<div class="table-wrap"><div class="empty-state">Inga leads matchar filtret</div></div>';
-        return;
-      }
+    const leadStatusOptions = (sel) => Object.keys(LEAD_STATUS).map((k) =>
+      `<option value="${k}"${k === sel ? " selected" : ""}>${esc(LEAD_STATUS[k])}</option>`).join("");
 
-      const statusOptions = (sel) => Object.keys(LEAD_STATUS).map((k) =>
-        `<option value="${k}"${k === sel ? " selected" : ""}>${esc(LEAD_STATUS[k])}</option>`).join("");
+    function leadRowHtml(l) {
+      const mail = l.email
+        ? `<a class="maillink" href="mailto:${esc(l.email)}" onclick="event.stopPropagation()">${esc(l.email)}</a>`
+        : "—";
+      return `<tr class="row-main" data-lead="${esc(l.id)}">` +
+          `<td>${esc(fmtDate(l.created_at))}</td>` +
+          `<td>${esc(dash(l.name))}</td>` +
+          `<td>${esc(dash(l.restaurant_name))}</td>` +
+          `<td>${mail}</td>` +
+          `<td class="col-optional">${esc(dash(l.phone))}</td>` +
+          `<td><span class="source-pill">${esc(labelOr(LEAD_SOURCE, l.source))}</span></td>` +
+          `<td class="col-optional">${esc(dash(l.plan_interest))}</td>` +
+          `<td><select class="status-select" data-status-for="${esc(l.id)}" onclick="event.stopPropagation()">` +
+            leadStatusOptions(l.status) + `</select></td>` +
+        `</tr>` +
+        `<tr class="row-detail" data-detail="${esc(l.id)}" hidden><td colspan="8">` +
+          `<div class="detail-grid">` +
+            `<div class="detail-block"><h4>Meddelande</h4><p>${l.message ? esc(l.message) : '<span class="muted">—</span>'}</p></div>` +
+            `<div class="detail-block"><h4>Interna anteckningar</h4><p>${l.notes ? esc(l.notes) : '<span class="muted">—</span>'}</p></div>` +
+            `<div class="detail-block"><h4>Detaljer</h4>` +
+              `<div class="detail-row"><dt>Stad</dt><dd>${esc(dash(l.city))}</dd></div>` +
+              `<div class="detail-row"><dt>Telefon</dt><dd>${esc(dash(l.phone))}</dd></div>` +
+              `<div class="detail-row"><dt>Plan</dt><dd>${esc(dash(l.plan_interest))}</dd></div>` +
+            `</div>` +
+            `<div class="detail-block"><h4>Avtal &amp; kommentarer</h4>` +
+              `<button type="button" class="btn-mini" data-send-contract="${esc(l.id)}" style="margin-bottom:0.85rem;">Skicka avtal</button>` +
+              `<div class="comment-list" data-comments="${esc(l.id)}"><p class="muted" style="font-size:0.82rem;">Laddar kommentarer…</p></div>` +
+              `<div class="comment-add">` +
+                `<textarea data-comment-input="${esc(l.id)}" placeholder="Skriv en kommentar…"></textarea>` +
+                `<button type="button" class="btn-mini" data-comment-add="${esc(l.id)}">Spara</button>` +
+              `</div>` +
+            `</div>` +
+          `</div>` +
+        `</td></tr>`;
+    }
 
+    // Build a leads table into `container` and wire it. Shared by the active
+    // Leads tab and the Lost-leads tab. Re-expands previously-open rows.
+    function buildLeadTable(rows, container) {
       let html = '<div class="table-wrap"><table class="data-table"><thead><tr>' +
         '<th>Datum</th><th>Namn</th><th>Restaurang</th><th>E-post</th>' +
         '<th class="col-optional">Telefon</th><th>Källa</th>' +
         '<th class="col-optional">Plan</th><th>Status</th></tr></thead><tbody>';
-
-      rows.forEach((l) => {
-        const mail = l.email
-          ? `<a class="maillink" href="mailto:${esc(l.email)}" onclick="event.stopPropagation()">${esc(l.email)}</a>`
-          : "—";
-        html +=
-          `<tr class="row-main" data-lead="${esc(l.id)}">` +
-            `<td>${esc(fmtDate(l.created_at))}</td>` +
-            `<td>${esc(dash(l.name))}</td>` +
-            `<td>${esc(dash(l.restaurant_name))}</td>` +
-            `<td>${mail}</td>` +
-            `<td class="col-optional">${esc(dash(l.phone))}</td>` +
-            `<td><span class="source-pill">${esc(labelOr(LEAD_SOURCE, l.source))}</span></td>` +
-            `<td class="col-optional">${esc(dash(l.plan_interest))}</td>` +
-            `<td><select class="status-select" data-status-for="${esc(l.id)}" onclick="event.stopPropagation()">` +
-              statusOptions(l.status) + `</select></td>` +
-          `</tr>` +
-          `<tr class="row-detail" data-detail="${esc(l.id)}" hidden><td colspan="8">` +
-            `<div class="detail-grid">` +
-              `<div class="detail-block"><h4>Meddelande</h4><p>${l.message ? esc(l.message) : '<span class="muted">—</span>'}</p></div>` +
-              `<div class="detail-block"><h4>Interna anteckningar</h4><p>${l.notes ? esc(l.notes) : '<span class="muted">—</span>'}</p></div>` +
-              `<div class="detail-block"><h4>Detaljer</h4>` +
-                `<div class="detail-row"><dt>Stad</dt><dd>${esc(dash(l.city))}</dd></div>` +
-                `<div class="detail-row"><dt>Telefon</dt><dd>${esc(dash(l.phone))}</dd></div>` +
-                `<div class="detail-row"><dt>Plan</dt><dd>${esc(dash(l.plan_interest))}</dd></div>` +
-              `</div>` +
-              `<div class="detail-block"><h4>Avtal &amp; kommentarer</h4>` +
-                `<button type="button" class="btn-mini" data-send-contract="${esc(l.id)}" style="margin-bottom:0.85rem;">Skicka avtal</button>` +
-                `<div class="comment-list" data-comments="${esc(l.id)}"><p class="muted" style="font-size:0.82rem;">Laddar kommentarer…</p></div>` +
-                `<div class="comment-add">` +
-                  `<textarea data-comment-input="${esc(l.id)}" placeholder="Skriv en kommentar…"></textarea>` +
-                  `<button type="button" class="btn-mini" data-comment-add="${esc(l.id)}">Spara</button>` +
-                `</div>` +
-              `</div>` +
-            `</div>` +
-          `</td></tr>`;
-      });
+      rows.forEach((l) => { html += leadRowHtml(l); });
       html += "</tbody></table></div>";
-      leadsContainer.innerHTML = html;
+      container.innerHTML = html;
 
-      // Row expand
-      leadsContainer.querySelectorAll("tr.row-main").forEach((tr) => {
+      container.querySelectorAll("tr.row-main").forEach((tr) => {
         tr.addEventListener("click", () => {
           const id = tr.dataset.lead;
-          const detail = leadsContainer.querySelector(`tr.row-detail[data-detail="${CSS.escape(id)}"]`);
+          const detail = container.querySelector(`tr.row-detail[data-detail="${CSS.escape(id)}"]`);
           if (!detail) return;
-          detail.hidden = !detail.hidden;
-          tr.classList.toggle("is-open", !detail.hidden);
-          if (!detail.hidden) loadComments(id);
+          const open = detail.hidden;
+          detail.hidden = !open;
+          tr.classList.toggle("is-open", open);
+          if (open) { openLeadRows.add(String(id)); loadComments(id); }
+          else openLeadRows.delete(String(id));
         });
       });
-
-      // Send-contract buttons
-      leadsContainer.querySelectorAll("button[data-send-contract]").forEach((btn) => {
+      container.querySelectorAll("button[data-send-contract]").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
           const lead = leadsData.find((l) => String(l.id) === String(btn.dataset.sendContract));
           if (lead) openContractModal(lead);
         });
       });
-      // Comment input + add
-      leadsContainer.querySelectorAll("textarea[data-comment-input]").forEach((t) =>
+      container.querySelectorAll("textarea[data-comment-input]").forEach((t) =>
         t.addEventListener("click", (e) => e.stopPropagation()));
-      leadsContainer.querySelectorAll("button[data-comment-add]").forEach((btn) => {
+      container.querySelectorAll("button[data-comment-add]").forEach((btn) => {
         btn.addEventListener("click", (e) => { e.stopPropagation(); addComment(btn.dataset.commentAdd); });
       });
-
-      // Status change
-      leadsContainer.querySelectorAll("select[data-status-for]").forEach((sel) => {
-        sel.addEventListener("change", async (e) => {
+      container.querySelectorAll("select[data-status-for]").forEach((sel) => {
+        sel.addEventListener("change", async () => {
           const id = sel.dataset.statusFor;
           const status = sel.value;
-          const prev = (leadsData.find((l) => String(l.id) === String(id)) || {}).status;
+          const item = leadsData.find((l) => String(l.id) === String(id));
+          const prev = item ? item.status : undefined;
           sel.disabled = true;
           try {
             const { error } = await supabase.from("leads").update({ status }).eq("id", id);
             if (error) throw error;
-            const item = leadsData.find((l) => String(l.id) === String(id));
             if (item) item.status = status;
+            // 'lost' moves the lead to the Lost tab (and vice versa) — re-render both.
+            renderLeads();
+            renderLost();
           } catch (err) {
             alert("Kunde inte uppdatera status: " + (err.message || "okänt fel"));
             if (prev !== undefined) sel.value = prev;
-          } finally {
             sel.disabled = false;
           }
         });
       });
+
+      // Re-open rows that were expanded before this render.
+      rows.forEach((l) => {
+        if (!openLeadRows.has(String(l.id))) return;
+        const tr = container.querySelector(`tr.row-main[data-lead="${CSS.escape(String(l.id))}"]`);
+        const detail = container.querySelector(`tr.row-detail[data-detail="${CSS.escape(String(l.id))}"]`);
+        if (tr && detail) { detail.hidden = false; tr.classList.add("is-open"); loadComments(l.id); }
+      });
+    }
+
+    // Active leads (everything except 'lost').
+    function renderLeads() {
+      const statusF = document.getElementById("leadStatusFilter").value;
+      const sourceF = document.getElementById("leadSourceFilter").value;
+      const active = leadsData.filter((l) => l.status !== "lost");
+      leadsCount.textContent = String(active.length);
+      leadsCount.hidden = false;
+      const rows = active.filter((l) =>
+        (!statusF || l.status === statusF) && (!sourceF || l.source === sourceF));
+      if (!active.length) {
+        leadsContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga leads än</div></div>';
+        return;
+      }
+      if (!rows.length) {
+        leadsContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga leads matchar filtret</div></div>';
+        return;
+      }
+      buildLeadTable(rows, leadsContainer);
+    }
+
+    // Lost leads only.
+    function renderLost() {
+      const rows = leadsData.filter((l) => l.status === "lost");
+      lostCount.textContent = String(rows.length);
+      lostCount.hidden = false;
+      if (!rows.length) {
+        lostContainer.innerHTML = '<div class="table-wrap"><div class="empty-state">Inga förlorade leads</div></div>';
+        return;
+      }
+      buildLeadTable(rows, lostContainer);
     }
 
     /* ----------------------------------------------------------------------
@@ -1230,7 +1271,7 @@
        ---------------------------------------------------------------------- */
     const commentsCache = {};
     async function loadComments(leadId) {
-      const box = leadsContainer.querySelector(`[data-comments="${CSS.escape(leadId)}"]`);
+      const box = document.querySelector(`[data-comments="${CSS.escape(leadId)}"]`);
       if (!box) return;
       try {
         const { data, error } = await supabase.from("lead_comments")
@@ -1243,7 +1284,7 @@
       }
     }
     function renderComments(leadId) {
-      const box = leadsContainer.querySelector(`[data-comments="${CSS.escape(leadId)}"]`);
+      const box = document.querySelector(`[data-comments="${CSS.escape(leadId)}"]`);
       if (!box) return;
       const list = commentsCache[leadId] || [];
       if (!list.length) { box.innerHTML = '<p class="muted" style="font-size:0.82rem;">Inga kommentarer än.</p>'; return; }
@@ -1251,7 +1292,7 @@
         `<div class="comment"><div class="c-meta">${esc(c.author_email || "—")} · ${esc(fmtDate(c.created_at))}</div>${esc(c.body)}</div>`).join("");
     }
     async function addComment(leadId) {
-      const ta = leadsContainer.querySelector(`textarea[data-comment-input="${CSS.escape(leadId)}"]`);
+      const ta = document.querySelector(`textarea[data-comment-input="${CSS.escape(leadId)}"]`);
       if (!ta) return;
       const body = ta.value.trim();
       if (!body) return;
@@ -1533,8 +1574,19 @@
        REALTIME (leads + contracts) — live updates without refresh
        ---------------------------------------------------------------------- */
     function debounce(fn, ms) { let t; return () => { clearTimeout(t); t = setTimeout(fn, ms); }; }
+    // Skip a leads refresh while the user is mid-action (a modal is open, or focus
+    // is inside a lead/lost table — e.g. typing a comment) so we never wipe input
+    // or collapse what they're working on.
+    function leadsBusy() {
+      if (document.querySelector(".adm-modal-backdrop.open")) return true;
+      const ae = document.activeElement;
+      return !!(ae && ae !== document.body &&
+        (leadsContainer.contains(ae) || lostContainer.contains(ae)));
+    }
+    function refreshLeadsGuarded() { if (!leadsBusy()) loadLeads(); }
+
     function setupRealtime() {
-      const reloadLeads = debounce(loadLeads, 500);
+      const reloadLeads = debounce(refreshLeadsGuarded, 500);
       const reloadAvtal = debounce(loadAvtal, 500);
       try {
         supabase.channel("admin-leads")
@@ -1543,7 +1595,14 @@
         supabase.channel("admin-contracts")
           .on("postgres_changes", { event: "*", schema: "public", table: "contracts" }, reloadAvtal)
           .subscribe();
-      } catch (_) { /* realtime optional; data still loads on navigation */ }
+      } catch (_) { /* realtime optional; data still loads on navigation + the 5s poll */ }
+
+      // Hard 5-second auto-refresh of the leads page (active + lost tabs).
+      setInterval(() => {
+        const onLeads = document.getElementById("view-leads").classList.contains("is-active") ||
+                        document.getElementById("view-lost").classList.contains("is-active");
+        if (onLeads) refreshLeadsGuarded();
+      }, 5000);
     }
 
     // Start the app — now that all state/consts above are initialized.
